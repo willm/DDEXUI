@@ -1,5 +1,6 @@
 import unittest
-from productRelease import ProductRelease
+
+from DDEXUI.ddex.productRelease import ProductRelease
 import xml.etree.cElementTree as ET
 
 class Test(unittest.TestCase):
@@ -87,8 +88,6 @@ class DDEX:
 	def __write_product_release(self):
 		return product_release.write()
 
-
-		
 if __name__ == '__main__':
 	unittest.main()
 
