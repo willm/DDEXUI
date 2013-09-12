@@ -88,8 +88,8 @@ class DDEX:
 	def __write_product_release(self):
 		return product_release.write()
 
-if __name__ == '__main__':
-	unittest.main()
+#if __name__ == '__main__':
+#	unittest.main()
 
 
 #product_release = ProductRelease()
