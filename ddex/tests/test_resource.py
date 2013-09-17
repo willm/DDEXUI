@@ -2,20 +2,23 @@ import unittest
 import xml.etree.cElementTree as ET
 
 class SoundRecordingTests(unittest.TestCase):
+
+	def setUp(self):
+		res = SoundRecording("abc")
+		self.element = res.write()
+
 	def test_resource_should_display_type(self):
-		res = SoundRecording("")
-		element = res.write()
-		self.assertEqual(element.tag, "SoundRecording")
+		self.assertEqual(self.element.tag, "SoundRecording")
 
 	def test_resource_should_contain_isrc(self):
-		res = SoundRecording("abc")
-		element = res.write()
-		self.assertEqual(element.find("./ISRC").text, "abc")
+		self.assertEqual(self.element.find("./ISRC").text, "abc")
 		
 	def	test_should_have_a_worldwide_territory(self):
-		res = SoundRecording("")
-		element = res.write()
-		self.assertEqual(element.find("./SoundRecordingDetailsByTerritory/TerritoryCode").text, "WorldWide")
+		self.assertEqual(self.element.find("./SoundRecordingDetailsByTerritory/TerritoryCode").text, "WorldWide")
+
+	def test_should_have_technical_sound_recording_details(self):
+		self.assertEqual(self.element.find("./SoundRecordingDetailsByTerritory/TerritoryCode").text, "WorldWide")
+
 
 class SoundRecording:
 	def __init__(self, isrc):
