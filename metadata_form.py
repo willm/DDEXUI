@@ -12,7 +12,7 @@ class Program:
 		self.fields = ["Title", "UPC", "Year", "C Line", "P Line"]
 
 	def on_invalidate(self, row):
-		tk.tkinter.Label(self.top, text="wrong").grid(row=row, column=2)
+		tk.tkinter.Label(self.top, text="wrong", fg="red").grid(row=row, column=2)
 
 	def on_validate(self, S):
 		print("validating"+S)
