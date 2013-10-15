@@ -2,15 +2,24 @@
 class Validate:
 	
 	def upc(self, text):
+		result = {}
 		if(len(text) < 12 or len(text) > 13):
-			return "upc must be 12 - 13 digits long"
+			result["error"] = "upc must be 12 - 13 digits long"
 		for char in text:
 			if(not self.__number(char)):
-				return "upc must only contain numbers"
+				result["error"] = "upc must only contain numbers"
+		if(not "error" in result):
+			result["value"] = text
+		return result
 	
 	def year(self, text):
+		result = {}
 		if(not self.__number(text)):
-			return "year must be a number"
+			result["error"] = "year must be a number"
+		if(not "error" in result):
+			result["value"] = int(text)
+		return result
+		
 
 	def __number(self, text):
 		try:
