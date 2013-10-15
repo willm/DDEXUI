@@ -1,4 +1,4 @@
-import tkinter as tk
+import tkinter.ttk as tk
 from DDEXUI.ddex.productRelease import ProductRelease
 from DDEXUI.ddex.ddex import DDEX
 
@@ -6,19 +6,20 @@ class Program:
 
 	def __init__(self):
 		self.values = {}
-		self.top = tk.Tk()
+		self.top = tk.tkinter.Tk()
+		self.top.geometry("300x300")
 		self.top.title("Metadata Editor")
 		self.fields = ["Title", "UPC", "Year", "C Line", "P Line"]
 
 	def on_invalidate(self, row):
-		tk.Label(self.top, text="wrong").grid(row=row, column=2)
+		tk.tkinter.Label(self.top, text="wrong").grid(row=row, column=2)
 
 	def on_validate(self, S):
 		print("validating"+S)
 		return S == "abc"
 
 	def add_entry(self, row, title):
-		text = tk.StringVar()
+		text = tk.tkinter.StringVar()
 		self.values[title] = text
 		vcmd = (self.top.register(self.on_validate), '%S')
 		entry = tk.Entry(self.top,width=10, textvariable=text, validate="focusout", validatecommand=vcmd, invalidcommand=lambda: self.on_invalidate(row)).grid(row=row, column=0)
