@@ -21,8 +21,8 @@ class Program:
 	def add_entry(self, row, title):
 		text = tk.tkinter.StringVar()
 		self.values[title] = text
-		vcmd = (self.top.register(self.on_validate), '%S')
-		entry = tk.Entry(self.top,width=10, textvariable=text, validate="focusout", validatecommand=vcmd, invalidcommand=lambda: self.on_invalidate(row)).grid(row=row, column=0)
+		entry = tk.Entry(self.top,width=10, textvariable=text, validate="focusout", validatecommand=lambda: self.on_validate(text.get()), invalidcommand=lambda: self.on_invalidate(row)) \
+		.grid(row=row, column=0)
 		label = tk.Label(self.top,text=title).grid(row=row, column=1)
 
 	def create_ddex(self):
@@ -48,7 +48,7 @@ class Program:
 	def main(self):
 		for i in range(0,len(self.fields)):
 			self.add_entry(i, self.fields[i])
-		tk.Button(self.top, text="OK", command=self.create_ddex).grid(row=len(self.fields), column=0)
+		tk.Button(self.top, text="OK", command=self.create_ddex, state="disabled").grid(row=len(self.fields), column=0)
 		self.top.mainloop()
 
 Program().main()
