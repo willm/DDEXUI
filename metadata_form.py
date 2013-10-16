@@ -1,6 +1,7 @@
 import tkinter.ttk as tk
 from DDEXUI.ddex.productRelease import ProductRelease
 from DDEXUI.ddex.ddex import DDEX
+from DDEXUI.ddex.validate import Validate
 
 class Program:
 
@@ -9,7 +10,13 @@ class Program:
 		self.top = tk.tkinter.Tk()
 		self.top.geometry("300x300")
 		self.top.title("Metadata Editor")
-		self.fields = ["Title", "UPC", "Year", "C Line", "P Line"]
+		self.fields = ({
+			"Title" : Validate().not_empty, 
+			"UPC": Validate().upc, 
+			"Year": Validate().year, 
+			"C Line": Validate().not_empty, 
+			"P Line": Validate().not_empty
+		})
 
 	def on_invalidate(self, row):
 		tk.tkinter.Label(self.top, text="wrong", fg="red").grid(row=row, column=2)
@@ -46,8 +53,8 @@ class Program:
 		return self.values[key].get()
 
 	def main(self):
-		for i in range(0,len(self.fields)):
-			self.add_entry(i, self.fields[i])
+		for i in range(len(self.fields.keys())):
+			self.add_entry(i, list(self.fields.keys())[i])
 		tk.Button(self.top, text="OK", command=self.create_ddex, state="disabled").grid(row=len(self.fields), column=0)
 		self.top.mainloop()
 
