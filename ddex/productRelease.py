@@ -1,13 +1,13 @@
 import xml.etree.cElementTree as ET
 
 class ProductRelease:
-	def __init__(self):
+	def __init__(self, product_name, upc, cline, pline, year):
 		self.product_genres = []
-		self.pline = ""
-		self.cline = ""
-		self.year = 0
-		self.upc = ""
-		self.product_name = ""
+		self.pline = pline	
+		self.cline = cline
+		self.year = str(year)
+		self.upc = upc
+		self.product_name = product_name
 	
 	def write(self):
 		release = ET.Element("Release")
