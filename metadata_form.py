@@ -1,4 +1,5 @@
 import tkinter.ttk as tk
+import tkinter.messagebox as mb
 from DDEXUI.ddex.productRelease import ProductRelease
 from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.validate import Validate
@@ -25,6 +26,7 @@ class Program:
 		if(all_valid):
 			product_release = self.build_product_release()
 			DDEX(product_release).write()
+			mb.showinfo("DDEXUI", "your ddex file has been created")
 
 	def build_product_release(self):
 		return (ProductRelease(
@@ -52,7 +54,7 @@ class InputRow:
 		self.validation_function = validation_function
 		self.error_label = tk.tkinter.Label(self.frame, fg="red", width=50)
 		self.text = tk.tkinter.StringVar()
-		self.text.set("12121211111141")
+		self.text.set("2121211111141")
 		self.label = tk.Label(self.frame,text=title)
 		self.title = title
 		self.entry = (tk.Entry(
