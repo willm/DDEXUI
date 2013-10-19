@@ -9,6 +9,8 @@ class Program:
 	def __init__(self):
 		self.top = tk.tkinter.Tk()
 		self.top.geometry("600x300")
+		icon = tk.tkinter.PhotoImage(file="res/favicon.gif")
+		self.top.tk.call("wm", "iconphoto", self.top._w, icon)
 		self.top.title("Metadata Editor")
 		self.fields = ([
 			InputRow(self.top, "Title", Validate().not_empty), 
@@ -34,7 +36,8 @@ class Program:
 			self.value_of("UPC"),
 			self.value_of("C Line"),
 			self.value_of("P Line"),
-			self.value_of("Year")))
+			self.value_of("Year")),
+			"R0")
 
 	def value_of(self, title):
 		row = next(filter(lambda x: x.title == title,self.fields))

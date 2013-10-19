@@ -10,8 +10,8 @@ class Test(unittest.TestCase):
 		self.cline = "Copyright brillient music"
 		self.pline = "Published by brillient music"
 		self.year = 2013
-		self.release_id = "R0"
-		self.release = ProductRelease(self.name, self.upc, self.cline, self.pline, self.year, self.release_id)
+		self.release_reference = "R0"
+		self.release = ProductRelease(self.name, self.upc, self.cline, self.pline, self.year, self.release_reference)
 
 	def test_all_genres_should_be_written(self):
 		self.release.product_genres.append("Rock")
@@ -35,7 +35,7 @@ class Test(unittest.TestCase):
 
 	def test_release_reference_should_be_set(self):
 		element = self.release.write()
-		self.assertEqual(self.release_id, element.find("./ReleaseReference").text)
+		self.assertEqual(self.release_reference, element.find("./ReleaseReference").text)
 	
 	def test_release_refernce_territory_code_should_be_worldwide(self):
 		element = self.release.write()

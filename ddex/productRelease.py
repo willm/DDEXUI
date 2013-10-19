@@ -1,10 +1,10 @@
 import xml.etree.cElementTree as ET
 
 class ProductRelease:
-	def __init__(self, product_name, upc, cline, pline, year, release_id):
+	def __init__(self, product_name, upc, cline, pline, year, release_reference):
 		self.product_genres = []
 		self.pline = pline	
-		self.release_id = release_id
+		self.release_reference = release_reference
 		self.cline = cline
 		self.year = str(year)
 		self.upc = upc
@@ -19,7 +19,7 @@ class ProductRelease:
 		titleText = ET.SubElement(referenceTitle, "TitleText")
 		titleText.text = self.product_name
 		releaseRef = ET.SubElement(release, "ReleaseReference")
-		releaseRef.text = self.release_id
+		releaseRef.text = self.release_reference
 		releaseDetailsByTerritory = ET.SubElement(release, "ReleaseDetailsByTerritory")
 		ET.SubElement(releaseDetailsByTerritory, "TerritoryCode").text = "Worldwide"
 		self.__write_product_genres(releaseDetailsByTerritory)
