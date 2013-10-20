@@ -26,7 +26,7 @@ class ReleaseId:
 		return element
 
 class Release:
-	def __init__(self, product_name, cline, pline, year, release_reference, release_id, release_type):
+	def __init__(self, product_name, cline, pline, year, release_reference, release_id, release_type, artist):
 		self.release_type = release_type
 		self.release_id = release_id
 		self.genres = []
@@ -35,29 +35,32 @@ class Release:
 		self.cline = cline
 		self.year = str(year)
 		self.product_name = product_name
+		self.artist = artist
 	
 	def write(self):
 		release = ET.Element("Release")
+		self.__add_element(release, "ReleaseType", self.release_type)
 		releaseId = ET.SubElement(release, "ReleaseId")
 		releaseId.append(self.release_id.write())
-		release_type = ET.SubElement(release, "ReleaseType")
-		release_type.text = self.release_type
 		referenceTitle = ET.SubElement(release, "ReferenceTitle")
-		titleText = ET.SubElement(referenceTitle, "TitleText")
-		titleText.text = self.product_name
-		releaseRef = ET.SubElement(release, "ReleaseReference")
-		releaseRef.text = self.release_reference
+		self.__add_element(referenceTitle, "TitleText", self.product_name)
+		self.__add_element(release, "ReleaseReference", self.release_reference)
 		releaseDetailsByTerritory = ET.SubElement(release, "ReleaseDetailsByTerritory")
 		ET.SubElement(releaseDetailsByTerritory, "TerritoryCode").text = "Worldwide"
 		self.__write_genres(releaseDetailsByTerritory)
 		pline = ET.SubElement(releaseDetailsByTerritory, "PLine")
-		ET.SubElement(pline, "Year").text = self.year
-		ET.SubElement(pline, "PLineText").text = self.pline
+		self.__add_element(pline, "Year", self.year)
+		self.__add_element(pline, "PLineText", self.pline)
 		cline = ET.SubElement(releaseDetailsByTerritory, "CLine")
-		ET.SubElement(cline, "Year").text = self.year
-		ET.SubElement(cline, "CLineText").text = self.cline
+		self.__add_element(cline, "Year", self.year)
+		self.__add_element(cline, "CLineText", self.cline)
+		self.__add_element(releaseDetailsByTerritory, "DisplayArtistName", self.artist)
 		ET.SubElement(release, "ReleaseResourceReferenceList")
 		return release
+
+	def __add_element(self, parent, name, text):
+		element = ET.SubElement(parent, name)
+		element.text = text
 
 	def __write_genres(self, releaseDetailsByTerritory):
 		for genre in self.genres:

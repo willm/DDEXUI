@@ -12,8 +12,9 @@ class Test(unittest.TestCase):
 		self.year = 2013
 		self.release_reference = "R0"
 		self.release_type = "Single"
+		self.artist_name = "Marty McFly and the hoverboards"
 		self.genres = ["Rock", "Pop"]
-		self.release = Release(self.name, self.cline, self.pline, self.year, self.release_reference, ReleaseId(1, self.upc), self.release_type)
+		self.release = Release(self.name, self.cline, self.pline, self.year, self.release_reference, ReleaseId(1, self.upc), self.release_type, self.artist_name)
 		self.release.genres = self.genres
 
 		self.element = self.release.write()
@@ -48,5 +49,6 @@ class Test(unittest.TestCase):
 	def test_release_type_should_be_written(self):
 		self.assertEqual(self.release_type, self.element.find("./ReleaseType").text)
 	
-#	def test_artist_name_should_be_written(self):
+	def test_artist_name_should_be_written(self):
+		self.assertEqual(self.artist_name, self.element.find("./ReleaseDetailsByTerritory/DisplayArtistName").text)
 		
