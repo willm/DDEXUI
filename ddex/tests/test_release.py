@@ -15,6 +15,7 @@ class Test(unittest.TestCase):
 		self.artist_name = "Marty McFly and the hoverboards"
 		self.genres = ["Rock", "Pop"]
 		self.label = "Tru Thoughts"
+		self.explicit = True
 		self.release = (Release(
 				self.name, 
 				self.cline, 
@@ -24,7 +25,8 @@ class Test(unittest.TestCase):
 				ReleaseId(1, self.upc), 
 				self.release_type, 
 				self.artist_name,
-				self.label)
+				self.label,
+				self.explicit)
 		)
 		self.release.genres = self.genres
 
@@ -73,3 +75,9 @@ class Test(unittest.TestCase):
 	def test_artist_role_should_be_written(self):
 		self.assertEqual("MainArtist", self.element.find("./ReleaseDetailsByTerritory/DisplayArtist/ArtistRole").text)
 		
+	def test_parental_warning_should_be_written_as_explicit(self):
+		path = "./ReleaseDetailsByTerritory/ParentalWarningType"
+		self.assertEqual("Explicit", self.element.find(path).text)
+		element = polite_release = Release("","","",1,"",ReleaseId(1,"000000000000"),"","","",False).write()
+		self.assertEqual("NotExplicit", element.find(path).text)
+

@@ -40,7 +40,8 @@ class Program:
 			ReleaseId(1,self.value_of("UPC")),
 			"Single",
 			"Michael Jackson",
-			"Epic"))
+			"Epic",
+			"False"))
 
 	def value_of(self, title):
 		row = next(filter(lambda x: x.title == title,self.fields))

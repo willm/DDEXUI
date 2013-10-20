@@ -16,7 +16,8 @@ class DDEXSchemaValidation(unittest.TestCase):
 			ReleaseId(1,"1234567898764"),
 			"Album",
 			"Michael Jackson",
-			"Epic"))
+			"Epic",
+			True))
 		DDEX(release).write()
 		
 		tree = ET.parse('file.xml')
