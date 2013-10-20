@@ -1,7 +1,33 @@
 import xml.etree.cElementTree as ET
+"""
+todo: figure out how to do enums in python 3.3
+from enum import Enum
+
+class ReleaseIdType(Enum):
+	upc = 1
+	isrc = 2
+"""
+
+class ReleaseId:
+	def __init__(self, type, id):
+		self.type = type
+		self.id = id
+
+	def write(self):
+		name = None
+		attrs = {}
+		if(self.type == 1):
+			name = "ICPN"
+			attrs = {"IsEan": "false"}
+		elif(self.type == 2):
+			name = "ISRC"
+		element = ET.Element(name, attrs)
+		element.text = self.id
+		return element
 
 class ProductRelease:
-	def __init__(self, product_name, upc, cline, pline, year, release_reference):
+	def __init__(self, product_name, upc, cline, pline, year, release_reference, release_id, release_type):
+		self.release_type = release_type
 		self.product_genres = []
 		self.pline = pline	
 		self.release_reference = release_reference
@@ -13,6 +39,8 @@ class ProductRelease:
 	def write(self):
 		release = ET.Element("Release")
 		releaseId = ET.SubElement(release, "ReleaseId")
+		release_type = ET.SubElement(release, "ReleaseType")
+		release_type.text = self.release_type
 		icpn = ET.SubElement(releaseId, "ICPN", {"IsEan": "false"})
 		icpn.text = self.upc
 		referenceTitle = ET.SubElement(release, "ReferenceTitle")

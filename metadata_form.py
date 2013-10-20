@@ -36,8 +36,8 @@ class Program:
 			self.value_of("UPC"),
 			self.value_of("C Line"),
 			self.value_of("P Line"),
-			self.value_of("Year")),
-			"R0")
+			self.value_of("Year"),
+			"R0","","Single"))
 
 	def value_of(self, title):
 		row = next(filter(lambda x: x.title == title,self.fields))

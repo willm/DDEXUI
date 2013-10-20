@@ -1,6 +1,6 @@
 import unittest
-
-from DDEXUI.ddex.productRelease import ProductRelease
+#todo figure out how to mock things
+from DDEXUI.ddex.productRelease import *
 import xml.etree.cElementTree as ET
 
 class Test(unittest.TestCase):
@@ -11,7 +11,8 @@ class Test(unittest.TestCase):
 		self.pline = "Published by brillient music"
 		self.year = 2013
 		self.release_reference = "R0"
-		self.release = ProductRelease(self.name, self.upc, self.cline, self.pline, self.year, self.release_reference)
+		self.release_type = "Single"
+		self.release = ProductRelease(self.name, self.upc, self.cline, self.pline, self.year, self.release_reference, ReleaseId(1, ""), self.release_type)
 
 	def test_all_genres_should_be_written(self):
 		self.release.product_genres.append("Rock")
@@ -57,6 +58,11 @@ class Test(unittest.TestCase):
 
 		self.assertEqual(str(2013), element.find("./ReleaseDetailsByTerritory/CLine/Year").text)
 		self.assertEqual(str(2013), element.find("./ReleaseDetailsByTerritory/PLine/Year").text)
+
+	def test_release_type_should_be_written(self):
+		element = self.release.write()
+
+		self.assertEqual(self.release_type, element.find("./ReleaseType").text)
 
 
 class DDEX:
