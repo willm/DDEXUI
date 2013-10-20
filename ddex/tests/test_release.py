@@ -37,6 +37,9 @@ class Test(unittest.TestCase):
 
 	def test_title_text_should_be_written(self):
 		self.assertEqual(self.name, self.element.find("./ReferenceTitle/TitleText").text)
+		self.assertEqual(self.name, self.element.find("./ReleaseDetailsByTerritory/Title[@TitleType='FormalTitle']/TitleText").text)
+		self.assertEqual(self.name, self.element.find("./ReleaseDetailsByTerritory/Title[@TitleType='GroupingTitle']/TitleText").text)
+		self.assertEqual(self.name, self.element.find("./ReleaseDetailsByTerritory/Title[@TitleType='DisplayTitle']/TitleText").text)
 
 	def test_upc_should_be_written(self):
 		self.assertEqual(self.upc, self.element.find("./ReleaseId/ICPN").text)
@@ -65,4 +68,5 @@ class Test(unittest.TestCase):
 
 	def test_artist_name_should_be_written(self):
 		self.assertEqual(self.artist_name, self.element.find("./ReleaseDetailsByTerritory/DisplayArtistName").text)
+		self.assertEqual(self.artist_name, self.element.find("./ReleaseDetailsByTerritory/DisplayArtist/PartyName/FullName").text)
 		
