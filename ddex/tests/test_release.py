@@ -70,3 +70,6 @@ class Test(unittest.TestCase):
 		self.assertEqual(self.artist_name, self.element.find("./ReleaseDetailsByTerritory/DisplayArtistName").text)
 		self.assertEqual(self.artist_name, self.element.find("./ReleaseDetailsByTerritory/DisplayArtist/PartyName/FullName").text)
 		
+	def test_artist_role_should_be_written(self):
+		self.assertEqual("MainArtist", self.element.find("./ReleaseDetailsByTerritory/DisplayArtist/ArtistRole").text)
+		

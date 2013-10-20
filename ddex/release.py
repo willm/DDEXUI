@@ -68,6 +68,7 @@ class Release:
 		artist = ET.SubElement(release_details_by_territory, "DisplayArtist")
 		party_name = ET.SubElement(artist, "PartyName")
 		self.__add_element(party_name, "FullName", self.artist)
+		self.__add_element(artist, "ArtistRole", "MainArtist")
 
 	def __write_genres(self, release_details_by_territory):
 		for genre in self.genres:
