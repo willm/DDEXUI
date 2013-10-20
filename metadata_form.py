@@ -1,6 +1,6 @@
 import tkinter.ttk as tk
 import tkinter.messagebox as mb
-from DDEXUI.ddex.productRelease import ProductRelease, ReleaseId
+from DDEXUI.ddex.release import Release, ReleaseId
 from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.validate import Validate
 
@@ -31,7 +31,7 @@ class Program:
 			mb.showinfo("DDEXUI", "your ddex file has been created")
 
 	def build_product_release(self):
-		return (ProductRelease(
+		return (Release(
 			self.value_of("Title"),
 			self.value_of("C Line"),
 			self.value_of("P Line"),

@@ -25,7 +25,7 @@ class ReleaseId:
 		element.text = self.id
 		return element
 
-class ProductRelease:
+class Release:
 	def __init__(self, product_name, cline, pline, year, release_reference, release_id, release_type):
 		self.release_type = release_type
 		self.release_id = release_id

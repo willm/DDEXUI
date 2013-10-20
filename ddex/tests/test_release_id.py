@@ -1,4 +1,4 @@
-from DDEXUI.ddex.productRelease import ReleaseId
+from DDEXUI.ddex.release import ReleaseId
 import unittest
 
 class ReleaseIdTests(unittest.TestCase):
