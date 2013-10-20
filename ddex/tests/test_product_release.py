@@ -12,7 +12,7 @@ class Test(unittest.TestCase):
 		self.year = 2013
 		self.release_reference = "R0"
 		self.release_type = "Single"
-		self.release = ProductRelease(self.name, self.upc, self.cline, self.pline, self.year, self.release_reference, ReleaseId(1, ""), self.release_type)
+		self.release = ProductRelease(self.name, self.cline, self.pline, self.year, self.release_reference, ReleaseId(1, self.upc), self.release_type)
 
 	def test_all_genres_should_be_written(self):
 		self.release.product_genres.append("Rock")

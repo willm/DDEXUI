@@ -26,23 +26,22 @@ class ReleaseId:
 		return element
 
 class ProductRelease:
-	def __init__(self, product_name, upc, cline, pline, year, release_reference, release_id, release_type):
+	def __init__(self, product_name, cline, pline, year, release_reference, release_id, release_type):
 		self.release_type = release_type
+		self.release_id = release_id
 		self.product_genres = []
 		self.pline = pline	
 		self.release_reference = release_reference
 		self.cline = cline
 		self.year = str(year)
-		self.upc = upc
 		self.product_name = product_name
 	
 	def write(self):
 		release = ET.Element("Release")
 		releaseId = ET.SubElement(release, "ReleaseId")
+		releaseId.append(self.release_id.write())
 		release_type = ET.SubElement(release, "ReleaseType")
 		release_type.text = self.release_type
-		icpn = ET.SubElement(releaseId, "ICPN", {"IsEan": "false"})
-		icpn.text = self.upc
 		referenceTitle = ET.SubElement(release, "ReferenceTitle")
 		titleText = ET.SubElement(referenceTitle, "TitleText")
 		titleText.text = self.product_name

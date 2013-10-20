@@ -1,6 +1,6 @@
 import tkinter.ttk as tk
 import tkinter.messagebox as mb
-from DDEXUI.ddex.productRelease import ProductRelease
+from DDEXUI.ddex.productRelease import ProductRelease, ReleaseId
 from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.validate import Validate
 
@@ -33,11 +33,12 @@ class Program:
 	def build_product_release(self):
 		return (ProductRelease(
 			self.value_of("Title"),
-			self.value_of("UPC"),
 			self.value_of("C Line"),
 			self.value_of("P Line"),
 			self.value_of("Year"),
-			"R0","","Single"))
+			"R0",
+			ReleaseId(1,self.value_of("UPC"))
+			,"Single"))
 
 	def value_of(self, title):
 		row = next(filter(lambda x: x.title == title,self.fields))
