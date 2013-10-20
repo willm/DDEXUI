@@ -29,7 +29,7 @@ class Release:
 	def __init__(self, product_name, cline, pline, year, release_reference, release_id, release_type):
 		self.release_type = release_type
 		self.release_id = release_id
-		self.product_genres = []
+		self.genres = []
 		self.pline = pline	
 		self.release_reference = release_reference
 		self.cline = cline
@@ -49,7 +49,7 @@ class Release:
 		releaseRef.text = self.release_reference
 		releaseDetailsByTerritory = ET.SubElement(release, "ReleaseDetailsByTerritory")
 		ET.SubElement(releaseDetailsByTerritory, "TerritoryCode").text = "Worldwide"
-		self.__write_product_genres(releaseDetailsByTerritory)
+		self.__write_genres(releaseDetailsByTerritory)
 		pline = ET.SubElement(releaseDetailsByTerritory, "PLine")
 		ET.SubElement(pline, "Year").text = self.year
 		ET.SubElement(pline, "PLineText").text = self.pline
@@ -59,7 +59,7 @@ class Release:
 		ET.SubElement(release, "ReleaseResourceReferenceList")
 		return release
 
-	def __write_product_genres(self, releaseDetailsByTerritory):
-		for genre in self.product_genres:
+	def __write_genres(self, releaseDetailsByTerritory):
+		for genre in self.genres:
 			genreElement = ET.SubElement(releaseDetailsByTerritory, "Genre")
 			ET.SubElement(genreElement, "GenreText").text = genre
