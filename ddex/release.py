@@ -26,7 +26,7 @@ class ReleaseId:
 		return element
 
 class Release:
-	def __init__(self, product_name, cline, pline, year, release_reference, release_id, release_type, artist):
+	def __init__(self, product_name, cline, pline, year, release_reference, release_id, release_type, artist, label):
 		self.release_type = release_type
 		self.release_id = release_id
 		self.genres = []
@@ -36,6 +36,7 @@ class Release:
 		self.year = str(year)
 		self.product_name = product_name
 		self.artist = artist
+		self.label = label
 	
 	def write(self):
 		release = ET.Element("Release")
@@ -55,6 +56,7 @@ class Release:
 		self.__add_element(cline, "Year", self.year)
 		self.__add_element(cline, "CLineText", self.cline)
 		self.__add_element(releaseDetailsByTerritory, "DisplayArtistName", self.artist)
+		self.__add_element(releaseDetailsByTerritory, "LabelName", self.label)
 		ET.SubElement(release, "ReleaseResourceReferenceList")
 		return release
 
