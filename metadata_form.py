@@ -17,7 +17,9 @@ class Program:
 			InputRow(self.top, "UPC", Validate().upc), 
 			InputRow(self.top, "Year", Validate().year), 
 			InputRow(self.top, "C Line", Validate().not_empty),
-			InputRow(self.top, "P Line", Validate().not_empty)
+			InputRow(self.top, "P Line", Validate().not_empty),
+			InputRow(self.top, "Artist", Validate().not_empty),
+			InputRow(self.top, "Label", Validate().not_empty)
 		])
 		self.button = tk.Button(self.top, text="OK", command=self.create_ddex)
 
@@ -39,8 +41,8 @@ class Program:
 			"R0",
 			ReleaseId(1,self.value_of("UPC")),
 			"Single",
-			"Michael Jackson",
-			"Epic",
+			self.value_of("Artist"),
+			self.value_of("Label"),
 			"False"))
 
 	def value_of(self, title):
