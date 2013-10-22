@@ -13,13 +13,14 @@ class Program:
 		self.top.tk.call("wm", "iconphoto", self.top._w, icon)
 		self.top.title("Metadata Editor")
 		self.fields = ([
-			InputRow(self.top, "Title", Validate().not_empty), 
-			InputRow(self.top, "UPC", Validate().upc), 
-			InputRow(self.top, "Year", Validate().year), 
-			InputRow(self.top, "C Line", Validate().not_empty),
-			InputRow(self.top, "P Line", Validate().not_empty),
-			InputRow(self.top, "Artist", Validate().not_empty),
-			InputRow(self.top, "Label", Validate().not_empty)
+			EntryInput(self.top, "Title", Validate().not_empty), 
+			EntryInput(self.top, "UPC", Validate().upc), 
+			EntryInput(self.top, "Year", Validate().year), 
+			EntryInput(self.top, "C Line", Validate().not_empty),
+			EntryInput(self.top, "P Line", Validate().not_empty),
+			EntryInput(self.top, "Artist", Validate().not_empty),
+			EntryInput(self.top, "Label", Validate().not_empty),
+			OptionInput(self.top, "Type", Validate().not_empty, 'Single', 'Album')
 		])
 		self.button = tk.Button(self.top, text="OK", command=self.create_ddex)
 
@@ -40,7 +41,7 @@ class Program:
 			self.value_of("Year"),
 			"R0",
 			ReleaseId(1,self.value_of("UPC")),
-			"Single",
+			self.value_of("Type"),
 			self.value_of("Artist"),
 			self.value_of("Label"),
 			"False"))
@@ -63,20 +64,13 @@ class InputRow:
 		self.validation_function = validation_function
 		self.error_label = tk.tkinter.Label(self.frame, fg="red", width=50)
 		self.text = tk.tkinter.StringVar()
-		self.text.set("2121211111141")
 		self.label = tk.Label(self.frame,text=title)
 		self.title = title
-		self.entry = (tk.Entry(
-			self.frame,
-			width=20, 
-			textvariable=self.text, 
-			validate="focusout", 
-			validatecommand=self.on_validate,
-			invalidcommand=lambda: self.on_invalidate(self.validation_function(self.text.get())["error"])))
+		self.input = None
 
 	def draw(self, row):
 		self.label.grid(row=row, column=0)
-		self.entry.grid(row=row, column=1)
+		self.input.grid(row=row, column=1)
 		self.error_label.grid(row=row, column=2)
 
 	def on_validate(self):
@@ -93,5 +87,24 @@ class InputRow:
 
 	def on_invalidate(self, message):
 		self.error_label["text"] = message
+
+class OptionInput(InputRow):
+	def __init__(self, frame, title, validation_function, *args):
+		InputRow.__init__(self, frame, title, validation_function)
+		self.text.set(args[0])
+		self.input = tk.OptionMenu(self.frame, self.text, args[0], *args)
+		
+
+class EntryInput(InputRow):
+	def __init__(self, frame, title, validation_function):
+		InputRow.__init__(self, frame, title, validation_function)
+		self.input = (tk.Entry(
+			self.frame,
+			width=20, 
+			textvariable=self.text, 
+			validate="focusout", 
+			validatecommand=self.on_validate,
+			invalidcommand=lambda: self.on_invalidate(self.validation_function(self.text.get())["error"])))
+		self.text.set("2121211111141")
 
 Program().main()
