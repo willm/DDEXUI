@@ -1,7 +1,7 @@
 import unittest
 import configparser
 
-class PartyIdRepositoryTests(unittest.TestCase):
+class PartyRepositoryTests(unittest.TestCase):
 	def setUp(self):
 		self.config = configparser.RawConfigParser()
 		self.config.add_section('Sender')
@@ -11,18 +11,18 @@ class PartyIdRepositoryTests(unittest.TestCase):
 	def test_it_should_return_the_party_id(self):
 		self.__write_config()
 		
-		self.assertEqual(PartyIdRepository().get_party_id(), self.party_id)
+		self.assertEqual(PartyRepository().get_party_id(), self.party_id)
 		
 	def test_it_should_return_none_if_there_is_no_party_id(self):
 		self.config.remove_option('Sender', 'party_id')
 		self.__write_config()
 		
-		self.assertEqual(PartyIdRepository().get_party_id(), None)
+		self.assertEqual(PartyRepository().get_party_id(), None)
 	
-	@unittest.skip("work in progress")
 	def test_it_should_write_the_party_id(self):
 		self.config.remove_option('Sender', 'party_id')
-		repo = PartyIdRepository()
+		self.__write_config()
+		repo = PartyRepository()
 		repo.write_party_id(self.party_id)
 		
 		self.assertEqual(repo.get_party_id(), self.party_id)
@@ -31,9 +31,9 @@ class PartyIdRepositoryTests(unittest.TestCase):
 	def __write_config(self):
 		with open('ddexui.cfg', 'w') as configfile:
 			self.config.write(configfile)
+
 		
-		
-class PartyIdRepository:
+class PartyRepository:
 	def __init__(self):
 		self.config = configparser.RawConfigParser()
 
@@ -49,5 +49,8 @@ class PartyIdRepository:
 			return self.config.get('Sender', 'party_id')
 		return None
 		
-	def write_party_id(self):
-		pass
+	def write_party_id(self, party_id):
+		self.config.add_section('Sender')
+		self.config.set('Sender', 'party_id', party_id)
+		with open('ddexui.cfg', 'w') as configfile:
+			self.config.write(configfile)
