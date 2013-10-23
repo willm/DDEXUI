@@ -34,6 +34,14 @@ class Program:
 			DDEX(product_release).write()
 			mb.showinfo("DDEXUI", "your ddex file has been created")
 
+	def modal_window(self):
+		#http://tkinter.unpythonic.net/wiki/ModalWindow	
+		t = tk.tkinter.Toplevel(self.top)
+		t.transient(self.top)
+		t.focus_set()
+		t.grab_set()
+		self.top.wait_window(t)
+
 	def build_product_release(self):
 		return (Release(
 			self.value_of("Title"),
@@ -57,6 +65,7 @@ class Program:
 			row.draw(i)
 			i += 1
 		self.button.grid(row=len(self.fields), column=0)
+		self.modal_window()
 		self.top.mainloop()
 
 class InputRow:
