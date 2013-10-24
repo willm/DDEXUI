@@ -1,5 +1,6 @@
 import unittest
 import configparser
+from DDEXUI.ddex.party import *
 
 class PartyRepositoryTests(unittest.TestCase):
 	def setUp(self):
@@ -33,22 +34,6 @@ class PartyRepositoryTests(unittest.TestCase):
 	def __write_config(self):
 		with open('ddexui.cfg', 'w') as configfile:
 			self.config.write(configfile)
-
-class Party:
-	def __init__(self, party_id, name):
-		self.party_id = party_id
-		self.name = name
-
-	def __eq__(self, other):
-		if(isinstance(other, Party)):
-			return self.name == other.name and self.party_id == other.party_id
-		return NotImplemented
-
-	def __ne__(self, other):
-		result = self.__eq__(other)
-		if(result is NotImplemented):
-			return result
-		return not result
 
 class PartyRepository:
 	def __init__(self):
