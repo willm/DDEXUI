@@ -4,6 +4,15 @@ from DDEXUI.ddex.release import Release, ReleaseId
 from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.validate import Validate
 
+class PartyWindow(tk.tkinter.Toplevel):
+	def __init__(self, frame):
+		#http://tkinter.unpythonic.net/wiki/ModalWindow	
+		tk.tkinter.Toplevel.__init__(self, frame)
+		self.transient(frame)
+		self.focus_set()
+		self.grab_set()
+		frame.wait_window(self)
+
 class Program:
 
 	def __init__(self):
@@ -34,14 +43,6 @@ class Program:
 			DDEX(product_release).write()
 			mb.showinfo("DDEXUI", "your ddex file has been created")
 
-	def modal_window(self):
-		#http://tkinter.unpythonic.net/wiki/ModalWindow	
-		t = tk.tkinter.Toplevel(self.top)
-		t.transient(self.top)
-		t.focus_set()
-		t.grab_set()
-		self.top.wait_window(t)
-
 	def build_product_release(self):
 		return (Release(
 			self.value_of("Title"),
@@ -65,7 +66,7 @@ class Program:
 			row.draw(i)
 			i += 1
 		self.button.grid(row=len(self.fields), column=0)
-		self.modal_window()
+		PartyWindow(self.top)
 		self.top.mainloop()
 
 class InputRow:
@@ -133,5 +134,7 @@ class EntryInput(InputRow):
 		if(valid):
 			self.error_label["text"] = ""
 		return valid
+
+	
 
 Program().main()
