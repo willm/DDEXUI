@@ -60,7 +60,8 @@ class Program:
 			all_valid = all_valid and row.on_validate()
 		if(all_valid):
 			product_release = self.build_product_release()
-			DDEX(product_release).write()
+			party = self.party_repository.get_party()
+			DDEX(party, product_release).write()
 			mb.showinfo("DDEXUI", "your ddex file has been created")
 
 	def build_product_release(self):
