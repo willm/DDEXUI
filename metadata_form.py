@@ -2,17 +2,34 @@ import tkinter.ttk as tk
 import tkinter.messagebox as mb
 from DDEXUI.ddex.release import Release, ReleaseId
 from DDEXUI.ddex.ddex import DDEX
+from DDEXUI.ddex.party import Party
 from DDEXUI.ddex.validate import Validate
 from DDEXUI.party_repository import PartyRepository
 
 class PartyWindow(tk.tkinter.Toplevel):
 	def __init__(self, frame):
 		#http://tkinter.unpythonic.net/wiki/ModalWindow	
+		self.party_repository = PartyRepository()
 		tk.tkinter.Toplevel.__init__(self, frame)
+#		self.geometry("400x300")
 		self.transient(frame)
 		self.focus_set()
-		self.grab_set()
+		#self.grab_set()
+		message = "Please enter your ddex party details. You can apply for a ddex Party id for free at: http://ddex.net/content/implementation-licence-application-form"
+		text = tk.tkinter.Label(self, height=5, text=message, wraplength=400)
+		text.grid(row=0, column=0,columnspan=3)
+		self.party_id = EntryInput(self, "Party Id", Validate().not_empty)
+		self.party_name = EntryInput(self, "Party Name", Validate().not_empty)
+		self.party_id.draw(2)
+		self.party_name.draw(3)
+		tk.Button(self, text="OK", command=self.save_and_close).grid(row=4, column=0)
 		frame.wait_window(self)
+
+	def save_and_close(self):
+		if(self.party_id.on_validate() and self.party_name.on_validate()):
+			party = Party(self.party_id.value(), self.party_name.value())
+			self.party_repository.write_party(party)
+			self.destroy()
 
 class Program:
 
@@ -127,7 +144,7 @@ class EntryInput(InputRow):
 
 	def draw(self,row):
 		InputRow.draw(self, row)
-		self.label.grid(row=row, column=0)
+		self.label.grid(row=row, column=0,sticky=tk.tkinter.W) 
 
 	def on_invalidate(self, message):
 		self.error_label["text"] = message
