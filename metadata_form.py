@@ -54,6 +54,7 @@ class Program:
 		self.button = tk.Button(self.top, text="OK", command=self.create_ddex)
 
 	def create_ddex(self):
+		self.__check_for_party()
 		all_valid = True
 		for row in self.fields:
 			all_valid = all_valid and row.on_validate()
@@ -79,14 +80,17 @@ class Program:
 		row = next(filter(lambda x: x.title == title,self.fields))
 		return row.value()
 
+	def __check_for_party(self):
+		if(self.party_repository.get_party() is None):
+			PartyWindow(self.top)
+
 	def main(self):
 		i = 0
 		for row in self.fields:
 			row.draw(i)
 			i += 1
 		self.button.grid(row=len(self.fields), column=0)
-		if(self.party_repository.get_party() is None):
-			PartyWindow(self.top)
+		self.__check_for_party()
 		self.top.mainloop()
 
 class InputRow:
