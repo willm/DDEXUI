@@ -3,6 +3,7 @@ import tkinter.messagebox as mb
 from DDEXUI.ddex.release import Release, ReleaseId
 from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.validate import Validate
+from DDEXUI.party_repository import PartyRepository
 
 class PartyWindow(tk.tkinter.Toplevel):
 	def __init__(self, frame):
@@ -16,6 +17,7 @@ class PartyWindow(tk.tkinter.Toplevel):
 class Program:
 
 	def __init__(self):
+		self.party_repository = PartyRepository()
 		self.top = tk.tkinter.Tk()
 		self.top.geometry("600x300")
 		icon = tk.tkinter.PhotoImage(file="res/favicon.gif")
@@ -66,7 +68,8 @@ class Program:
 			row.draw(i)
 			i += 1
 		self.button.grid(row=len(self.fields), column=0)
-		PartyWindow(self.top)
+		if(self.party_repository.get_party() is None):
+			PartyWindow(self.top)
 		self.top.mainloop()
 
 class InputRow:
