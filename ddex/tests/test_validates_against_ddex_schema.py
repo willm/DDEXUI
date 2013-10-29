@@ -1,6 +1,7 @@
 import lxml.etree as ET
 from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.release import Release, ReleaseId
+from DDEXUI.ddex.party import Party
 import unittest
 
 class DDEXSchemaValidation(unittest.TestCase):
@@ -18,7 +19,7 @@ class DDEXSchemaValidation(unittest.TestCase):
 			"Michael Jackson",
 			"Epic",
 			True))
-		DDEX(release).write()
+		DDEX(Party('derwwfefw', 'Sony'),release).write()
 		
 		tree = ET.parse('file.xml')
 #		tree = ET.parse('/home/will/Documents/python/DDEXUI/ddex/tests/resources/ddex-sample.xml')
