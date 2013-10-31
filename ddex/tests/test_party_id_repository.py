@@ -30,7 +30,19 @@ class PartyRepositoryTests(unittest.TestCase):
 		repo.write_party(self.party)
 		
 		self.assertEqual(repo.get_party(), self.party)
+
+	def test_it_should_save_the_message_recipient(self):
+		if(self.config.has_option('Recipient', 'party_id')):
+			self.config.remove_option('Recipient', 'party_id')
+
+		if(self.config.has_option('Recipient', 'name')):
+			self.config.remove_option('Recipient', 'name')
+		self.__write_config()
+		repo = PartyRepository()
+		party = Party('IWantYourStuff', 'iTunes')
+		repo.write_recipient_party(party)
 		
+		self.assertEqual(repo.get_recipient_party(), party)
 
 	def __write_config(self):
 		with open('ddexui.cfg', 'w') as configfile:
