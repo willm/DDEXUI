@@ -1,4 +1,5 @@
 import xml.etree.cElementTree as ET
+import DDEXUI.ddex.message_header
 import datetime as d
 
 class DDEX:
@@ -19,8 +20,4 @@ class DDEX:
 		return self.product_release.write()
 	
 	def __write_message_header(self, root):
-		message_header = ET.SubElement(root,"MessageHeader")
-		message_header.append(self.sender.write())
-		created_date = ET.SubElement(message_header, "MessageCreatedDate")
-		created_date.text = d.datetime.now().replace(microsecond=0).isoformat()+ "Z" 
-		return message_header
+		return MessageHeader(self.sender).write();

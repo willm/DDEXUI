@@ -9,3 +9,4 @@ class MessageHeaderTests(unittest.TestCase):
 	def test_should_serialize_as_exected(self):
 		element = self.subject.write()
 		self.assertEqual(element.tag, 'MessageHeader')
+		self.assertNotEqual(element.find("./MessageCreatedDate"),None)
