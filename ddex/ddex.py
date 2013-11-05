@@ -1,5 +1,5 @@
 import xml.etree.cElementTree as ET
-import DDEXUI.ddex.message_header
+from DDEXUI.ddex.message_header import MessageHeader
 import datetime as d
 
 class DDEX:
@@ -15,7 +15,7 @@ class DDEX:
 		releaseList.append(self.__write_product_release())
 
 		dealList = ET.SubElement(root,"DealList")
-		release_deal.append(self.product_release.write_deals())
+		dealList.append(self.product_release.write_deals())
 		
 		tree = ET.ElementTree(root)
 		tree.write("file.xml")

@@ -2,6 +2,8 @@ import lxml.etree as ET
 from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.release import Release, ReleaseId
 from DDEXUI.ddex.party import Party
+from DDEXUI.ddex.deal import Deal
+from datetime import date
 import unittest
 
 class DDEXSchemaValidation(unittest.TestCase):
@@ -19,6 +21,11 @@ class DDEXSchemaValidation(unittest.TestCase):
 			"Michael Jackson",
 			"Epic",
 			True))
+
+		deal = Deal("PayAsYouGoModel", "PermenantDownload", "FR", date(2012,1,3))
+
+		release.add_deal(deal)
+
 		DDEX(Party('derwwfefw', 'Sony'),release).write()
 		
 		tree = ET.parse('file.xml')

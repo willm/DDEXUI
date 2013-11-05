@@ -18,8 +18,10 @@ class Deal:
 		usage = self.__append_element_with_text(terms, "Usage")
 		self.__append_element_with_text(usage, "UseType", self.use_type)
 		self.__append_element_with_text(terms, "TerritoryCode", self.territory)
-		self.__append_element_with_text(terms, "PreorderReleaseDate", self.preorder_date.isoformat())
-		self.__append_element_with_text(terms, "PreorderPreviewDate", self.preorder_preview_date.isoformat())
+		if(self.preorder_date != None):
+			self.__append_element_with_text(terms, "PreorderReleaseDate", self.preorder_date.isoformat())
+		if(self.preorder_preview_date != None):
+			self.__append_element_with_text(terms, "PreorderPreviewDate", self.preorder_preview_date.isoformat())
 		validity_period = self.__append_element_with_text(terms, "ValidityPeriod")
 		self.__append_element_with_text(validity_period, "StartDate", self.start_date.isoformat())
 		return deal
