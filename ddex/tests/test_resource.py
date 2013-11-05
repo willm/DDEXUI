@@ -8,7 +8,6 @@ class SoundRecordingTests(unittest.TestCase):
 
 	def setUp(self):
 		res = SoundRecording("abc","ddex/tests/resources/test.mp3")
-#		help(os.path)
 		self.element = res.write()
 
 	def test_resource_should_display_type(self):
@@ -26,6 +25,9 @@ class SoundRecordingTests(unittest.TestCase):
 	def test_should_have_file_name_and_path(self):
 		file_element = self.world_wide_territory().find("./TechnicalSoundRecordingDetails/File")
 		self.assertEqual(file_element.find("./FileName").text, "test.mp3")
+		hash_sum = file_element.find("./HashSum")
+		self.assertEqual(hash_sum.find("./HashSum").text, "d41d8cd98f00b204e9800998ecf8427e")
+		self.assertEqual(hash_sum.find("./HashSumAlgorithmType").text, "MD5")
 
 	def world_wide_territory(self):
 		return (list(filter(lambda x: x.find("./TerritoryCode").text == "WorldWide", self.element
