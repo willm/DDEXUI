@@ -81,3 +81,13 @@ class Test(unittest.TestCase):
 		element = polite_release = Release("","","",1,"",ReleaseId(1,"000000000000"),"","","",False).write()
 		self.assertEqual("NotExplicit", element.find(path).text)
 
+	def test_should_write_deals(self):
+		self.release.add_deal(MockDeal())
+		self.release.add_deal(MockDeal())
+		release_deal = self.release.write_deals()
+		self.assertEqual(release_deal.find("./DealReleaseReference").text, self.release_reference)
+		self.assertEqual(len(release_deal.findall("./Deal")), 2)
+		
+class MockDeal:
+	def write(self):
+		return ET.Element("Deal")

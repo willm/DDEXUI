@@ -37,6 +37,7 @@ class Release:
 		self.title = title
 		self.artist = artist
 		self.label = label
+		self.deals = []
 		if(parental_warning):
 			self.parental_warning = "Explicit"
 		else:
@@ -90,3 +91,12 @@ class Release:
 		title = ET.SubElement(release_details_by_territory, "Title", {"TitleType": type})
 		self.__add_element(title, "TitleText", self.title)
 		
+	def add_deal(self, deal):
+		self.deals.append(deal)
+
+	def write_deals(self):
+		release_deal = ET.Element("ReleaseDeal")
+		self.__add_element(release_deal, "DealReleaseReference", self.release_reference)
+		for deal in self.deals:
+			release_deal.append(deal.write())
+		return release_deal

@@ -13,6 +13,10 @@ class DDEX:
 		header = self.__write_message_header(root)
 		releaseList = ET.SubElement(root,"ReleaseList")
 		releaseList.append(self.__write_product_release())
+
+		dealList = ET.SubElement(root,"DealList")
+		release_deal.append(self.product_release.write_deals())
+		
 		tree = ET.ElementTree(root)
 		tree.write("file.xml")
 	
