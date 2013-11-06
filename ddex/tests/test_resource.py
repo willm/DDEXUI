@@ -8,7 +8,8 @@ class SoundRecordingTests(unittest.TestCase):
 
 	def setUp(self):
 		self.resource_reference = "A1"
-		res = SoundRecording(self.resource_reference, "abc", "ddex/tests/resources/test.mp3")
+		self.title = "Some Title"
+		res = SoundRecording(self.resource_reference, "abc", self.title, "ddex/tests/resources/test.mp3")
 		self.element = res.write()
 
 	def test_resource_should_display_type(self):
@@ -22,6 +23,9 @@ class SoundRecordingTests(unittest.TestCase):
 		
 	def test_resource_should_contain_resource_reference(self):
 		self.assertEqual(self.element.find("./ResourceReference").text, self.resource_reference)
+		
+	def test_resource_should_contain_reference_title(self):
+		self.assertEqual(self.element.find("./ReferenceTitle/TitleText").text, self.title)
 		
 	def	test_should_have_a_worldwide_territory(self):
 		self.assertEqual(self.element.find("./SoundRecordingDetailsByTerritory/TerritoryCode").text, "WorldWide")
