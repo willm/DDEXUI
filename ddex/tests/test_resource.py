@@ -13,8 +13,11 @@ class SoundRecordingTests(unittest.TestCase):
 	def test_resource_should_display_type(self):
 		self.assertEqual(self.element.tag, "SoundRecording")
 
+	def test_resource_should_display_sound_recording_type(self):
+		self.assertEqual(self.element.find("./SoundRecordingType").text, "MusicalWorkSoundRecording")
+
 	def test_resource_should_contain_isrc(self):
-		self.assertEqual(self.element.find("./ISRC").text, "abc")
+		self.assertEqual(self.element.find("./SoundRecordingId/ISRC").text, "abc")
 		
 	def	test_should_have_a_worldwide_territory(self):
 		self.assertEqual(self.element.find("./SoundRecordingDetailsByTerritory/TerritoryCode").text, "WorldWide")

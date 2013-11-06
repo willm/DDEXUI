@@ -9,7 +9,9 @@ class SoundRecording:
 
 	def write(self):
 		sound_recording = ET.Element("SoundRecording")
-		self.__append_element_with_text(sound_recording, "ISRC", self.isrc)
+		self.__append_element_with_text(sound_recording, "SoundRecordingType", "MusicalWorkSoundRecording")
+		sound_recording_id = self.__append_element_with_text(sound_recording, "SoundRecordingId")
+		self.__append_element_with_text(sound_recording_id, "ISRC", self.isrc)
 
 		details_by_territory = ET.SubElement(sound_recording, "SoundRecordingDetailsByTerritory")
 		self.__append_element_with_text(details_by_territory, "TerritoryCode", "WorldWide")
@@ -26,6 +28,7 @@ class SoundRecording:
 	def __append_element_with_text(self, parent, name, text=""):
 		el = ET.SubElement(parent, name)
 		el.text = text
+		return el
 
 	def __get_extension(self):
 		return os.path.splitext(self.file_path)[1].replace(".","").upper()
