@@ -29,7 +29,7 @@ class DDEXSchemaValidation(unittest.TestCase):
 
 		release.add_deal(deal)
 		
-		resources = [SoundRecording("abc","ddex/tests/resources/test.mp3")]
+		resources = [SoundRecording("A1", "abc","ddex/tests/resources/test.mp3")]
 
 		DDEX(Party('derwwfefw', 'Sony'), Party("34545345", "7digital", "MessageRecipient"),release, resources).write()
 		

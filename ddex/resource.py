@@ -3,7 +3,8 @@ import hashlib
 import os
 
 class SoundRecording:
-	def __init__(self, isrc, file_path):
+	def __init__(self, resource_reference, isrc, file_path):
+		self.resource_reference = resource_reference
 		self.isrc = isrc
 		self.file_path = file_path
 
@@ -12,6 +13,7 @@ class SoundRecording:
 		self.__append_element_with_text(sound_recording, "SoundRecordingType", "MusicalWorkSoundRecording")
 		sound_recording_id = self.__append_element_with_text(sound_recording, "SoundRecordingId")
 		self.__append_element_with_text(sound_recording_id, "ISRC", self.isrc)
+		self.__append_element_with_text(sound_recording, "ResourceReference", self.resource_reference)		
 
 		details_by_territory = ET.SubElement(sound_recording, "SoundRecordingDetailsByTerritory")
 		self.__append_element_with_text(details_by_territory, "TerritoryCode", "WorldWide")
