@@ -28,7 +28,7 @@ class SoundRecordingTests(unittest.TestCase):
 		self.assertEqual(self.element.find("./ReferenceTitle/TitleText").text, self.title)
 		
 	def	test_should_have_a_worldwide_territory(self):
-		self.assertEqual(self.element.find("./SoundRecordingDetailsByTerritory/TerritoryCode").text, "WorldWide")
+		self.assertEqual(self.element.find("./SoundRecordingDetailsByTerritory/TerritoryCode").text, "Worldwide")
 
 	def test_should_have_audio_codec(self):
 		self.assertEqual(self.world_wide_territory().find("./TechnicalSoundRecordingDetails/AudioCodecType").text, "MP3")
@@ -37,10 +37,10 @@ class SoundRecordingTests(unittest.TestCase):
 		file_element = self.world_wide_territory().find("./TechnicalSoundRecordingDetails/File")
 		self.assertEqual(file_element.find("./FileName").text, "test.mp3")
 		hash_sum = file_element.find("./HashSum")
-		self.assertEqual(hash_sum.find("./HashSum").text, "d41d8cd98f00b204e9800998ecf8427e")
+		self.assertEqual(hash_sum.find("./HashSum").text, "dff9465befeb68d97cd6fd103547c464")
 		self.assertEqual(hash_sum.find("./HashSumAlgorithmType").text, "MD5")
 
 	def world_wide_territory(self):
-		return (list(filter(lambda x: x.find("./TerritoryCode").text == "WorldWide", self.element
+		return (list(filter(lambda x: x.find("./TerritoryCode").text == "Worldwide", self.element
 					.findall("./SoundRecordingDetailsByTerritory")))[0])
 

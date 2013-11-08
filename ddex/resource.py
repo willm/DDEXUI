@@ -19,7 +19,7 @@ class SoundRecording:
 		self.__append_element_with_text(title, "TitleText", self.title)
 
 		details_by_territory = ET.SubElement(sound_recording, "SoundRecordingDetailsByTerritory")
-		self.__append_element_with_text(details_by_territory, "TerritoryCode", "WorldWide")
+		self.__append_element_with_text(details_by_territory, "TerritoryCode", "Worldwide")
 		technical_details = ET.SubElement(details_by_territory, "TechnicalSoundRecordingDetails")
 
 		self.__append_element_with_text(technical_details, "AudioCodecType", self.__get_extension())
