@@ -8,30 +8,22 @@ class PartyRepository:
 	def __read_config_file(self):
 		self.config.read('ddexui.cfg')
 		
-	def __party_exists(self, section):
+	def __party_exists(self, party_type):
 		self.__read_config_file();
-		return self.config.has_option(section, 'party_id')
+		return self.config.has_option(party_type, 'party_id')
 
-	def __write_party(self, section, party):
-		self.config.add_section(section)
-		self.config.set(section, 'party_id', party.party_id)
-		self.config.set(section, 'name', party.name)
+	def __write_party(self, party):
+		self.config.add_section(party.party_type)
+		self.config.set(party.party_type, 'party_id', party.party_id)
+		self.config.set(party.party_type, 'name', party.name)
 		with open('ddexui.cfg', 'w') as configfile:
 			self.config.write(configfile)
 		
 		
-	def get_party(self):
-		if(self.__party_exists('Sender')):
-			return Party(self.config.get('Sender', 'party_id'), self.config.get('Sender', 'name'))
+	def get_party(self, party_type):
+		if(self.__party_exists(party_type)):
+			return Party(self.config.get(party_type, 'party_id'), self.config.get(party_type, 'name'))
 		return None
 
-	def get_recipient_party(self):
-		if(self.__party_exists('Recipient')):
-			return Party(self.config.get('Recipient', 'party_id'), self.config.get('Recipient', 'name'))
-		return None
-		
 	def write_party(self, party):
-		self.__write_party('Sender', party)
-
-	def write_recipient_party(self, party):
-		self.__write_party('Recipient', party)
+		self.__write_party(party)

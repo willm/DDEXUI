@@ -1,13 +1,18 @@
 import xml.etree.cElementTree as ET
 
+def enum(**enums):
+	return type("Enum", (), enums)
+
+PartyType = enum(MessageSender="MessageSender", MessageRecipient="MessageRecipient")
+
 class Party:
-	def __init__(self, party_id, name, kind='MessageSender'):
+	def __init__(self, party_id, name, party_type=PartyType.MessageSender):
 		self.party_id = party_id
 		self.name = name
-		self.kind = kind
+		self.party_type = party_type
 
 	def write(self):
-		party = ET.Element(self.kind)
+		party = ET.Element(self.party_type)
 		party_id = ET.SubElement(party,'PartyId')
 		party_id.text = self.party_id
 		name = ET.SubElement(party, 'PartyName')
@@ -25,4 +30,5 @@ class Party:
 		if(result is NotImplemented):
 			return result
 		return not result
+
 
