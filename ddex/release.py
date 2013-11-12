@@ -62,12 +62,12 @@ class Release:
 			self.__add_element(content_item, "ResourceType", "SoundRecording")
 			self.__add_element(content_item, "ReleaseResourceReference", ref)
 
+		self.__add_element(release, "ReleaseType", self.release_type)
 		release_details_by_territory = ET.SubElement(release, "ReleaseDetailsByTerritory")
 		ET.SubElement(release_details_by_territory, "TerritoryCode").text = "Worldwide"
 		self.__add_element(release_details_by_territory, "DisplayArtistName", self.artist)
 		self.__add_element(release_details_by_territory, "LabelName", self.label)
 		self.__write_titles(release, release_details_by_territory)
-		self.__add_element(release, "ReleaseType", self.release_type)
 		self.__write_genres(release_details_by_territory)
 		self.__write_artist(release_details_by_territory)
 		self.__add_element(release_details_by_territory, "ParentalWarningType", self.parental_warning)
