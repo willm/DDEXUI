@@ -26,7 +26,7 @@ class DDEXSchemaValidation(unittest.TestCase):
 			"Epic",
 			True))
 
-		deal = Deal("PayAsYouGoModel", "PermenantDownload", "FR", date(2012,1,3))
+		deal = Deal("PayAsYouGoModel", "PermanentDownload", "FR", date(2012,1,3))
 
 		release.add_deal(deal)
 
