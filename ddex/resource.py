@@ -16,6 +16,8 @@ class SoundRecording:
 		title = self.__append_element_with_text(sound_recording, "ReferenceTitle")
 		self.__append_element_with_text(title, "TitleText", self.title)
 
+		self.__append_element_with_text(sound_recording, "Duration", self.file_metadata.duration)
+
 		details_by_territory = ET.SubElement(sound_recording, "SoundRecordingDetailsByTerritory")
 		self.__append_element_with_text(details_by_territory, "TerritoryCode", "Worldwide")
 		technical_details = ET.SubElement(details_by_territory, "TechnicalSoundRecordingDetails")

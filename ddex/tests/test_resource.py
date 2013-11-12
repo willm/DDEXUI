@@ -42,6 +42,10 @@ class SoundRecordingTests(unittest.TestCase):
 		self.assertEqual(hash_sum.find("./HashSum").text, "dff9465befeb68d97cd6fd103547c464")
 		self.assertEqual(hash_sum.find("./HashSumAlgorithmType").text, "MD5")
 
+	def test_should_have_duration(self):
+		self.assertEqual(self.element.find("./Duration").text, "PT0H2M28.000S")
+
+
 	def world_wide_territory(self):
 		return (list(filter(lambda x: x.find("./TerritoryCode").text == "Worldwide", self.element
 					.findall("./SoundRecordingDetailsByTerritory")))[0])
