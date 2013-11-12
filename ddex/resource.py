@@ -28,7 +28,7 @@ class SoundRecording:
 		hash_sum = ET.SubElement(file_element, "HashSum")
 		self.__append_element_with_text(hash_sum, "HashSum", self.__get_hash())
 		self.__append_element_with_text(hash_sum, "HashSumAlgorithmType", "MD5")
-		return sound_recording	
+		return sound_recording
 
 	def __append_element_with_text(self, parent, name, text=""):
 		el = ET.SubElement(parent, name)
