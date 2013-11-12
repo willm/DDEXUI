@@ -1,13 +1,11 @@
 import xml.etree.cElementTree as ET
-import hashlib
-import os
 
 class SoundRecording:
-	def __init__(self, resource_reference, isrc, title ,file_path):
+	def __init__(self, resource_reference, isrc, title ,file_metadata):
 		self.title = title
 		self.resource_reference = resource_reference
 		self.isrc = isrc
-		self.file_path = file_path
+		self.file_metadata = file_metadata
 
 	def write(self):
 		sound_recording = ET.Element("SoundRecording")
@@ -22,11 +20,11 @@ class SoundRecording:
 		self.__append_element_with_text(details_by_territory, "TerritoryCode", "Worldwide")
 		technical_details = ET.SubElement(details_by_territory, "TechnicalSoundRecordingDetails")
 
-		self.__append_element_with_text(technical_details, "AudioCodecType", self.__get_extension())
+		self.__append_element_with_text(technical_details, "AudioCodecType", self.file_metadata.extension)
 		file_element = ET.SubElement(technical_details, "File")
-		self.__append_element_with_text(file_element, "FileName", os.path.split(self.file_path)[1])
+		self.__append_element_with_text(file_element, "FileName", self.file_metadata.name)
 		hash_sum = ET.SubElement(file_element, "HashSum")
-		self.__append_element_with_text(hash_sum, "HashSum", self.__get_hash())
+		self.__append_element_with_text(hash_sum, "HashSum", self.file_metadata.md5)
 		self.__append_element_with_text(hash_sum, "HashSumAlgorithmType", "MD5")
 		return sound_recording
 
@@ -34,12 +32,3 @@ class SoundRecording:
 		el = ET.SubElement(parent, name)
 		el.text = text
 		return el
-
-	def __get_extension(self):
-		return os.path.splitext(self.file_path)[1].replace(".","").upper()
-
-	def __get_hash(self):
-		hash = hashlib.md5()
-		with open(self.file_path, 'rb') as resource:
-			hash.update(resource.read())
-		return hash.hexdigest()

@@ -5,11 +5,12 @@ from DDEXUI.ddex.party import Party
 from DDEXUI.ddex.deal import Deal
 from DDEXUI.ddex.resource import SoundRecording
 from DDEXUI.ddex.message_header import MessageHeader
+from DDEXUI.ddex.file_metadata import FileParser
 from datetime import date
 import unittest
 
 class DDEXSchemaValidation(unittest.TestCase):
-	@unittest.skip("work in progress")
+#	@unittest.skip("work in progress")
 	def test_created_ddex_files_validate_against_ddex_xsd(self):
 		#helpped by http://alex-sansom.info/content/validating-xml-against-xml-schema-python
 
@@ -29,7 +30,7 @@ class DDEXSchemaValidation(unittest.TestCase):
 
 		release.add_deal(deal)
 		
-		resources = [SoundRecording("A1", "abc", "Bad", "ddex/tests/resources/test.mp3")]
+		resources = [SoundRecording("A1", "abc", "Bad", FileParser().parse("ddex/tests/resources/test.mp3"))]
 
 		DDEX(Party('derwwfefw', 'Sony'), Party("34545345", "7digital", "MessageRecipient"),release, resources).write()
 		

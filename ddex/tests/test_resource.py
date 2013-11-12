@@ -1,6 +1,7 @@
 import unittest
 import functools
 import xml.etree.cElementTree as ET
+from DDEXUI.ddex.file_metadata import FileMetadata
 from DDEXUI.ddex.resource import SoundRecording
 import os
 
@@ -9,7 +10,8 @@ class SoundRecordingTests(unittest.TestCase):
 	def setUp(self):
 		self.resource_reference = "A1"
 		self.title = "Some Title"
-		res = SoundRecording(self.resource_reference, "abc", self.title, "ddex/tests/resources/test.mp3")
+		self.file_metadata = FileMetadata("PT0H2M28.000S", 320,"dff9465befeb68d97cd6fd103547c464","test.mp3", "MP3")
+		res = SoundRecording(self.resource_reference, "abc", self.title, self.file_metadata)
 		self.element = res.write()
 
 	def test_resource_should_display_type(self):

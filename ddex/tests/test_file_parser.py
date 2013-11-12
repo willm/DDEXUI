@@ -19,3 +19,9 @@ class FileParserTests(unittest.TestCase):
 
 	def test_should_have_hash(self):
 		self.assertEqual(self.file_metadata.md5, "dff9465befeb68d97cd6fd103547c464")
+
+	def test_should_have_name(self):
+		self.assertEqual(self.file_metadata.name, "test.mp3")
+
+	def test_should_have_extension(self):
+		self.assertEqual(self.file_metadata.extension, "MP3")
