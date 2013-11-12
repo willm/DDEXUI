@@ -52,29 +52,38 @@ class Release:
 		referenceTitle = ET.SubElement(release, "ReferenceTitle")
 		self.__add_element(referenceTitle, "TitleText", self.title)
 		resource_reference_list = ET.SubElement(release, "ReleaseResourceReferenceList")
-		for reference in self.release_resource_references:
-			self.__add_element(resource_reference_list, "ReleaseResourceReference", reference)
+
+		resource_group = ET.Element("ResourceGroup")
+		for i in range(0, len(self.release_resource_references)):
+			ref = self.release_resource_references[i]
+			self.__add_element(resource_reference_list, "ReleaseResourceReference", ref)
+			content_item = self.__add_element(resource_group, "ResourceGroupContentItem")
+			self.__add_element(content_item, "SequenceNumber", str(i + 1))
+			self.__add_element(content_item, "ResourceType", "SoundRecording")
+			self.__add_element(content_item, "ReleaseResourceReference", ref)
 
 		release_details_by_territory = ET.SubElement(release, "ReleaseDetailsByTerritory")
 		ET.SubElement(release_details_by_territory, "TerritoryCode").text = "Worldwide"
 		self.__add_element(release_details_by_territory, "DisplayArtistName", self.artist)
+		self.__add_element(release_details_by_territory, "LabelName", self.label)
 		self.__write_titles(release, release_details_by_territory)
 		self.__add_element(release, "ReleaseType", self.release_type)
 		self.__write_genres(release_details_by_territory)
 		self.__write_artist(release_details_by_territory)
 		self.__add_element(release_details_by_territory, "ParentalWarningType", self.parental_warning)
-		pline = ET.SubElement(release_details_by_territory, "PLine")
+		release_details_by_territory.append(resource_group)
+		pline = ET.SubElement(release, "PLine")
 		self.__add_element(pline, "Year", self.year)
 		self.__add_element(pline, "PLineText", self.pline)
-		cline = ET.SubElement(release_details_by_territory, "CLine")
+		cline = ET.SubElement(release, "CLine")
 		self.__add_element(cline, "Year", self.year)
 		self.__add_element(cline, "CLineText", self.cline)
-		self.__add_element(release_details_by_territory, "LabelName", self.label)
 		return release
 
-	def __add_element(self, parent, name, text, attrs={}):
+	def __add_element(self, parent, name, text="", attrs={}):
 		element = ET.SubElement(parent, name, attrs)
 		element.text = text
+		return element
 
 	def __write_artist(self, release_details_by_territory):
 		artist = ET.SubElement(release_details_by_territory, "DisplayArtist")

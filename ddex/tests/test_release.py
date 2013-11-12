@@ -53,14 +53,14 @@ class Test(unittest.TestCase):
 		self.assertEqual("Worldwide",self.element.find("./ReleaseDetailsByTerritory/TerritoryCode").text)
 
 	def test_pline_should_be_written(self):
-		self.assertEqual(self.pline,self.element.find("./ReleaseDetailsByTerritory/PLine/PLineText").text)
+		self.assertEqual(self.pline,self.element.find("./PLine/PLineText").text)
 
 	def test_cline_should_be_written(self):
-		self.assertEqual(self.cline,self.element.find("./ReleaseDetailsByTerritory/CLine/CLineText").text)
+		self.assertEqual(self.cline,self.element.find("./CLine/CLineText").text)
 
 	def test_year_should_be_written(self):
-		self.assertEqual(str(2013), self.element.find("./ReleaseDetailsByTerritory/CLine/Year").text)
-		self.assertEqual(str(2013), self.element.find("./ReleaseDetailsByTerritory/PLine/Year").text)
+		self.assertEqual(str(2013), self.element.find("./CLine/Year").text)
+		self.assertEqual(str(2013), self.element.find("./PLine/Year").text)
 
 	def test_release_type_should_be_written(self):
 		self.assertEqual(self.release_type, self.element.find("./ReleaseType").text)
@@ -93,8 +93,15 @@ class Test(unittest.TestCase):
 		self.release.add_resource_reference(ref)
 		element = self.release.write()
 		resource_refs = element.findall("./ReleaseResourceReferenceList/ReleaseResourceReference")
+
 		self.assertEqual(len(resource_refs), 1)
 		self.assertEqual(resource_refs[0].text, ref)
+		resource_group_content_items = element.findall("./ReleaseDetailsByTerritory/ResourceGroup/ResourceGroupContentItem")
+		self.assertEqual(len(resource_group_content_items), 1)
+		content_item = resource_group_content_items[0]
+		self.assertEqual(content_item.find("./SequenceNumber").text, "1")
+		self.assertEqual(content_item.find("./ResourceType").text, "SoundRecording")
+		self.assertEqual(content_item.find("./ReleaseResourceReference").text, ref)
 		
 class MockDeal:
 	def write(self):
