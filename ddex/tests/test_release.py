@@ -87,6 +87,14 @@ class Test(unittest.TestCase):
 		release_deal = self.release.write_deals()
 		self.assertEqual(release_deal.find("./DealReleaseReference").text, self.release_reference)
 		self.assertEqual(len(release_deal.findall("./Deal")), 2)
+
+	def test_should_write_resource_references(self):
+		ref = "A0"
+		self.release.add_resource_reference(ref)
+		element = self.release.write()
+		resource_refs = element.findall("./ReleaseResourceReferenceList/ReleaseResourceReference")
+		self.assertEqual(len(resource_refs), 1)
+		self.assertEqual(resource_refs[0].text, ref)
 		
 class MockDeal:
 	def write(self):

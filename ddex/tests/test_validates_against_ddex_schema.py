@@ -29,8 +29,11 @@ class DDEXSchemaValidation(unittest.TestCase):
 		deal = Deal("PayAsYouGoModel", "PermenantDownload", "FR", date(2012,1,3))
 
 		release.add_deal(deal)
-		
-		resources = [SoundRecording("A1", "abc", "Bad", FileParser().parse("ddex/tests/resources/test.mp3"),"T1")]
+
+		resource_reference = "A1"
+		resource = SoundRecording(resource_reference, "abc", "Bad", FileParser().parse("ddex/tests/resources/test.mp3"),"T1")
+		resources = [resource]
+		release.add_resource_reference(resource_reference)
 
 		DDEX(Party('derwwfefw', 'Sony'), Party("34545345", "7digital", "MessageRecipient"),release, resources).write()
 		

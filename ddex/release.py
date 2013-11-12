@@ -38,6 +38,7 @@ class Release:
 		self.artist = artist
 		self.label = label
 		self.deals = []
+		self.release_resource_references = []
 		if(parental_warning):
 			self.parental_warning = "Explicit"
 		else:
@@ -50,7 +51,9 @@ class Release:
 		self.__add_element(release, "ReleaseReference", self.release_reference)
 		referenceTitle = ET.SubElement(release, "ReferenceTitle")
 		self.__add_element(referenceTitle, "TitleText", self.title)
-		ET.SubElement(release, "ReleaseResourceReferenceList")
+		resource_reference_list = ET.SubElement(release, "ReleaseResourceReferenceList")
+		for reference in self.release_resource_references:
+			self.__add_element(resource_reference_list, "ReleaseResourceReference", reference)
 
 		release_details_by_territory = ET.SubElement(release, "ReleaseDetailsByTerritory")
 		self.__write_titles(release, release_details_by_territory)
@@ -68,8 +71,8 @@ class Release:
 		self.__add_element(release_details_by_territory, "ParentalWarningType", self.parental_warning)
 		return release
 
-	def __add_element(self, parent, name, text):
-		element = ET.SubElement(parent, name)
+	def __add_element(self, parent, name, text, attrs={}):
+		element = ET.SubElement(parent, name, attrs)
 		element.text = text
 
 	def __write_artist(self, release_details_by_territory):
@@ -94,6 +97,9 @@ class Release:
 		
 	def add_deal(self, deal):
 		self.deals.append(deal)
+
+	def add_resource_reference(self, reference):
+		self.release_resource_references.append(reference)
 
 	def write_deals(self):
 		release_deal = ET.Element("ReleaseDeal")
