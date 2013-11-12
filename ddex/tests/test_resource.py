@@ -11,7 +11,8 @@ class SoundRecordingTests(unittest.TestCase):
 		self.resource_reference = "A1"
 		self.title = "Some Title"
 		self.file_metadata = FileMetadata("PT0H2M28.000S", 320,"dff9465befeb68d97cd6fd103547c464","test.mp3", "MP3")
-		res = SoundRecording(self.resource_reference, "abc", self.title, self.file_metadata)
+		self.technical_resource_details_reference = "T1"
+		res = SoundRecording(self.resource_reference, "abc", self.title, self.file_metadata, self.technical_resource_details_reference)
 		self.element = res.write()
 
 	def test_resource_should_display_type(self):
@@ -44,6 +45,9 @@ class SoundRecordingTests(unittest.TestCase):
 
 	def test_should_have_duration(self):
 		self.assertEqual(self.element.find("./Duration").text, "PT0H2M28.000S")
+
+	def test_should_have_technical_resource_details_reference(self):
+		self.assertEqual(self.world_wide_territory().find("./TechnicalSoundRecordingDetails/TechnicalResourceDetailsReference").text, self.technical_resource_details_reference)
 
 
 	def world_wide_territory(self):

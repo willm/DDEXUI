@@ -45,12 +45,16 @@ class Release:
 	
 	def write(self):
 		release = ET.Element("Release")
-		self.__add_element(release, "ReleaseType", self.release_type)
 		releaseId = ET.SubElement(release, "ReleaseId")
 		releaseId.append(self.release_id.write())
 		self.__add_element(release, "ReleaseReference", self.release_reference)
+		referenceTitle = ET.SubElement(release, "ReferenceTitle")
+		self.__add_element(referenceTitle, "TitleText", self.title)
+		ET.SubElement(release, "ReleaseResourceReferenceList")
+
 		release_details_by_territory = ET.SubElement(release, "ReleaseDetailsByTerritory")
 		self.__write_titles(release, release_details_by_territory)
+		self.__add_element(release, "ReleaseType", self.release_type)
 		ET.SubElement(release_details_by_territory, "TerritoryCode").text = "Worldwide"
 		self.__write_genres(release_details_by_territory)
 		pline = ET.SubElement(release_details_by_territory, "PLine")
@@ -62,7 +66,6 @@ class Release:
 		self.__write_artist(release_details_by_territory)
 		self.__add_element(release_details_by_territory, "LabelName", self.label)
 		self.__add_element(release_details_by_territory, "ParentalWarningType", self.parental_warning)
-		ET.SubElement(release, "ReleaseResourceReferenceList")
 		return release
 
 	def __add_element(self, parent, name, text):
@@ -82,8 +85,6 @@ class Release:
 			ET.SubElement(genreElement, "GenreText").text = genre
 	
 	def __write_titles(self, release, release_details_by_territory):
-		referenceTitle = ET.SubElement(release, "ReferenceTitle")
-		self.__add_element(referenceTitle, "TitleText", self.title)
 		for type in ["FormalTitle", "DisplayTitle", "GroupingTitle"]:
 			self.__add_title(release_details_by_territory, type)
 	

@@ -1,8 +1,9 @@
 import xml.etree.cElementTree as ET
 
 class SoundRecording:
-	def __init__(self, resource_reference, isrc, title ,file_metadata):
+	def __init__(self, resource_reference, isrc, title, file_metadata, technical_resource_details_reference):
 		self.title = title
+		self.technical_resource_details_reference = technical_resource_details_reference
 		self.resource_reference = resource_reference
 		self.isrc = isrc
 		self.file_metadata = file_metadata
@@ -22,6 +23,7 @@ class SoundRecording:
 		self.__append_element_with_text(details_by_territory, "TerritoryCode", "Worldwide")
 		technical_details = ET.SubElement(details_by_territory, "TechnicalSoundRecordingDetails")
 
+		self.__append_element_with_text(technical_details, "TechnicalResourceDetailsReference", self.technical_resource_details_reference)
 		self.__append_element_with_text(technical_details, "AudioCodecType", self.file_metadata.extension)
 		file_element = ET.SubElement(technical_details, "File")
 		self.__append_element_with_text(file_element, "FileName", self.file_metadata.name)
