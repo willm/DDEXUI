@@ -56,19 +56,20 @@ class Release:
 			self.__add_element(resource_reference_list, "ReleaseResourceReference", reference)
 
 		release_details_by_territory = ET.SubElement(release, "ReleaseDetailsByTerritory")
+		ET.SubElement(release_details_by_territory, "TerritoryCode").text = "Worldwide"
+		self.__add_element(release_details_by_territory, "DisplayArtistName", self.artist)
 		self.__write_titles(release, release_details_by_territory)
 		self.__add_element(release, "ReleaseType", self.release_type)
-		ET.SubElement(release_details_by_territory, "TerritoryCode").text = "Worldwide"
 		self.__write_genres(release_details_by_territory)
+		self.__write_artist(release_details_by_territory)
+		self.__add_element(release_details_by_territory, "ParentalWarningType", self.parental_warning)
 		pline = ET.SubElement(release_details_by_territory, "PLine")
 		self.__add_element(pline, "Year", self.year)
 		self.__add_element(pline, "PLineText", self.pline)
 		cline = ET.SubElement(release_details_by_territory, "CLine")
 		self.__add_element(cline, "Year", self.year)
 		self.__add_element(cline, "CLineText", self.cline)
-		self.__write_artist(release_details_by_territory)
 		self.__add_element(release_details_by_territory, "LabelName", self.label)
-		self.__add_element(release_details_by_territory, "ParentalWarningType", self.parental_warning)
 		return release
 
 	def __add_element(self, parent, name, text, attrs={}):
@@ -76,7 +77,6 @@ class Release:
 		element.text = text
 
 	def __write_artist(self, release_details_by_territory):
-		self.__add_element(release_details_by_territory, "DisplayArtistName", self.artist)
 		artist = ET.SubElement(release_details_by_territory, "DisplayArtist")
 		party_name = ET.SubElement(artist, "PartyName")
 		self.__add_element(party_name, "FullName", self.artist)
