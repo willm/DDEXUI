@@ -22,7 +22,7 @@ class PartyRepository:
 		
 	def get_party(self, party_type):
 		if(self.__party_exists(party_type)):
-			return Party(self.config.get(party_type, 'party_id'), self.config.get(party_type, 'name'))
+			return Party(self.config.get(party_type, 'party_id'), self.config.get(party_type, 'name'), party_type)
 		return None
 
 	def write_party(self, party):

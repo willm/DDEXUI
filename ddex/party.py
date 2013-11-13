@@ -22,7 +22,7 @@ class Party:
 
 	def __eq__(self, other):
 		if(isinstance(other, Party)):
-			return self.name == other.name and self.party_id == other.party_id
+			return self.name == other.name and self.party_id == other.party_id and self.party_type == other.party_type
 		return NotImplemented
 
 	def __ne__(self, other):

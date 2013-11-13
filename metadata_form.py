@@ -2,20 +2,21 @@ import tkinter.ttk as tk
 import tkinter.messagebox as mb
 from DDEXUI.ddex.release import Release, ReleaseId
 from DDEXUI.ddex.ddex import DDEX
-from DDEXUI.ddex.party import Party
+from DDEXUI.ddex.party import *
 from DDEXUI.ddex.validate import Validate
 from DDEXUI.party_repository import PartyRepository
 
 class PartyWindow(tk.tkinter.Toplevel):
-	def __init__(self, frame):
+	def __init__(self, frame, party_type):
 		#http://tkinter.unpythonic.net/wiki/ModalWindow	
 		self.party_repository = PartyRepository()
+		self.party_type = party_type
 		tk.tkinter.Toplevel.__init__(self, frame)
 #		self.geometry("400x300")
 		self.transient(frame)
 		self.focus_set()
 		#self.grab_set()
-		message = "Please enter your ddex party details. You can apply for a ddex Party id for free at: http://ddex.net/content/implementation-licence-application-form"
+		message = "Please enter your " + self.party_type + " ddex party details. You can apply for a ddex Party id for free at: http://ddex.net/content/implementation-licence-application-form"
 		text = tk.tkinter.Label(self, height=5, text=message, wraplength=400)
 		text.grid(row=0, column=0,columnspan=3)
 		self.party_id = EntryInput(self, "Party Id", Validate().not_empty)
@@ -27,7 +28,7 @@ class PartyWindow(tk.tkinter.Toplevel):
 
 	def save_and_close(self):
 		if(self.party_id.on_validate() and self.party_name.on_validate()):
-			party = Party(self.party_id.value(), self.party_name.value())
+			party = Party(self.party_id.value(), self.party_name.value(), self.party_type)
 			self.party_repository.write_party(party)
 			self.destroy()
 
@@ -54,14 +55,16 @@ class Program:
 		self.button = tk.Button(self.top, text="OK", command=self.create_ddex)
 
 	def create_ddex(self):
-		self.__check_for_party()
+		self.__check_for_party(PartyType.MessageSender)
+		self.__check_for_party(PartyType.MessageRecipient)
 		all_valid = True
 		for row in self.fields:
 			all_valid = all_valid and row.on_validate()
 		if(all_valid):
 			product_release = self.build_product_release()
-			party = self.party_repository.get_party()
-			DDEX(party, product_release).write()
+			sender = self.party_repository.get_party(PartyType.MessageSender)
+			recipient = self.party_repository.get_party(PartyType.MessageRecipient)
+			DDEX(sender, recipient, product_release).write()
 			mb.showinfo("DDEXUI", "your ddex file has been created")
 
 	def build_product_release(self):
@@ -81,9 +84,13 @@ class Program:
 		row = next(filter(lambda x: x.title == title,self.fields))
 		return row.value()
 
-	def __check_for_party(self):
-		if(self.party_repository.get_party() is None):
-			PartyWindow(self.top)
+	def __check_for_party(self, party_type):
+		if(self.party_repository.get_party(party_type) is None):
+			PartyWindow(self.top, party_type)
+
+	def __check_for_recipient(self):
+		if(self.party_repository.get_recipient_party() is None):
+			pass
 
 	def main(self):
 		i = 0
@@ -91,7 +98,7 @@ class Program:
 			row.draw(i)
 			i += 1
 		self.button.grid(row=len(self.fields), column=0)
-		self.__check_for_party()
+		self.__check_for_party(PartyType.MessageSender)
 		self.top.mainloop()
 
 class InputRow:
