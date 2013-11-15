@@ -1,3 +1,4 @@
+#!/usr/bin/python3.3
 import tkinter.ttk as tk
 import tkinter.messagebox as mb
 from DDEXUI.ddex.release import Release, ReleaseId
