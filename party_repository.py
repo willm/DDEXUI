@@ -16,7 +16,7 @@ class PartyRepository:
 		self.config.add_section(party.party_type)
 		self.config.set(party.party_type, 'party_id', party.party_id)
 		self.config.set(party.party_type, 'name', party.name)
-		with open('ddexui.cfg', 'w') as configfile:
+		with open('ddexui.cfg', 'a') as configfile:
 			self.config.write(configfile)
 		
 		

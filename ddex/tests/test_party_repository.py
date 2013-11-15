@@ -44,6 +44,14 @@ class PartyRepositoryTests(unittest.TestCase):
 		
 		self.assertEqual(repo.get_party(PartyType.MessageRecipient), party)
 
+	def test_should_not_overwrite_other_parties_when_saving(self):
+		self.__write_config()
+		repo = PartyRepository()
+		party = Party("GSDFGDFGSEG", "SomeParty", PartyType.MessageRecipient)
+		repo.write_party(party)
+		self.assertNotEqual(repo.get_party(PartyType.MessageSender), None)	
+		self.assertNotEqual(repo.get_party(PartyType.MessageRecipient), None)	
+
 	def __write_config(self):
 		with open('ddexui.cfg', 'w') as configfile:
 			self.config.write(configfile)
