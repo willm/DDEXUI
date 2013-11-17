@@ -6,6 +6,19 @@ from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.party import *
 from DDEXUI.ddex.validate import Validate
 from DDEXUI.party_repository import PartyRepository
+import DDEXUI.ddex.deal as deal
+
+class DealWindow(tk.tkinter.Toplevel):
+	def __init__(self, frame):
+		tk.tkinter.Toplevel.__init__(self, frame)
+		self.focus_set()
+		self.fields = ([OptionInput(frame, "Commercial Model", *deal.CommercialModals),
+			OptionInput(self, "Use Type", *deal.UseTypes),
+			OptionInput(self, "Territory", *deal.Territories),
+			EntryInput(self, "Start Date", Validate().not_empty)])
+		for i in range(len(self.fields) - 1):
+			self.fields[i].draw(i)
+		tk.Button(self, text="OK", command=self.destroy).grid(row=len(self.fields), column=0)
 
 class PartyWindow(tk.tkinter.Toplevel):
 	def __init__(self, frame, party_type):
@@ -53,6 +66,7 @@ class Program:
 			OptionInput(self.top, "Type", 'Single', 'Album'),
 			CheckboxInput(self.top, "Explicit")
 		])
+		self.add_deal_button = tk.Button(self.top, text="Add deal", command=lambda:DealWindow(self.top))
 		self.button = tk.Button(self.top, text="OK", command=self.create_ddex)
 
 	def create_ddex(self):
@@ -99,6 +113,7 @@ class Program:
 			row.draw(i)
 			i += 1
 		self.button.grid(row=len(self.fields), column=0)
+		self.add_deal_button.grid(row=len(self.fields)+1, column=0)
 		self.__check_for_party(PartyType.MessageSender)
 		self.top.mainloop()
 

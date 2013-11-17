@@ -1,6 +1,10 @@
 import xml.etree.cElementTree as ET
 import datetime as date
 
+CommercialModals = ["PayAsYouGoModel", "SubscriptionModel"]
+UseTypes = ["PermanentDownload", "OnDemandStream"]
+Territories = ["UK", "FR", "DE", "US"]
+
 class Deal:
 
 	def __init__(self, commercial_model, use_type, territory, start_date, preorder_date=None, preorder_preview_date=None):

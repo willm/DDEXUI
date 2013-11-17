@@ -1,7 +1,5 @@
 import xml.etree.cElementTree as ET
-
-def enum(**enums):
-	return type("Enum", (), enums)
+from DDEXUI.ddex.enum import enum
 
 PartyType = enum(MessageSender="MessageSender", MessageRecipient="MessageRecipient")
 
