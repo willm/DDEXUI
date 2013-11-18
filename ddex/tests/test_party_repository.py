@@ -2,56 +2,58 @@ import unittest
 import configparser
 from DDEXUI.ddex.party import *
 from DDEXUI.party_repository import *
+import sqlite3
+
 
 class PartyRepositoryTests(unittest.TestCase):
 	def setUp(self):
-		self.config = configparser.RawConfigParser()
-		self.config.add_section('MessageSender')
-		self.party = Party('LETSHAVEAPARTY', 'Some Label Name')
-		self.config.set('MessageSender', 'party_id', self.party.party_id)
-		self.config.set('MessageSender', 'name', self.party.name)
-		
+		connection = self.__get_connection()
+		connection.execute("DROP TABLE IF EXISTS party")
+		connection.execute("CREATE TABLE IF NOT EXISTS party(name text, partyId text, PartyType text)")
+		connection.close()
+		self.party = Party('IDIDIDO', 'Some Label Name', PartyType.MessageSender)
+
+	def __get_connection(self):
+		return sqlite3.connect("ddexui")
+
+	def tearDown(self):
+		c = self.__get_connection()
+		cu = c.cursor()
+		cu.execute("SELECT * FROM party")
+		print(cu.fetchall())
+		cu.execute("DROP TABLE IF EXISTS party")
+		c.close()
+
 	def test_it_should_return_the_party(self):
-		self.__write_config()
-		
-		self.assertEqual(PartyRepository().get_party(PartyType.MessageSender), self.party)
+		connection = self.__get_connection()
+		connection.execute("INSERT INTO party(name, partyId, partyType) VALUES(?,?,?)", (self.party.name, self.party.party_id, self.party.party_type))
+		connection.commit()
+		c = connection.cursor()
+		c.execute("SELECT * FROM party")
+		print(c.fetchall())
+		connection.close()
+
+		party = PartyRepository().get_party(PartyType.MessageSender)
+		print(party.name + ':' + party.party_type)
+		print(self.party.name + ':' + self.party.party_type)
+		self.assertEqual(party, self.party)
 		
 	def test_it_should_return_none_if_there_is_no_party(self):
-		self.config.remove_option('MessageSender', 'party_id')
-		self.__write_config()
-		
 		self.assertEqual(PartyRepository().get_party(PartyType.MessageSender), None)
 	
 	def test_it_should_write_the_party(self):
-		self.config.remove_option('MessageSender', 'party_id')
-		self.config.remove_option('MessageSender', 'name')
-		self.__write_config()
 		repo = PartyRepository()
 		repo.write_party(self.party)
 		
 		self.assertEqual(repo.get_party(PartyType.MessageSender), self.party)
 
-	def test_it_should_save_the_message_recipient(self):
-		if(self.config.has_option('MessageRecipient', 'party_id')):
-			self.config.remove_option('MessageRecipient', 'party_id')
-
-		if(self.config.has_option('MessageRecipient', 'name')):
-			self.config.remove_option('MessageRecipient', 'name')
-		self.__write_config()
-		repo = PartyRepository()
-		party = Party('IWantYourStuff', 'iTunes', PartyType.MessageRecipient)
-		repo.write_party(party)
-		
-		self.assertEqual(repo.get_party(PartyType.MessageRecipient), party)
-
 	def test_should_not_overwrite_other_parties_when_saving(self):
-		self.__write_config()
+		connection = self.__get_connection()
+		connection.execute("INSERT INTO party(name, partyId, partyType) VALUES(?,?,?)", (self.party.name, self.party.party_id, self.party.party_type))
+		connection.commit()
+		connection.close()
 		repo = PartyRepository()
 		party = Party("GSDFGDFGSEG", "SomeParty", PartyType.MessageRecipient)
 		repo.write_party(party)
 		self.assertNotEqual(repo.get_party(PartyType.MessageSender), None)	
 		self.assertNotEqual(repo.get_party(PartyType.MessageRecipient), None)	
-
-	def __write_config(self):
-		with open('ddexui.cfg', 'w') as configfile:
-			self.config.write(configfile)
