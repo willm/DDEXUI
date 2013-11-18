@@ -5,13 +5,15 @@ class PartyRepository:
 	def __init__(self):
 		self.__with_cursor(lambda cursor, connection: cursor.execute("CREATE TABLE IF NOT EXISTS party(name text, partyId text, partyType text)"))
 
+	def __get_connection(self):
+		return sqlite3.connect("ddexui")
+
 	def get_party(self, party_type):
-		connection = sqlite3.connect("ddexui")
+		connection = self.__get_connection()
 		cursor = connection.cursor()
 		cursor.execute("SELECT partyId, name, partyType FROM party WHERE partyType=?", (party_type,))
 		party = cursor.fetchone()
 		connection.close()
-		print(party)
 		if(party == None):
 			return None
 		return Party(party[0], party[1], party[2])
@@ -25,7 +27,7 @@ class PartyRepository:
 		connection.close()
 
 	def __with_cursor(self, action):
-		connection = sqlite3.connect("ddexui")
+		connection = self.__get_connection()
 		cur = connection.cursor()
 		action(cur, connection)
 		connection.close()

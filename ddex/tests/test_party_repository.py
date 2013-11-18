@@ -19,8 +19,6 @@ class PartyRepositoryTests(unittest.TestCase):
 	def tearDown(self):
 		c = self.__get_connection()
 		cu = c.cursor()
-		cu.execute("SELECT * FROM party")
-		print(cu.fetchall())
 		cu.execute("DROP TABLE IF EXISTS party")
 		c.close()
 
@@ -28,14 +26,9 @@ class PartyRepositoryTests(unittest.TestCase):
 		connection = self.__get_connection()
 		connection.execute("INSERT INTO party(name, partyId, partyType) VALUES(?,?,?)", (self.party.name, self.party.party_id, self.party.party_type))
 		connection.commit()
-		c = connection.cursor()
-		c.execute("SELECT * FROM party")
-		print(c.fetchall())
 		connection.close()
 
 		party = PartyRepository().get_party(PartyType.MessageSender)
-		print(party.name + ':' + party.party_type)
-		print(self.party.name + ':' + self.party.party_type)
 		self.assertEqual(party, self.party)
 		
 	def test_it_should_return_none_if_there_is_no_party(self):
