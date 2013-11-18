@@ -12,7 +12,7 @@ class DealWindow(tk.tkinter.Toplevel):
 	def __init__(self, frame):
 		tk.tkinter.Toplevel.__init__(self, frame)
 		self.focus_set()
-		self.fields = ([OptionInput(frame, "Commercial Model", *deal.CommercialModals),
+		self.fields = ([OptionInput(self, "Commercial Model", *deal.CommercialModals),
 			OptionInput(self, "Use Type", *deal.UseTypes),
 			OptionInput(self, "Territory", *deal.Territories),
 			EntryInput(self, "Start Date", Validate().not_empty)])
