@@ -23,6 +23,9 @@ class Party:
 			return self.name == other.name and self.party_id == other.party_id and self.party_type == other.party_type
 		return NotImplemented
 
+	def __str__(self):
+		return str.join(":",[self.party_id,self.name,self.party_type])
+
 	def __ne__(self, other):
 		result = self.__eq__(other)
 		if(result is NotImplemented):
