@@ -1,7 +1,7 @@
 import xml.etree.cElementTree as ET
 from DDEXUI.ddex.enum import enum
 
-PartyType = enum(MessageSender="MessageSender", MessageRecipient="MessageRecipient")
+PartyType = enum(MessageSender=1, MessageRecipient=2)
 
 class Party:
 	def __init__(self, party_id, name, party_type=PartyType.MessageSender):
@@ -10,7 +10,7 @@ class Party:
 		self.party_type = party_type
 
 	def write(self):
-		party = ET.Element(self.party_type)
+		party = ET.Element(PartyType.reverse_mapping[self.party_type])
 		party_id = ET.SubElement(party,'PartyId')
 		party_id.text = self.party_id
 		name = ET.SubElement(party, 'PartyName')
@@ -24,7 +24,7 @@ class Party:
 		return NotImplemented
 
 	def __str__(self):
-		return str.join(":",[self.party_id,self.name,self.party_type])
+		return str.join(":",[self.party_id,self.name,PartyType.reverse_mapping[self.party_type]])
 
 	def __ne__(self, other):
 		result = self.__eq__(other)

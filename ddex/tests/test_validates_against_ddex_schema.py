@@ -2,6 +2,7 @@ import lxml.etree as ET
 from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.release import Release, ReleaseId
 from DDEXUI.ddex.party import Party
+from DDEXUI.ddex.party import PartyType
 from DDEXUI.ddex.deal import Deal
 from DDEXUI.ddex.resource import SoundRecording
 from DDEXUI.ddex.message_header import MessageHeader
@@ -35,7 +36,7 @@ class DDEXSchemaValidation(unittest.TestCase):
 		resources = [resource]
 		release.add_resource_reference(resource_reference)
 
-		DDEX(Party('derwwfefw', 'Sony'), Party("34545345", "7digital", "MessageRecipient"),release, resources).write()
+		DDEX(Party('derwwfefw', 'Sony'), Party("34545345", "7digital", PartyType.MessageRecipient),release, resources).write()
 		
 		tree = ET.parse('/tmp/file.xml')
 #		tree = ET.parse('/home/will/Documents/python/DDEXUI/ddex/tests/resources/ddex-sample.xml')

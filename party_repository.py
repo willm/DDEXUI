@@ -3,7 +3,7 @@ import sqlite3
 
 class PartyRepository:
 	def __init__(self):
-		self.__with_cursor(lambda cursor, connection: cursor.execute("CREATE TABLE IF NOT EXISTS party(name text, partyId text, partyType text)"))
+		self.__with_cursor(lambda cursor, connection: cursor.execute("CREATE TABLE IF NOT EXISTS party(name text, partyId text, partyType integer)"))
 
 	def __get_connection(self):
 		return sqlite3.connect("ddexui")

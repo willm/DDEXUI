@@ -30,7 +30,7 @@ class PartyWindow(tk.tkinter.Toplevel):
 		self.transient(frame)
 		self.focus_set()
 		#self.grab_set()
-		message = "Please enter your " + self.party_type + " ddex party details. You can apply for a ddex Party id for free at: http://ddex.net/content/implementation-licence-application-form"
+		message = "Please enter your " + PartyType.reverse_mapping[self.party_type] + " ddex party details. You can apply for a ddex Party id for free at: http://ddex.net/content/implementation-licence-application-form"
 		text = tk.tkinter.Label(self, height=5, text=message, wraplength=400)
 		text.grid(row=0, column=0,columnspan=3)
 		self.party_id = EntryInput(self, "Party Id", Validate().not_empty)

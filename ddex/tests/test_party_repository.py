@@ -9,7 +9,7 @@ class PartyRepositoryTests(unittest.TestCase):
 	def setUp(self):
 		connection = self.__get_connection()
 		connection.execute("DROP TABLE IF EXISTS party")
-		connection.execute("CREATE TABLE IF NOT EXISTS party(name text, partyId text, PartyType text)")
+		connection.execute("CREATE TABLE IF NOT EXISTS party(name text, partyId text, PartyType integer)")
 		connection.close()
 		self.party = Party('IDIDIDO', 'Some Label Name', PartyType.MessageSender)
 
