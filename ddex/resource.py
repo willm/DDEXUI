@@ -12,11 +12,11 @@ class Resource(metaclass=ABCMeta):
 		return resource
 
 	@abstractmethod
-	def _append_technical_details(self, resource):
+	def _append_technical_details(self, resource, technical_resource_details_reference):
 		details_by_territory = self._append_element_with_text(resource, self.kind()+"DetailsByTerritory")
 		self._append_element_with_text(details_by_territory, "TerritoryCode", "Worldwide")
 		technical_details = ET.SubElement(details_by_territory, "Technical"+self.kind()+"Details")
-		self._append_element_with_text(technical_details, "TechnicalResourceDetailsReference", self._technical_resource_details_reference())
+		self._append_element_with_text(technical_details, "TechnicalResourceDetailsReference", technical_resource_details_reference)
 		return technical_details
 
 	def _append_file(self, technical_details, file_metadata):
@@ -26,11 +26,6 @@ class Resource(metaclass=ABCMeta):
 		self._append_element_with_text(hash_sum, "HashSum", file_metadata.md5)
 		self._append_element_with_text(hash_sum, "HashSumAlgorithmType", "MD5")
 		
-	@property
-	@abstractmethod
-	def _technical_resource_details_reference(self):
-		pass
-	
 	@property
 	@abstractmethod
 	def kind(self):
@@ -61,7 +56,6 @@ class Resource(metaclass=ABCMeta):
 		el.text = text
 		return el
 
-"""
 class Image(Resource):
 	def __init__(self, id_value, resource_reference):
 		self.__id_value = id_value
@@ -69,8 +63,12 @@ class Image(Resource):
 
 	def write(self):
 		resource = super().write()
-		self.append_element_with_text(resource,"Wibble", "hello")
+		self._append_element_with_text(resource,"Wibble", "hello")
 		return resource
+
+	def _append_technical_details(self, resource):
+		technical_details = super()._append_technical_details(resource)
+		self._append_file(technical_details, self.file_metadata)		
 
 	def kind(self):
 		return "Image"
@@ -88,7 +86,7 @@ class Image(Resource):
 		return self.__resource_reference
 
 print(ET.dump(Image("test", "ref").write()))
-"""
+
 class SoundRecording(Resource):
 	def __init__(self, resource_reference, isrc, title, file_metadata, technical_resource_details_reference):
 		self.title = title
@@ -108,13 +106,10 @@ class SoundRecording(Resource):
 		return sound_recording
 
 	def _append_technical_details(self, resource):
-		technical_details = super()._append_technical_details(resource)
+		technical_details = super()._append_technical_details(resource, self.__technical_resource_details_reference)
 		self._append_element_with_text(technical_details, "AudioCodecType", self.file_metadata.extension)
 		self._append_file(technical_details, self.file_metadata)
 	
-	def _technical_resource_details_reference(self):
-		return self.__technical_resource_details_reference	
-
 	def kind(self):
 		return "SoundRecording"
 
