@@ -56,18 +56,20 @@ class Resource(metaclass=ABCMeta):
 		el.text = text
 		return el
 
+"""
 class Image(Resource):
-	def __init__(self, id_value, resource_reference):
+	def __init__(self, id_value, resource_reference, technical_resource_details_reference, file_metadata):
 		self.__id_value = id_value
 		self.__resource_reference = resource_reference
+		self.__technical_resource_details_reference = technical_resource_details_reference
 
 	def write(self):
 		resource = super().write()
-		self._append_element_with_text(resource,"Wibble", "hello")
+		self._append_technical_details(resource)
 		return resource
 
 	def _append_technical_details(self, resource):
-		technical_details = super()._append_technical_details(resource)
+		technical_details = super()._append_technical_details(resource, self.__technical_resource_details_reference)
 		self._append_file(technical_details, self.file_metadata)		
 
 	def kind(self):
@@ -85,8 +87,8 @@ class Image(Resource):
 	def resource_reference(self):
 		return self.__resource_reference
 
-print(ET.dump(Image("test", "ref").write()))
-
+print(ET.dump(Image("test", "ref", "refe").write()))
+"""
 class SoundRecording(Resource):
 	def __init__(self, resource_reference, isrc, title, file_metadata, technical_resource_details_reference):
 		self.title = title
