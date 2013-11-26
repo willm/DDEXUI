@@ -1,6 +1,3 @@
 language: python
 python: "3.3"
-# command to install dependencies
-#install: "install.sh"
-# command to run tests
 script: nosetests
