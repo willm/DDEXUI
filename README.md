@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/willm/DDEXUI.png?branch=master)](https://travis-ci.org/willm/DDEXUI)
+
 DDEXUI
 ------------
 
