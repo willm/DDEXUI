@@ -46,9 +46,7 @@ class FileMetadata:
 		
 class ImageFileMetadata:
 	def __init__(self, md5, name, extension, width, height):
-		self.md5 = md5
-		self.name = name
-		self.extension = extension
+		FileMetadata.__init__(self, md5, name, extension)
 		self.width = width
 		self.height = height
 		self.codec = "JPEG"
