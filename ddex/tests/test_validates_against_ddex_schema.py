@@ -1,10 +1,9 @@
 import lxml.etree as ET
 from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.release import Release, ReleaseId
-from DDEXUI.ddex.party import Party
-from DDEXUI.ddex.party import PartyType
+from DDEXUI.ddex.party import Party, PartyType
 from DDEXUI.ddex.deal import Deal
-from DDEXUI.ddex.resource import SoundRecording
+from DDEXUI.ddex.resource import SoundRecording, Image
 from DDEXUI.ddex.message_header import MessageHeader
 from DDEXUI.ddex.file_metadata import FileParser
 from datetime import date
@@ -33,8 +32,11 @@ class DDEXSchemaValidation(unittest.TestCase):
 
 		resource_reference = "A1"
 		resource = SoundRecording(resource_reference, "abc", "Bad", FileParser().parse("ddex/tests/resources/test.mp3"),"T1")
-		resources = [resource]
+		image_resource_reference = "A2"
+		image_resource = Image(image_resource_reference, "abc", FileParser().parse("ddex/tests/resources/test.jpg"),"T2")
+		resources = [resource, image_resource]
 		release.add_resource_reference(resource_reference)
+		release.add_resource_reference(image_resource_reference, "SecondaryResource")
 
 		DDEX(Party('derwwfefw', 'Sony'), Party("34545345", "7digital", PartyType.MessageRecipient),release, resources).write()
 		

@@ -54,13 +54,14 @@ class Release:
 		resource_reference_list = ET.SubElement(release, "ReleaseResourceReferenceList")
 
 		resource_group = ET.Element("ResourceGroup")
-		for i in range(0, len(self.release_resource_references)):
-			ref = self.release_resource_references[i]
-			self.__add_element(resource_reference_list, "ReleaseResourceReference", ref)
+		i = 0
+		for ref, ref_type in self.release_resource_references:
+			self.__add_element(resource_reference_list, "ReleaseResourceReference", ref, {"ReleaseResourceType":ref_type})
 			content_item = self.__add_element(resource_group, "ResourceGroupContentItem")
 			self.__add_element(content_item, "SequenceNumber", str(i + 1))
 			self.__add_element(content_item, "ResourceType", "SoundRecording")
 			self.__add_element(content_item, "ReleaseResourceReference", ref)
+			i = i+1
 
 		self.__add_element(release, "ReleaseType", self.release_type)
 		release_details_by_territory = ET.SubElement(release, "ReleaseDetailsByTerritory")
@@ -107,8 +108,8 @@ class Release:
 	def add_deal(self, deal):
 		self.deals.append(deal)
 
-	def add_resource_reference(self, reference):
-		self.release_resource_references.append(reference)
+	def add_resource_reference(self, reference, release_resource_type="PrimaryResource"):
+		self.release_resource_references.append((reference, release_resource_type))
 
 	def write_deals(self):
 		release_deal = ET.Element("ReleaseDeal")

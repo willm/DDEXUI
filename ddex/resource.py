@@ -2,12 +2,15 @@ import xml.etree.cElementTree as ET
 from abc import ABCMeta, abstractmethod
 
 class Resource(metaclass=ABCMeta):
+	def __init__(self):
+		self._id_attrs = {}
+
 	@abstractmethod
 	def write(self):
 		resource = ET.Element(self.kind())
 		self._append_element_with_text(resource, self.kind()+"Type", self.type())
 		resource_id = self._append_element_with_text(resource, self.kind()+"Id")
-		self._append_element_with_text(resource_id, self.id_type(), self.id_value())
+		self._append_element_with_text(resource_id, self.id_type(), self.id_value(), self._id_attrs)
 		self._append_element_with_text(resource, "ResourceReference", self.resource_reference())
 		return resource
 
@@ -51,14 +54,15 @@ class Resource(metaclass=ABCMeta):
 	def resource_reference(self):
 		pass
 
-	def _append_element_with_text(self, parent, name, text=""):
-		el = ET.SubElement(parent, name)
+	def _append_element_with_text(self, parent, name, text="", attrs={}):
+		el = ET.SubElement(parent, name, attrs)
 		el.text = text
 		return el
 
 
 class Image(Resource):
 	def __init__(self, resource_reference, id_value, file_metadata, technical_resource_details_reference):
+		self._id_attrs = {"Namespace": "DDEXUI"}
 		self.__id_value = id_value
 		self.__resource_reference = resource_reference
 		self.__technical_resource_details_reference = technical_resource_details_reference
@@ -78,19 +82,20 @@ class Image(Resource):
 		return "Image"
 
 	def type(self):
-		return "Front Cover Image"
+		return "FrontCoverImage"
 	
 	def id_value(self):
 		return self.__id_value
 	
 	def id_type(self):
-		return "ProprietoryId"
+		return "ProprietaryId"
 	
 	def resource_reference(self):
 		return self.__resource_reference
 
 class SoundRecording(Resource):
 	def __init__(self, resource_reference, isrc, title, file_metadata, technical_resource_details_reference):
+		Resource.__init__(self)
 		self.title = title
 		self.__technical_resource_details_reference = technical_resource_details_reference
 		self.__resource_reference = resource_reference

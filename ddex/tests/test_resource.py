@@ -68,10 +68,12 @@ class ImageTests(unittest.TestCase):
 		self.assertEqual(self.element.tag, "Image")
 
 	def test_resource_should_display_image_type(self):
-		self.assertEqual(self.element.find("./ImageType").text, "Front Cover Image")
+		self.assertEqual(self.element.find("./ImageType").text, "FrontCoverImage")
 
 	def test_resource_should_contain_id(self):
-		self.assertEqual(self.element.find("./ImageId/ProprietoryId").text, "abc")
+		el = self.element.find("./ImageId/ProprietaryId")
+		self.assertEqual(el.text, "abc")
+		self.assertEqual(el.attrib["Namespace"], "DDEXUI")
 		
 	def test_resource_should_contain_resource_reference(self):
 		self.assertEqual(self.element.find("./ResourceReference").text, self.resource_reference)
