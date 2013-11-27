@@ -72,15 +72,18 @@ class Program:
 	def create_ddex(self):
 		self.__check_for_party(PartyType.MessageSender)
 		self.__check_for_party(PartyType.MessageRecipient)
-		all_valid = True
-		for row in self.fields:
-			all_valid = all_valid and row.on_validate()
-		if(all_valid):
+		if(self.all_release_fields_valid()):
 			product_release = self.build_product_release()
 			sender = self.party_repository.get_party(PartyType.MessageSender)
 			recipient = self.party_repository.get_party(PartyType.MessageRecipient)
-			DDEX(sender, recipient, product_release).write()
+			DDEX(sender, recipient, [product_release]).write("/tmp/file.xml")
 			mb.showinfo("DDEXUI", "your ddex file has been created")
+
+	def all_release_fields_valid(self):
+		all_valid = True
+		for row in self.fields:
+			all_valid = all_valid and row.on_validate()
+		return all_valid
 
 	def build_product_release(self):
 		return (Release(

@@ -1,12 +1,8 @@
 import xml.etree.cElementTree as ET
-"""
-todo: figure out how to do enums in python 3.3
-from enum import Enum
+from DDEXUI.ddex.enum import enum
 
-class ReleaseIdType(Enum):
-	upc = 1
-	isrc = 2
-"""
+ReleaseIdType = enum(Upc=1, Isrc=2)
+ReleaseType = enum(Single=1)
 
 class ReleaseId:
 	def __init__(self, type, id):
@@ -16,10 +12,10 @@ class ReleaseId:
 	def write(self):
 		name = None
 		attrs = {}
-		if(self.type == 1):
+		if(self.type == ReleaseIdType.Upc):
 			name = "ICPN"
 			attrs = {"IsEan": "false"}
-		elif(self.type == 2):
+		elif(self.type == ReleaseIdType.Isrc):
 			name = "ISRC"
 		element = ET.Element(name, attrs)
 		element.text = self.id
