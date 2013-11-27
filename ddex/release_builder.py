@@ -70,17 +70,3 @@ class ReleaseBuilder:
 		for deal in self._deals:
 			release.add_deal(deal)
 		return release
-
-"""
-release = (ReleaseBuilder().title("Black Sands")
-	.c_line("copyright ninja tune")
-	.p_line("published by ninja")
-	.year(2010)
-	.reference("R0")
-	.release_id(ReleaseIdType.Upc, "5021392584126")
-	.release_type(ReleaseType.Single)
-	.artist("Bonobo")
-	.label("Ninja Tune")
-	.parental_warning(True)
-	.build())
-"""
