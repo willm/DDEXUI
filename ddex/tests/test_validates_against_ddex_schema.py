@@ -10,10 +10,27 @@ from datetime import date
 import unittest
 
 class DDEXSchemaValidation(unittest.TestCase):
-#	@unittest.skip("work in progress")
 	def test_created_ddex_files_validate_against_ddex_xsd(self):
-		#helpped by http://alex-sansom.info/content/validating-xml-against-xml-schema-python
+		#helped by http://alex-sansom.info/content/validating-xml-against-xml-schema-python
+		output_file = "/tmp/file.xml"
 
+		release = self.create_product_release()
+
+		sound_recording = self.create_sound_recording()
+
+		image_resource = self.create_image()
+		resources = [sound_recording, image_resource]
+		release.add_resource_reference(sound_recording.resource_reference())
+		release.add_resource_reference(image_resource.resource_reference(), "SecondaryResource")
+		releases = [release]
+
+		DDEX(Party('derwwfefw', 'Sony'), Party("34545345", "7digital", PartyType.MessageRecipient),releases, resources).write(output_file)
+		
+		tree = ET.parse(output_file)
+		schema = ET.XMLSchema(file="http://ddex.net/xml/ern/341/release-notification.xsd")
+		schema.assertValid(tree)
+
+	def create_product_release(self):
 		release = (Release(
 			"Bad",
 			"copyright MJ",
@@ -29,18 +46,14 @@ class DDEXSchemaValidation(unittest.TestCase):
 		deal = Deal("PayAsYouGoModel", "PermanentDownload", "FR", date(2012,1,3))
 
 		release.add_deal(deal)
+		return release
 
+	def create_sound_recording(self):
 		resource_reference = "A1"
 		resource = SoundRecording(resource_reference, "abc", "Bad", FileParser().parse("ddex/tests/resources/test.mp3"),"T1")
+		return resource
+	
+	def create_image(self):
 		image_resource_reference = "A2"
 		image_resource = Image(image_resource_reference, "abc", FileParser().parse("ddex/tests/resources/test.jpg"),"T2")
-		resources = [resource, image_resource]
-		release.add_resource_reference(resource_reference)
-		release.add_resource_reference(image_resource_reference, "SecondaryResource")
-
-		DDEX(Party('derwwfefw', 'Sony'), Party("34545345", "7digital", PartyType.MessageRecipient),release, resources).write()
-		
-		tree = ET.parse('/tmp/file.xml')
-#		tree = ET.parse('/home/will/Documents/python/DDEXUI/ddex/tests/resources/ddex-sample.xml')
-		schema = ET.XMLSchema(file="http://ddex.net/xml/ern/341/release-notification.xsd")
-		schema.assertValid(tree)
+		return image_resource
