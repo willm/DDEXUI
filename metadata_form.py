@@ -1,7 +1,8 @@
 #!/usr/bin/python3.3
 import tkinter.ttk as tk
 import tkinter.messagebox as mb
-from DDEXUI.ddex.release import Release, ReleaseId
+from DDEXUI.ddex.release import *
+from DDEXUI.ddex.release_builder import ReleaseBuilder
 from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.party import *
 from DDEXUI.ddex.validate import Validate
@@ -47,9 +48,9 @@ class PartyWindow(tk.tkinter.Toplevel):
 			self.destroy()
 
 class Program:
-
 	def __init__(self):
 		self.party_repository = PartyRepository()
+		self._release_builder = ReleaseBuilder()
 		self.top = tk.tkinter.Tk()
 		self.top.geometry("600x300")
 		icon = tk.tkinter.PhotoImage(file="res/favicon.gif")
@@ -73,7 +74,7 @@ class Program:
 		self.__check_for_party(PartyType.MessageSender)
 		self.__check_for_party(PartyType.MessageRecipient)
 		if(self.all_release_fields_valid()):
-			product_release = self.build_product_release()
+			product_release = self.rehydrate_release()
 			sender = self.party_repository.get_party(PartyType.MessageSender)
 			recipient = self.party_repository.get_party(PartyType.MessageRecipient)
 			DDEX(sender, recipient, [product_release]).write("/tmp/file.xml")
@@ -85,18 +86,18 @@ class Program:
 			all_valid = all_valid and row.on_validate()
 		return all_valid
 
-	def build_product_release(self):
-		return (Release(
-			self.value_of("Title"),
-			self.value_of("C Line"),
-			self.value_of("P Line"),
-			self.value_of("Year"),
-			"R0",
-			ReleaseId(1,self.value_of("UPC")),
-			self.value_of("Type"),
-			self.value_of("Artist"),
-			self.value_of("Label"),
-			self.value_of("Explicit")))
+	def rehydrate_release(self):
+		return (self._release_builder.title(self.value_of("Title"))
+				.c_line(self.value_of("C Line"))
+				.p_line(self.value_of("P Line"))
+				.year(self.value_of("Year"))
+				.reference("R0")
+				.release_id(ReleaseIdType.Upc,self.value_of("UPC"))
+				.release_type(self.value_of("Type"))
+				.artist(self.value_of("Artist"))
+				.label(self.value_of("Label"))
+				.parental_warning(self.value_of("Explicit"))
+				.build())
 
 	def value_of(self, title):
 		row = next(filter(lambda x: x.title == title,self.fields))
