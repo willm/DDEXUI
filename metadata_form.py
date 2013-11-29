@@ -18,9 +18,9 @@ class DealWindow(tk.tkinter.Toplevel):
 		self.fields = ([OptionInput(self, "Commercial Model", *deal.CommercialModals),
 			OptionInput(self, "Use Type", *deal.UseTypes),
 			OptionInput(self, "Territory", *deal.Territories),
-			EntryInput(self, "Start Date", Validate().not_empty),
-			EntryInput(self, "Pre Order Date", Validate().not_empty),
-			EntryInput(self, "Pre Order Preview Date", Validate().not_empty)])
+			EntryInput(self, "Start Date", Validate().date),
+			EntryInput(self, "Pre Order Date", Validate().date),
+			EntryInput(self, "Pre Order Preview Date", Validate().date)])
 		for i in range(len(self.fields)):
 			self.fields[i].draw(i)
 		tk.Button(self, text="OK", command=self.__destroy_if_valid).grid(row=len(self.fields)+1, column=0)
@@ -31,13 +31,12 @@ class DealWindow(tk.tkinter.Toplevel):
 
 	def create_deal(self):
 		#massive hack sort out this ugly date parsing
-		date_format = "%Y-%m-%d"
 		return (deal.Deal(self.value_of("Commercial Model"),
 			self.value_of("Use Type"),
 			self.value_of("Territory"),
-			datetime.strptime(self.value_of("Start Date"), date_format),
-			datetime.strptime(self.value_of("Pre Order Date"), date_format),
-			datetime.strptime(self.value_of("Pre Order Preview Date"), date_format)))
+			self.value_of("Start Date"),
+			self.value_of("Pre Order Date"),
+			self.value_of("Pre Order Preview Date")))
 
 #todo: remove duplication of these 2 methods
 	def value_of(self, title):
@@ -208,6 +207,10 @@ class EntryInput(InputRow):
 
 	def is_valid(self):
 		return self.validation_function(self.v.get())["success"]	== True
+
+	def value(self):
+		return self.validation_function(self.v.get())["value"]
+
 
 	def draw(self,row):
 		InputRow.draw(self, row)

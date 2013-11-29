@@ -51,5 +51,6 @@ class ValidateTests(unittest.TestCase):
 	def test_dates_do_not_return_errors(self):
 		result = Validate().date("2012-01-22")
 		self.assertEqual(result["value"], datetime(2012,1,22))
+		self.assertIsInstance(result["value"], datetime)
 		self.assertFalse("error" in result)
 		
