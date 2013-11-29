@@ -1,4 +1,5 @@
 from DDEXUI.ddex.validate import Validate
+from datetime import datetime
 import unittest
 
 class ValidateTests(unittest.TestCase):
@@ -42,3 +43,13 @@ class ValidateTests(unittest.TestCase):
 		result = Validate().not_empty("hello")
 		self.assertEqual(result["value"], "hello")
 		self.assertEqual(result["success"], True)
+
+	def test_date_must_be_in_corret_format(self):
+		result = Validate().date("abc")
+		self.assertEqual(result["error"], "date must be in format YYYY-mm-dd")
+
+	def test_dates_do_not_return_errors(self):
+		result = Validate().date("2012-01-22")
+		self.assertEqual(result["value"], datetime(2012,1,22))
+		self.assertFalse("error" in result)
+		

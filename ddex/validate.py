@@ -1,3 +1,4 @@
+from datetime import datetime as datetime
 
 class Validate:
 	
@@ -40,4 +41,16 @@ class Validate:
 		else:
 			result["success"] = True
 			result["value"] = text
+		return result
+
+
+	def date(self, text):
+		result = {}
+		date_format = "%Y-%m-%d"
+		try:
+			result["value"] = datetime.strptime(text, date_format)
+			result["success"] = True
+		except:
+			result["error"] = "date must be in format YYYY-mm-dd"
+			result["success"] = False
 		return result
