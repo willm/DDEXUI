@@ -5,7 +5,7 @@ from DDEXUI.ddex.party import Party, PartyType
 from DDEXUI.ddex.deal import Deal
 from DDEXUI.ddex.resource import SoundRecording, Image
 from DDEXUI.ddex.message_header import MessageHeader
-from DDEXUI.ddex.file_metadata import FileParser
+from DDEXUI.file_parser import FileParser
 from datetime import date
 import unittest
 

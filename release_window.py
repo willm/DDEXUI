@@ -1,7 +1,9 @@
 import tkinter.ttk as tk
+from tkinter.filedialog import LoadFileDialog
 from DDEXUI.ddex.release_builder import ReleaseBuilder
 from DDEXUI.ddex.ddex_builder import DDEXBuilder
 from DDEXUI.ddex.validate import Validate
+from DDEXUI.ddex.resource import Image
 from DDEXUI.inputs import *
 from DDEXUI.ddex.release import *
 from DDEXUI.deal_window import DealWindow
@@ -40,13 +42,19 @@ class ProductReleaseWindow(ReleaseWindow):
 		self.is_update_check_box = CheckboxInput(self, "Is Update")
 		self.fields.append(self.is_update_check_box)
 		total_fields = len(self.fields)
-		self.draw_fields()
+		self.draw_fields() 
 		self.add_deal_button = tk.Button(self, text="Add deal", command=self.create_deal).grid(row=total_fields+1, column=0)
 		self.add_track_button = tk.Button(self, text="Add Track", command=self.create_track).grid(row=total_fields+2, column=0)
-		self.button = tk.Button(self, text="OK", command=self.__destroy_if_valid).grid(row=total_fields+3, column=0)
+		self.add_img_button = tk.Button(self, text="Album Artwork", command=self.add_image).grid(row=total_fields+3, column=0)
+		self.button = tk.Button(self, text="OK", command=self.__destroy_if_valid).grid(row=total_fields+4, column=0)
 		self.track_list = tk.tkinter.Listbox(self)
-		self.track_list.grid(row=total_fields+4, column=0)
+		self.track_list.grid(row=total_fields+5, column=0)
 		self.draw_tracks()
+
+	def add_image(self):
+		file_dialog = LoadFileDialog(self)
+		img_file = file_dialog.go(pattern="*.jpg")
+		image = Image('A1', )
 
 	def draw_tracks(self):
 		for track in self.tracks:
