@@ -7,6 +7,7 @@ from DDEXUI.ddex.resource import Image
 from DDEXUI.inputs import *
 from DDEXUI.ddex.release import *
 from DDEXUI.deal_window import DealWindow
+from DDEXUI.file_parser import FileParser
 
 class ReleaseWindow(tk.tkinter.Toplevel):
 	def __init__(self, frame):
@@ -54,7 +55,7 @@ class ProductReleaseWindow(ReleaseWindow):
 	def add_image(self):
 		file_dialog = LoadFileDialog(self)
 		img_file = file_dialog.go(pattern="*.jpg")
-		image = Image('A1', )
+		self.image = Image('A1', 'xx', FileParser().parse(img_file), "T1")
 
 	def draw_tracks(self):
 		for track in self.tracks:
@@ -79,9 +80,11 @@ class ProductReleaseWindow(ReleaseWindow):
 				.artist(self.value_of("Artist"))
 				.label(self.value_of("Label"))
 				.parental_warning(self.value_of("Explicit"))
+				.add_resource(self.image.resource_reference())
 				.build())
 		self.ddex_builder.update(self.is_update_check_box.value())
 		self.ddex_builder.add_release(product_release)
+		self.ddex_builder.add_resource(self.image)
 		for track in self.tracks:
 			self.ddex_builder.add_release(track)
 		return self.ddex_builder
@@ -112,7 +115,7 @@ class TrackReleaseWindow(ReleaseWindow):
 	def value_of(self, title):
 		row = next(filter(lambda x: x.title == title,self.fields))
 		return row.value()
-		
+
 	def __destroy_if_valid(self):
 		if(self.all_release_fields_valid()):
 			self.destroy()
