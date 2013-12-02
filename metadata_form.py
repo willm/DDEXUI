@@ -55,8 +55,7 @@ class Program:
 		#todo: name files by upc
 		i = 0
 		for builder in self._ddex_builders:
-			ddex = (builder.update(False)
-				.sender(sender)
+			ddex = (builder.sender(sender)
 				.recipient(recipient)
 				.build())
 			ddex.write("file"+ str(i) +".xml")

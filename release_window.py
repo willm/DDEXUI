@@ -37,6 +37,8 @@ class ProductReleaseWindow(ReleaseWindow):
 		self._release_builder = ReleaseBuilder()
 		self.tracks = []
 		self.fields.append(EntryInput(self, "UPC", Validate().upc))
+		self.is_update_check_box = CheckboxInput(self, "Is Update")
+		self.fields.append(self.is_update_check_box)
 		total_fields = len(self.fields)
 		self.draw_fields()
 		self.add_deal_button = tk.Button(self, text="Add deal", command=self.create_deal).grid(row=total_fields+1, column=0)
@@ -70,6 +72,7 @@ class ProductReleaseWindow(ReleaseWindow):
 				.label(self.value_of("Label"))
 				.parental_warning(self.value_of("Explicit"))
 				.build())
+		self.ddex_builder.update(self.is_update_check_box.value())
 		self.ddex_builder.add_release(product_release)
 		for track in self.tracks:
 			self.ddex_builder.add_release(track)
