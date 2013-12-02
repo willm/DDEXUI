@@ -43,6 +43,7 @@ class Program:
 		icon = tk.tkinter.PhotoImage(file="res/favicon.gif")
 		self.frame.tk.call("wm", "iconphoto", self.frame._w, icon)
 		self.frame.title("Metadata Editor")
+		self.product_list = tk.tkinter.Listbox(self.frame)
 		self.add_release_button = tk.Button(self.frame, text="Add Product", command=self.create_ddex)
 		self.button = tk.Button(self.frame, text="OK", command=self.write_ddex)
 
@@ -51,18 +52,23 @@ class Program:
 		self.__check_for_party(PartyType.MessageRecipient)
 		sender = self.party_repository.get_party(PartyType.MessageSender)
 		recipient = self.party_repository.get_party(PartyType.MessageRecipient)
+		#todo: name files by upc
+		i = 0
 		for builder in self._ddex_builders:
-			(builder.update(False)
+			ddex = (builder.update(False)
 				.sender(sender)
 				.recipient(recipient)
-				.build()
-				.write("file.xml"))
+				.build())
+			ddex.write("file"+ str(i) +".xml")
+			i+=1
 		mb.showinfo("DDEXUI", "your ddex files have been created")
 
 	def create_ddex(self):
 		release_window = ProductReleaseWindow(self.frame)
 		release_window.wait_window()
-		self._ddex_builders.append(release_window.create_ddex())
+		ddex = release_window.create_ddex()
+		self._ddex_builders.append(ddex)
+		self.product_list.insert(tk.tkinter.END, self.product_list.size())
 
 	def __check_for_party(self, party_type):
 		if(self.party_repository.get_party(party_type) is None):
@@ -73,8 +79,9 @@ class Program:
 			pass
 
 	def main(self):
+		self.product_list.grid(row=0, column=0)
 		self.add_release_button.grid(row=1, column=0)
-		self.button.grid(row=0, column=0)
+		self.button.grid(row=2, column=0)
 		self.__check_for_party(PartyType.MessageSender)
 		self.frame.mainloop()
 
