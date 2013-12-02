@@ -37,32 +37,32 @@ class PartyWindow(tk.tkinter.Toplevel):
 class Program:
 	def __init__(self):
 		self.party_repository = PartyRepository()
-		self._ddex_builder = DDEXBuilder()
+		self._ddex_builders = []
 		self.frame = tk.tkinter.Tk()
 		self.frame.geometry("600x300")
 		icon = tk.tkinter.PhotoImage(file="res/favicon.gif")
 		self.frame.tk.call("wm", "iconphoto", self.frame._w, icon)
 		self.frame.title("Metadata Editor")
-		self.add_release_button = tk.Button(self.frame, text="Add Product", command=self.create_release)
-		self.button = tk.Button(self.frame, text="OK", command=self.create_ddex)
+		self.add_release_button = tk.Button(self.frame, text="Add Product", command=self.create_ddex)
+		self.button = tk.Button(self.frame, text="OK", command=self.write_ddex)
 
-	def create_ddex(self):
+	def write_ddex(self):
 		self.__check_for_party(PartyType.MessageSender)
 		self.__check_for_party(PartyType.MessageRecipient)
 		sender = self.party_repository.get_party(PartyType.MessageSender)
 		recipient = self.party_repository.get_party(PartyType.MessageRecipient)
-		(self._ddex_builder.update(False)
-			.sender(sender)
-			.recipient(recipient)
-			.build()
-			.write("file.xml"))
-		mb.showinfo("DDEXUI", "your ddex file has been created")
+		for builder in self._ddex_builders:
+			(builder.update(False)
+				.sender(sender)
+				.recipient(recipient)
+				.build()
+				.write("file.xml"))
+		mb.showinfo("DDEXUI", "your ddex files have been created")
 
-	def create_release(self):
+	def create_ddex(self):
 		release_window = ProductReleaseWindow(self.frame)
 		release_window.wait_window()
-		product_release = release_window.create_release()
-		self._ddex_builder.add_release(product_release)
+		self._ddex_builders.append(release_window.create_ddex())
 
 	def __check_for_party(self, party_type):
 		if(self.party_repository.get_party(party_type) is None):
