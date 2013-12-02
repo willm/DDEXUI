@@ -1,8 +1,3 @@
-from mutagenx.mp3 import MP3
-from PIL import Image
-import hashlib
-import os
-		
 class FileMetadata:
 	def __init__(self, md5, name, extension):
 		self.md5 = md5
