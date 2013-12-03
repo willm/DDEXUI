@@ -79,9 +79,10 @@ class ProductReleaseWindow(ReleaseWindow):
 				.release_type(self.value_of("Type"))
 				.artist(self.value_of("Artist"))
 				.label(self.value_of("Label"))
-				.parental_warning(self.value_of("Explicit"))
-				.add_resource(self.image.resource_reference())
-				.build())
+				.parental_warning(self.value_of("Explicit")))
+		if(self.image != None):
+			product_release.add_resource(self.image.resource_reference())
+		product_release = product_release.build()
 		self.ddex_builder.update(self.is_update_check_box.value())
 		self.ddex_builder.add_release(product_release)
 		self.ddex_builder.add_resource(self.image)
@@ -98,6 +99,9 @@ class ProductReleaseWindow(ReleaseWindow):
 
 	def all_release_fields_valid(self):
 		all_valid = True
+		if(self.is_update_check_box.value() != True):
+			all_valid = self.image != None
+
 		for row in self.fields:
 			all_valid = all_valid and row.on_validate()
 		return all_valid

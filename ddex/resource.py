@@ -76,6 +76,8 @@ class Image(Resource):
 	def _append_technical_details(self, resource):
 		technical_details = super()._append_technical_details(resource, self.__technical_resource_details_reference)
 		self._append_element_with_text(technical_details, "ImageCodecType", self.__file_metadata.codec)
+		self._append_element_with_text(technical_details, "ImageWidth", self.__file_metadata.width)
+		self._append_element_with_text(technical_details, "ImageHeight", self.__file_metadata.height)
 		self._append_file(technical_details, self.__file_metadata)		
 
 	def kind(self):
