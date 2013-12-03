@@ -18,3 +18,8 @@ class ReleaseBuilderTests(unittest.TestCase):
 			.build())
 
 		self.assertIsInstance(release, Release)
+
+	def test_errors_if_a_non_string_resource_reference_is_passed_in(self):
+		self.assertRaises(TypeError, lambda: ReleaseBuilder().reference(123))
+
+		

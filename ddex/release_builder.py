@@ -22,6 +22,8 @@ class ReleaseBuilder:
 		return self 
 	
 	def reference(self, reference):
+		if(type(reference) != str):
+			raise TypeError("resource reference must be a str")
 		self._reference = reference
 		return self
 	
