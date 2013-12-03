@@ -109,8 +109,12 @@ class TrackReleaseWindow(ReleaseWindow):
 		self.fields.append(EntryInput(self, "ISRC", Validate().not_empty))
 		total_fields = len(self.fields)
 		self.draw_fields()
-		self.add_deal_button = tk.Button(self, text="Add deal", command=self.create_deal).grid(row=total_fields+1, column=0)
-		self.button = tk.Button(self, text="OK", command=self.__destroy_if_valid).grid(row=total_fields+2, column=0)
+		self.add_sound_recording_button = tk.Button(self, text="Add Audio", command=self.add_audio).grid(row=total_fields+1, column=0)
+		self.add_deal_button = tk.Button(self, text="Add deal", command=self.create_deal).grid(row=total_fields+2, column=0)
+		self.button = tk.Button(self, text="OK", command=self.__destroy_if_valid).grid(row=total_fields+3, column=0)
+
+	def add_audio(self):
+		pass
 
 	def value_of(self, title):
 		row = next(filter(lambda x: x.title == title,self.fields))
