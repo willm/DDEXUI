@@ -85,8 +85,8 @@ class ImageTests(unittest.TestCase):
 		self.assertEqual(self.world_wide_territory().find("./TechnicalImageDetails/ImageCodecType").text, "JPEG")
 
 	def test_should_have_image_height_and_width(self):
-		self.assertEqual(self.world_wide_territory().find("./TechnicalImageDetails/ImageWidth").text, self.file_metadata.width)
-		self.assertEqual(self.world_wide_territory().find("./TechnicalImageDetails/ImageHeight").text, self.file_metadata.height)
+		self.assertEqual(self.world_wide_territory().find("./TechnicalImageDetails/ImageWidth").text, str(self.file_metadata.width))
+		self.assertEqual(self.world_wide_territory().find("./TechnicalImageDetails/ImageHeight").text, str(self.file_metadata.height))
 	
 	def test_should_have_file_name_and_path(self):
 		file_element = self.world_wide_territory().find("./TechnicalImageDetails/File")

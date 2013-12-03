@@ -55,7 +55,8 @@ class ProductReleaseWindow(ReleaseWindow):
 	def add_image(self):
 		file_dialog = LoadFileDialog(self)
 		img_file = file_dialog.go(pattern="*.jpg")
-		self.image = Image('A1', 'xx', FileParser().parse(img_file), "T1")
+		file_metadata = FileParser().parse(img_file)
+		self.image = Image('A1', 'xx', file_metadata, "T1")
 
 	def draw_tracks(self):
 		for track in self.tracks:
