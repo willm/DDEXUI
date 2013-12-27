@@ -28,10 +28,10 @@ pip install -r requirements.txt
 
 install pip3:
 
-`
+```
 pip install -r requirements.txt
 
 \#install of pillow and lxml will fail. I haven't yet managed to install lxml on windows, but it is only a dependency on the tests
 
 easy_install Pillow
-`
+```
