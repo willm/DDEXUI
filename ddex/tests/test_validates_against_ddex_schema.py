@@ -27,7 +27,8 @@ class DDEXSchemaValidation(unittest.TestCase):
 		DDEX(Party('derwwfefw', 'Sony'), Party("34545345", "7digital", PartyType.MessageRecipient),releases, resources).write(output_file)
 		
 		tree = ET.parse(output_file)
-		schema = ET.XMLSchema(file="http://ddex.net/xml/ern/341/release-notification.xsd")
+		#original schema at http://ddex.net/xml/ern/341/release-notification.xsd	
+		schema = ET.XMLSchema(file="ddex/tests/resources/xsds/release-notification.xsd")
 		schema.assertValid(tree)
 
 	def create_product_release(self):
