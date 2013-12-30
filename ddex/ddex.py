@@ -1,5 +1,9 @@
 import xml.etree.cElementTree as ET
+import datetime
 from DDEXUI.ddex.message_header import MessageHeader
+
+def generate_batch_id(now=datetime.datetime.now):
+	return now().strftime("%Y%m%d%H%M%S%f")[:-3]
 
 class DDEX:
 
