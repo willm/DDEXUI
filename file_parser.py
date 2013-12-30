@@ -9,7 +9,7 @@ class FileParser():
 	def parse(self, file_path):
 		hash = self.__get_hash(file_path)
 		path = os.path.split(file_path)[1]
-		extension = self.__get_extension(file_path)
+		extension = self.get_extension(file_path)
 
 		if(extension == "MP3"):
 			mp3 = MP3(file_path)
@@ -36,5 +36,6 @@ class FileParser():
 			hash.update(resource.read())
 		return hash.hexdigest()
 
-	def __get_extension(self, file_path):
+	@staticmethod
+	def get_extension(file_path):
 		return os.path.splitext(file_path)[1].replace(".","").upper()
