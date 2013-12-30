@@ -1,11 +1,11 @@
 import unittest
-from shutil import rmtree, copyfile
-from os import path, getcwd, makedirs
+from shutil import rmtree
+from os import path
 from tempfile import gettempdir
 import uuid
 from DDEXUI.file_parser import FileParser
-from DDEXUI.ddex.file_metadata import FileMetadata
 from DDEXUI.ddex.resource import SoundRecording
+from DDEXUI.resource_manager import ResourceManager
 
 class ResourceManagerTests(unittest.TestCase):
 	def setUp(self):
@@ -39,20 +39,3 @@ class ResourceManagerTests(unittest.TestCase):
 
 	def test_should_create_resource_with_file(self):
 		self.assertEqual(self.resource.file_metadata.md5, self.expected.file_metadata.md5)
-
-class ResourceManager:
-	def __init__(self, file_parser ,batch_id, upc, root_folder='.'):
-		self._batch_id = batch_id
-		self._root_folder = root_folder
-		self._upc = upc
-		self._file_parser = file_parser
-	
-	def add_resource(self, file_path, isrc, title):
-		resources_directory = path.join(self._root_folder, self._batch_id, self._upc, 'resources')
-		file_name = isrc + '.' + FileParser.get_extension(file_path).lower()
-		moved_file_path = path.join(resources_directory, file_name)
-		if(not path.isdir(resources_directory)):
-			makedirs(resources_directory)
-		copyfile(file_path, moved_file_path)
-		
-		return SoundRecording('', isrc, title, self._file_parser.parse(moved_file_path), '')
