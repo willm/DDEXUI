@@ -3,6 +3,7 @@ from shutil import rmtree, copyfile
 from os import path, getcwd, makedirs
 from tempfile import gettempdir
 import uuid
+from DDEXUI.file_parser import FileParser
 
 class ResourceManagerTests(unittest.TestCase):
 	def setUp(self):
@@ -29,4 +30,4 @@ class ResourceManager:
 		resources_directory = path.join(self.root_folder, self.batch_id, self.upc, 'resources')
 		if(not path.isdir(resources_directory)):
 			makedirs(resources_directory)
-		copyfile(file_path, path.join(resources_directory, isrc + '.mp3'))
+		copyfile(file_path, path.join(resources_directory, isrc + '.' + FileParser.get_extension(file_path).lower()))
