@@ -1,7 +1,7 @@
 from shutil import copyfile
 from DDEXUI.file_parser import FileParser
 from os import path, makedirs
-from DDEXUI.ddex.resource import SoundRecording
+from DDEXUI.ddex.resource import SoundRecording, Image
 
 class ResourceManager:
 	def __init__(self, file_parser ,batch_id, upc, root_folder='.'):
@@ -19,7 +19,8 @@ class ResourceManager:
 	
 	def add_image(self, file_path):
 		file_name = self.__file_name_from(self._upc, file_path)
-		self.__copy_file(file_path, file_name)
+		moved_file_path = self.__copy_file(file_path, file_name)
+		return Image('', self._upc, '', '')
 
 	def __copy_file(self, src_file_path, dst_file_name):
 		resources_directory = path.join(self._root_folder, self._batch_id, self._upc, 'resources')

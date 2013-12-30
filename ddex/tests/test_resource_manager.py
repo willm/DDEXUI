@@ -4,11 +4,12 @@ from os import path
 from tempfile import gettempdir
 import uuid
 from DDEXUI.file_parser import FileParser
-from DDEXUI.ddex.resource import SoundRecording
+from DDEXUI.ddex.resource import SoundRecording, Image
 from DDEXUI.resource_manager import ResourceManager
 
 class ResourceManagerSoundRecordingTests(unittest.TestCase):
-	def setUp(self):
+	@classmethod
+	def setUpClass(self):
 		self.upc = "49024343245"
 		self.isrc = "FR343245"
 		rmtree(self.upc, ignore_errors=True)
@@ -42,7 +43,8 @@ class ResourceManagerSoundRecordingTests(unittest.TestCase):
 
 
 class ResourceManagerImageTests(unittest.TestCase):
-	def setUp(self):
+	@classmethod
+	def setUpClass(self):
 		self.upc = "49024343245"
 		self.isrc = "FR343245"
 		rmtree(self.upc, ignore_errors=True)
@@ -51,7 +53,7 @@ class ResourceManagerImageTests(unittest.TestCase):
 		self.title = "the title"
 		file_path = path.join('ddex','tests','resources','test.jpg')
 
-		self.expected = SoundRecording('',self.isrc, self.title, FileParser().parse(file_path), '')
+		self.expected = Image('',self.upc, FileParser().parse(file_path), '')
 
 		self.subject = ResourceManager(FileParser(), self.batch_id, self.upc, self.root_folder)
 
@@ -61,13 +63,10 @@ class ResourceManagerImageTests(unittest.TestCase):
 		expected_path = path.join(self.root_folder, self.batch_id, self.upc, 'resources', self.upc+'.jpg')
 		self.assertTrue(path.isfile(expected_path))
 
+	def test_should_create_resource_with_upc(self):
+		self.assertEqual(self.resource.id_value(), self.upc)
+
 """
-	def test_should_create_resource_with_isrc(self):
-		self.assertEqual(self.resource.isrc, self.expected.isrc)
-
-	def test_should_create_resource_with_title(self):
-		self.assertEqual(self.resource.title, self.expected.title)
-
 	def test_should_create_resource_with_title(self):
 		self.assertEqual(self.resource.title, self.expected.title)
 
