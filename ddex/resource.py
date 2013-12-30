@@ -66,7 +66,7 @@ class Image(Resource):
 		self.__id_value = id_value
 		self.__resource_reference = resource_reference
 		self.__technical_resource_details_reference = technical_resource_details_reference
-		self.__file_metadata = file_metadata
+		self.file_metadata = file_metadata
 
 	def write(self):
 		resource = super().write()
@@ -75,10 +75,10 @@ class Image(Resource):
 
 	def _append_technical_details(self, resource):
 		technical_details = super()._append_technical_details(resource, self.__technical_resource_details_reference)
-		self._append_element_with_text(technical_details, "ImageCodecType", self.__file_metadata.codec)
-		self._append_element_with_text(technical_details, "ImageHeight", str(self.__file_metadata.height))
-		self._append_element_with_text(technical_details, "ImageWidth", str(self.__file_metadata.width))
-		self._append_file(technical_details, self.__file_metadata)		
+		self._append_element_with_text(technical_details, "ImageCodecType", self.file_metadata.codec)
+		self._append_element_with_text(technical_details, "ImageHeight", str(self.file_metadata.height))
+		self._append_element_with_text(technical_details, "ImageWidth", str(self.file_metadata.width))
+		self._append_file(technical_details, self.file_metadata)		
 
 	def kind(self):
 		return "Image"

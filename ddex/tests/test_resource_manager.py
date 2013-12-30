@@ -66,10 +66,5 @@ class ResourceManagerImageTests(unittest.TestCase):
 	def test_should_create_resource_with_upc(self):
 		self.assertEqual(self.resource.id_value(), self.upc)
 
-"""
-	def test_should_create_resource_with_title(self):
-		self.assertEqual(self.resource.title, self.expected.title)
-
 	def test_should_create_resource_with_file(self):
 		self.assertEqual(self.resource.file_metadata.md5, self.expected.file_metadata.md5)
-"""
