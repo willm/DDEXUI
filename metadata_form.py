@@ -49,7 +49,7 @@ class Program:
 		self.product_list = tk.tkinter.Listbox(self.frame)
 		self.add_release_button = tk.Button(self.frame, text="Add Product", command=self.create_ddex)
 		self.button = tk.Button(self.frame, text="OK", command=self.write_ddex)
-		self._batch_generator = BatchGenerator(".", generate_batch_id) 
+		self._batch_generator = BatchGenerator("out", generate_batch_id) 
 
 	@showerrorbox
 	def write_ddex(self):
@@ -66,9 +66,9 @@ class Program:
 	def create_ddex(self):
 		release_window = ProductReleaseWindow(self.frame)
 		release_window.wait_window()
-		ddex = release_window.create_ddex()
-		self._ddex_builders.append(ddex)
-		self.product_list.insert(tk.tkinter.END, self.product_list.size())
+		ddex_builder = release_window.create_ddex()
+		self._ddex_builders.append(ddex_builder)
+		self.product_list.insert(tk.tkinter.END, ddex_builder.product_release_id())
 
 	def __check_for_party(self, party_type):
 		if(self.party_repository.get_party(party_type) is None):

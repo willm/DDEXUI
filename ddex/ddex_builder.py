@@ -1,5 +1,6 @@
 from DDEXUI.ddex.ddex import DDEX
 from DDEXUI.ddex.resource import Resource
+from DDEXUI.ddex.release import ReleaseIdType
 
 class DDEXBuilder:
 	def __init__(self):
@@ -28,3 +29,10 @@ class DDEXBuilder:
 
 	def build(self):
 		return DDEX(self._sender, self._recipient, self._releases, self._resources, self._is_update)
+
+	def product_release_id(self):
+		try:
+			 return list(filter(lambda release: release.release_id.type == ReleaseIdType.Upc, self._releases))[0].release_id.id
+		except Exception as e:
+			print("No product release!")
+			raise e
