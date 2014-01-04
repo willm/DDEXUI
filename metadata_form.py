@@ -68,7 +68,7 @@ class Program:
 		release_window.wait_window()
 		ddex_builder = release_window.create_ddex()
 		self._ddex_builders.append(ddex_builder)
-		self.product_list.insert(tk.tkinter.END, ddex_builder.product_release_id())
+		self.product_list.insert(tk.tkinter.END, ddex_builder.get_upc())
 
 	def __check_for_party(self, party_type):
 		if(self.party_repository.get_party(party_type) is None):

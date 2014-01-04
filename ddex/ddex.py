@@ -42,11 +42,3 @@ class DDEX:
 	
 	def __write_message_header(self, root):
 		return MessageHeader(self.sender, self.recipient).write();
-
-	def product_release_id(self):
-		try:
-			 return list(filter(lambda release: release.release_id.type == ReleaseIdType.Upc, self.releases))[0].release_id.id
-		except Exception as e:
-			print("No product release!")
-			raise e
-			

@@ -86,7 +86,6 @@ class ProductReleaseWindow(ReleaseWindow):
 				.parental_warning(self.value_of("Explicit")))
 		if(self.image != None):
 			product_release.add_resource(self.image.resource_reference())
-			print(type(self.image))
 			self.ddex_builder.add_resource(self.image)
 		product_release = product_release.build()
 		self.ddex_builder.update(self.is_update_check_box.value())
@@ -100,7 +99,6 @@ class ProductReleaseWindow(ReleaseWindow):
 		track_window = TrackReleaseWindow(self)
 		track_window.wait_window()
 		track = track_window.create_release()
-		print("TITITL " + track.title)
 		self.tracks.append(track)
 		self.track_list.insert(tk.tkinter.END, track.title)
 

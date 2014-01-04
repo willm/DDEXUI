@@ -12,14 +12,15 @@ class BatchGeneratorTests(unittest.TestCase):
 		expected_batch_path = path.join(root_folder, static_batch_id)
 		rmtree(expected_batch_path, ignore_errors=True)
 		subject = BatchGenerator(root_folder, lambda: static_batch_id)
-		builders = (dict([
+		builders = [
 			data.valid_ddex_builder(),
 			data.valid_ddex_builder()
-		]))
+		]
 
-		subject.generate(builders.values())
+		subject.generate(builders)
 
-		for upc in builders.keys():
+		for builder in builders:
+			upc = builder.get_upc()
 			expected_path = path.join(expected_batch_path, upc, upc + ".xml")
 			self.assertTrue(path.isfile(expected_path), expected_path + " does not exist")
 		

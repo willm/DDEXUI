@@ -9,11 +9,11 @@ from datetime import datetime
 
 def valid_ddex_builder():
 	upc = str(random.randrange(100000000000, 9999999999999))
-	return ((upc, DDEXBuilder().sender(Party("XD234241EW1", "Hospital Records", PartyType.MessageSender))
+	return (DDEXBuilder().sender(Party("XD234241EW1", "Hospital Records", PartyType.MessageSender))
 			.update(False)
 			.recipient(Party("RDG2342424ES", "Bobs Records", PartyType.MessageSender))
 			.add_release(valid_product_release(upc)))
-	)
+	
 
 def valid_product_release(upc):
 	return (ReleaseBuilder().title("Racing Green")

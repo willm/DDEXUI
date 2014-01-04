@@ -11,6 +11,6 @@ class BatchGenerator:
 		batch_path = path.join(self._root_folder, self._id_generator())
 		for builder in builders:
 			ddex = builder.build()
-			product_path = path.join(batch_path, ddex.product_release_id())
+			product_path = path.join(batch_path, builder.get_upc())
 			makedirs(product_path, exist_ok=True)
-			ddex.write(path.join(product_path, ddex.product_release_id() + ".xml"))
+			ddex.write(path.join(product_path, builder.get_upc() + ".xml"))
