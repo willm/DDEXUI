@@ -4,7 +4,7 @@ from os import path, makedirs
 from DDEXUI.ddex.resource import SoundRecording, Image
 
 class ResourceManager:
-	def __init__(self, file_parser ,batch_id, root_folder='.'):
+	def __init__(self, file_parser, batch_id, root_folder='.'):
 		self._batch_id = batch_id
 		self._root_folder = root_folder
 		self._file_parser = file_parser

@@ -1,5 +1,5 @@
 import tkinter.ttk as tk
-from tkinter.filedialog import LoadFileDialog
+from tkinter.filedialog import LoadFileDialog, askopenfilename
 from DDEXUI.ddex.release_builder import ReleaseBuilder
 from DDEXUI.ddex.ddex_builder import DDEXBuilder
 from DDEXUI.ddex.validate import Validate
@@ -56,10 +56,8 @@ class ProductReleaseWindow(ReleaseWindow):
 		self.track_list.grid(row=total_fields+5, column=0)
 		self.draw_tracks()
 
-	@showerrorbox
 	def add_image(self):
-		file_dialog = LoadFileDialog(self)
-		self.image_path = file_dialog.go(pattern="*.jpg")
+		self.image_path = askopenfilename(filetypes=[("JPG files", "*.jpg")])
 
 	def draw_tracks(self):
 		for track in self.tracks:
@@ -115,6 +113,7 @@ class ProductReleaseWindow(ReleaseWindow):
 class TrackReleaseWindow(ReleaseWindow):
 	def __init__(self, frame):	
 		ReleaseWindow.__init__(self, frame)
+		self._sound_file_paths = []
 		self._release_builder = ReleaseBuilder()
 		self.fields.append(EntryInput(self, "ISRC", Validate().not_empty))
 		total_fields = len(self.fields)
@@ -124,10 +123,11 @@ class TrackReleaseWindow(ReleaseWindow):
 		self.button = tk.Button(self, text="OK", command=self.__destroy_if_valid).grid(row=total_fields+3, column=0)
 
 	def add_audio(self):
-		pass
+		file_path = askopenfilename(filetypes=(("Audio files", "*.mp3"), ("Audio files", "*.flac")))
+		self._sound_file_paths.append(file_path)
 
 	def value_of(self, title):
-		row = next(filter(lambda x: x.title == title,self.fields))
+		row = next(filter(lambda x: x.title == title, self.fields))
 		return row.value()
 
 	def __destroy_if_valid(self):
