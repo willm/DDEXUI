@@ -19,8 +19,6 @@ class DDEXBuilder:
 		return self
 
 	def add_resource(self, resource):
-		if(type(resource) != Resource):
-			raise TypeError("only resources can by added to resource list")
 		self._resources.append(resource)
 		return self
 

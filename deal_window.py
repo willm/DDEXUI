@@ -1,6 +1,7 @@
 import DDEXUI.ddex.deal as deal
 from DDEXUI.inputs import *
 from DDEXUI.ddex.validate import Validate
+from DDEXUI.tkinterutil import showerrorbox
 
 class DealWindow(tk.tkinter.Toplevel):
 	def __init__(self, frame):
@@ -21,6 +22,7 @@ class DealWindow(tk.tkinter.Toplevel):
 		if(self.all_release_fields_valid()):
 			self.destroy()	
 
+	@showerrorbox
 	def create_deal(self):
 		return (deal.Deal(self.value_of("Commercial Model"),
 			self.value_of("Use Type"),

@@ -3,11 +3,12 @@ from tkinter.filedialog import LoadFileDialog
 from DDEXUI.ddex.release_builder import ReleaseBuilder
 from DDEXUI.ddex.ddex_builder import DDEXBuilder
 from DDEXUI.ddex.validate import Validate
-from DDEXUI.ddex.resource import Image
+from DDEXUI.ddex.resource import Image, SoundRecording
 from DDEXUI.inputs import *
 from DDEXUI.ddex.release import *
 from DDEXUI.deal_window import DealWindow
 from DDEXUI.file_parser import FileParser
+from DDEXUI.tkinterutil import showerrorbox
 
 class ReleaseWindow(tk.tkinter.Toplevel):
 	def __init__(self, frame):
@@ -39,6 +40,7 @@ class ProductReleaseWindow(ReleaseWindow):
 		self.ddex_builder = DDEXBuilder()
 		self._release_builder = ReleaseBuilder()
 		self.tracks = []
+		self.image = None
 		self.fields.append(EntryInput(self, "UPC", Validate().upc))
 		self.is_update_check_box = CheckboxInput(self, "Is Update")
 		self.fields.append(self.is_update_check_box)
@@ -52,6 +54,7 @@ class ProductReleaseWindow(ReleaseWindow):
 		self.track_list.grid(row=total_fields+5, column=0)
 		self.draw_tracks()
 
+	@showerrorbox
 	def add_image(self):
 		file_dialog = LoadFileDialog(self)
 		img_file = file_dialog.go(pattern="*.jpg")
@@ -60,10 +63,10 @@ class ProductReleaseWindow(ReleaseWindow):
 
 	def draw_tracks(self):
 		for track in self.tracks:
-			self.track_list.insert(tk.tkinter.END,track.title)
+			self.track_list.insert(tk.tkinter.END, track.title)
 
 	def value_of(self, title):
-		row = next(filter(lambda x: x.title == title,self.fields))
+		row = next(filter(lambda x: x.title == title, self.fields))
 		return row.value()
 		
 	def __destroy_if_valid(self):
@@ -83,20 +86,23 @@ class ProductReleaseWindow(ReleaseWindow):
 				.parental_warning(self.value_of("Explicit")))
 		if(self.image != None):
 			product_release.add_resource(self.image.resource_reference())
+			print(type(self.image))
+			self.ddex_builder.add_resource(self.image)
 		product_release = product_release.build()
 		self.ddex_builder.update(self.is_update_check_box.value())
 		self.ddex_builder.add_release(product_release)
-		self.ddex_builder.add_resource(self.image)
 		for track in self.tracks:
 			self.ddex_builder.add_release(track)
 		return self.ddex_builder
 
+	@showerrorbox
 	def create_track(self):
 		track_window = TrackReleaseWindow(self)
 		track_window.wait_window()
 		track = track_window.create_release()
+		print("TITITL " + track.title)
 		self.tracks.append(track)
-		self.track_list.insert(tk.tkinter.END,track.title)
+		self.track_list.insert(tk.tkinter.END, track.title)
 
 	def all_release_fields_valid(self):
 		all_valid = True

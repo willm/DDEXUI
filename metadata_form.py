@@ -7,6 +7,9 @@ from DDEXUI.ddex.validate import Validate
 from DDEXUI.party_repository import PartyRepository
 from DDEXUI.inputs import *
 from DDEXUI.release_window import ProductReleaseWindow
+from DDEXUI.batch_generator import BatchGenerator
+from DDEXUI.ddex.ddex import generate_batch_id
+from DDEXUI.tkinterutil import showerrorbox
 
 class PartyWindow(tk.tkinter.Toplevel):
 	def __init__(self, frame, party_type):
@@ -46,22 +49,20 @@ class Program:
 		self.product_list = tk.tkinter.Listbox(self.frame)
 		self.add_release_button = tk.Button(self.frame, text="Add Product", command=self.create_ddex)
 		self.button = tk.Button(self.frame, text="OK", command=self.write_ddex)
+		self._batch_generator = BatchGenerator(".", generate_batch_id) 
 
+	@showerrorbox
 	def write_ddex(self):
 		self.__check_for_party(PartyType.MessageSender)
 		self.__check_for_party(PartyType.MessageRecipient)
 		sender = self.party_repository.get_party(PartyType.MessageSender)
 		recipient = self.party_repository.get_party(PartyType.MessageRecipient)
-		#todo: name files by upc
-		i = 0
 		for builder in self._ddex_builders:
-			ddex = (builder.sender(sender)
-				.recipient(recipient)
-				.build())
-			ddex.write("file"+ str(i) +".xml")
-			i+=1
+			ddex = builder.sender(sender).recipient(recipient)
+		self._batch_generator.generate(self._ddex_builders)
 		mb.showinfo("DDEXUI", "your ddex files have been created")
 
+	@showerrorbox
 	def create_ddex(self):
 		release_window = ProductReleaseWindow(self.frame)
 		release_window.wait_window()
@@ -72,10 +73,6 @@ class Program:
 	def __check_for_party(self, party_type):
 		if(self.party_repository.get_party(party_type) is None):
 			PartyWindow(self.frame, party_type)
-
-	def __check_for_recipient(self):
-		if(self.party_repository.get_recipient_party() is None):
-			pass
 
 	def main(self):
 		self.product_list.grid(row=0, column=0)
