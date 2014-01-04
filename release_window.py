@@ -9,6 +9,7 @@ from DDEXUI.ddex.release import *
 from DDEXUI.deal_window import DealWindow
 from DDEXUI.file_parser import FileParser
 from DDEXUI.tkinterutil import showerrorbox
+from DDEXUI.resource_manager import ResourceManager
 
 class ReleaseWindow(tk.tkinter.Toplevel):
 	def __init__(self, frame):
@@ -35,12 +36,13 @@ class ReleaseWindow(tk.tkinter.Toplevel):
 		self._release_builder.add_deal(deal)
 
 class ProductReleaseWindow(ReleaseWindow):
-	def __init__(self, frame):	
+	def __init__(self, frame, root_folder, batch_id):	
 		ReleaseWindow.__init__(self, frame)
 		self.ddex_builder = DDEXBuilder()
 		self._release_builder = ReleaseBuilder()
 		self.tracks = []
-		self.image = None
+		self.image_path = None
+		self._resource_mangager = ResourceManager(FileParser(), batch_id, root_folder)
 		self.fields.append(EntryInput(self, "UPC", Validate().upc))
 		self.is_update_check_box = CheckboxInput(self, "Is Update")
 		self.fields.append(self.is_update_check_box)
@@ -57,9 +59,7 @@ class ProductReleaseWindow(ReleaseWindow):
 	@showerrorbox
 	def add_image(self):
 		file_dialog = LoadFileDialog(self)
-		img_file = file_dialog.go(pattern="*.jpg")
-		file_metadata = FileParser().parse(img_file)
-		self.image = Image('A1', 'xx', file_metadata, "T1")
+		self.image_path = file_dialog.go(pattern="*.jpg")
 
 	def draw_tracks(self):
 		for track in self.tracks:
@@ -79,14 +79,15 @@ class ProductReleaseWindow(ReleaseWindow):
 				.p_line(self.value_of("P Line"))
 				.year(self.value_of("Year"))
 				.reference("R0")
-				.release_id(ReleaseIdType.Upc,self.value_of("UPC"))
+				.release_id(ReleaseIdType.Upc, self.value_of("UPC"))
 				.release_type(self.value_of("Type"))
 				.artist(self.value_of("Artist"))
 				.label(self.value_of("Label"))
 				.parental_warning(self.value_of("Explicit")))
-		if(self.image != None):
-			product_release.add_resource(self.image.resource_reference())
-			self.ddex_builder.add_resource(self.image)
+		if(self.image_path != None):
+			image = self._resource_mangager.add_image(self.value_of("UPC"), self.image_path)
+			product_release.add_resource(image.resource_reference())
+			self.ddex_builder.add_resource(image)
 		product_release = product_release.build()
 		self.ddex_builder.update(self.is_update_check_box.value())
 		self.ddex_builder.add_release(product_release)
@@ -105,7 +106,7 @@ class ProductReleaseWindow(ReleaseWindow):
 	def all_release_fields_valid(self):
 		all_valid = True
 		if(self.is_update_check_box.value() != True):
-			all_valid = self.image != None
+			all_valid = self.image_path != None
 
 		for row in self.fields:
 			all_valid = all_valid and row.on_validate()

@@ -47,9 +47,11 @@ class Program:
 		self.frame.tk.call("wm", "iconphoto", self.frame._w, icon)
 		self.frame.title("Metadata Editor")
 		self.product_list = tk.tkinter.Listbox(self.frame)
+		self._root_folder = "out"
 		self.add_release_button = tk.Button(self.frame, text="Add Product", command=self.create_ddex)
 		self.button = tk.Button(self.frame, text="OK", command=self.write_ddex)
-		self._batch_generator = BatchGenerator("out", generate_batch_id) 
+		self._batch_id = generate_batch_id()
+		self._batch_generator = BatchGenerator(self._root_folder, self._batch_id)
 
 	@showerrorbox
 	def write_ddex(self):
@@ -64,7 +66,7 @@ class Program:
 
 	@showerrorbox
 	def create_ddex(self):
-		release_window = ProductReleaseWindow(self.frame)
+		release_window = ProductReleaseWindow(self.frame, self._root_folder, self._batch_id)
 		release_window.wait_window()
 		ddex_builder = release_window.create_ddex()
 		self._ddex_builders.append(ddex_builder)

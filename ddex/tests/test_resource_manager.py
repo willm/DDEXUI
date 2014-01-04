@@ -20,9 +20,9 @@ class ResourceManagerSoundRecordingTests(unittest.TestCase):
 
 		self.expected = SoundRecording('',self.isrc, self.title, FileParser().parse(file_path), '')
 
-		self.subject = ResourceManager(FileParser(), self.batch_id, self.upc, self.root_folder)
+		self.subject = ResourceManager(FileParser(), self.batch_id, self.root_folder)
 
-		self.resource = self.subject.add_sound_recording(file_path, self.isrc, self.title)
+		self.resource = self.subject.add_sound_recording(self.upc, file_path, self.isrc, self.title)
 
 	def test_should_copy_file_to_product_resources_folder(self):
 		expected_path = path.join(self.root_folder, self.batch_id, self.upc, 'resources', self.isrc+'.mp3')
@@ -47,13 +47,13 @@ class ResourceManagerImageTests(unittest.TestCase):
 		self.root_folder = gettempdir()
 		self.batch_id = str(uuid.uuid4())
 		self.title = "the title"
-		file_path = path.join('ddex','tests','resources','test.jpg')
+		file_path = path.join('ddex', 'tests', 'resources', 'test.jpg')
 
-		self.expected = Image('',self.upc, FileParser().parse(file_path), '')
+		self.expected = Image('', self.upc, FileParser().parse(file_path), '')
 
-		self.subject = ResourceManager(FileParser(), self.batch_id, self.upc, self.root_folder)
+		self.subject = ResourceManager(FileParser(), self.batch_id, self.root_folder)
 
-		self.resource = self.subject.add_image(file_path)
+		self.resource = self.subject.add_image(self.upc, file_path)
 
 	def test_should_copy_file_to_product_resources_folder(self):
 		expected_path = path.join(self.root_folder, self.batch_id, self.upc, 'resources', self.upc+'.jpg')

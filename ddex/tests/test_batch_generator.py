@@ -11,7 +11,7 @@ class BatchGeneratorTests(unittest.TestCase):
 		root_folder = gettempdir()
 		expected_batch_path = path.join(root_folder, static_batch_id)
 		rmtree(expected_batch_path, ignore_errors=True)
-		subject = BatchGenerator(root_folder, lambda: static_batch_id)
+		subject = BatchGenerator(root_folder, static_batch_id)
 		builders = [
 			data.valid_ddex_builder(),
 			data.valid_ddex_builder()
