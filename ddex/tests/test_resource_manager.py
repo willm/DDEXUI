@@ -17,7 +17,6 @@ class ResourceManagerSoundRecordingTests(unittest.TestCase):
 		self.batch_id = str(uuid.uuid4())
 		self.title = "the title"
 		file_path = path.join('ddex','tests','resources','test.mp3')
-		
 
 		self.expected = SoundRecording('',self.isrc, self.title, FileParser().parse(file_path), '')
 
@@ -31,9 +30,6 @@ class ResourceManagerSoundRecordingTests(unittest.TestCase):
 
 	def test_should_create_resource_with_isrc(self):
 		self.assertEqual(self.resource.isrc, self.expected.isrc)
-
-	def test_should_create_resource_with_title(self):
-		self.assertEqual(self.resource.title, self.expected.title)
 
 	def test_should_create_resource_with_title(self):
 		self.assertEqual(self.resource.title, self.expected.title)

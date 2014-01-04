@@ -4,7 +4,7 @@ from DDEXUI.ddex.ddex_builder import DDEXBuilder
 
 class DDEXBuilderTests(unittest.TestCase):
 	
-	def test_errors_if_a_non_resources_are_added_to_resouces(self):
+	def test_errors_if_a_non_resources_are_added_to_resources(self):
 		self.assertRaises(TypeError, lambda: DDEXBuilder().add_resource(""))
 
 		
