@@ -72,3 +72,10 @@ class ReleaseBuilder:
 		for deal in self._deals:
 			release.add_deal(deal)
 		return release
+
+	def get_isrc(self):
+		if(self._release_id.type == ReleaseIdType.Isrc):
+			return self._release_id.id
+
+	def get_title(self):
+		return self._title
