@@ -71,13 +71,13 @@ class ProductReleaseWindow(ReleaseWindow):
 		if(self.all_release_fields_valid()):
 			self.destroy()
 
-	def create_ddex(self):
+	def _build_product_release(self, upc):
 		product_release = (self._release_builder.title(self.value_of("Title"))
 				.c_line(self.value_of("C Line"))
 				.p_line(self.value_of("P Line"))
 				.year(self.value_of("Year"))
 				.reference("R0")
-				.release_id(ReleaseIdType.Upc, self.value_of("UPC"))
+				.release_id(ReleaseIdType.Upc, upc)
 				.release_type(self.value_of("Type"))
 				.artist(self.value_of("Artist"))
 				.label(self.value_of("Label"))
@@ -86,7 +86,13 @@ class ProductReleaseWindow(ReleaseWindow):
 			image = self._resource_mangager.add_image(self.value_of("UPC"), self.image_path)
 			product_release.add_resource(image.resource_reference())
 			self.ddex_builder.add_resource(image)
-		product_release = product_release.build()
+		return product_release.build()
+
+		
+
+	def create_ddex(self):
+		upc = self.value_of("UPC")
+		product_release = self._build_product_release(upc)
 		self.ddex_builder.update(self.is_update_check_box.value())
 		self.ddex_builder.add_release(product_release)
 		for track in self.tracks:
