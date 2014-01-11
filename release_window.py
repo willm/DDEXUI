@@ -97,7 +97,12 @@ class ProductReleaseWindow(ReleaseWindow):
 		self.ddex_builder.add_release(product_release)
 		for track in self.track_builder_file_paths:
 			self.ddex_builder.add_release(track.builder.build())
+			self._add_audio_resources(upc, track.paths, track.builder.get_isrc(), track.builder.get_title())
 		return self.ddex_builder
+	
+	def _add_audio_resources(self, upc, file_paths, isrc, title):
+		for path in file_paths:
+			print("adding file: " + path)
 
 	@showerrorbox
 	def create_track(self):
