@@ -40,7 +40,7 @@ class ProductReleaseWindow(ReleaseWindow):
 		ReleaseWindow.__init__(self, frame)
 		self.ddex_builder = DDEXBuilder()
 		self._release_builder = ReleaseBuilder()
-		self.tracks = []
+		self.track_builder_file_paths = []
 		self.image_path = None
 		self._resource_mangager = ResourceManager(FileParser(), batch_id, root_folder)
 		self.fields.append(EntryInput(self, "UPC", Validate().upc))
@@ -60,8 +60,8 @@ class ProductReleaseWindow(ReleaseWindow):
 		self.image_path = askopenfilename(filetypes=[("JPG files", "*.jpg")])
 
 	def draw_tracks(self):
-		for track in self.tracks:
-			self.track_list.insert(tk.tkinter.END, track.title)
+		for track in self.track_builder_file_paths:
+			self.track_list.insert(tk.tkinter.END, track.builder.get_title())
 
 	def value_of(self, title):
 		row = next(filter(lambda x: x.title == title, self.fields))
@@ -95,17 +95,17 @@ class ProductReleaseWindow(ReleaseWindow):
 		product_release = self._build_product_release(upc)
 		self.ddex_builder.update(self.is_update_check_box.value())
 		self.ddex_builder.add_release(product_release)
-		for track in self.tracks:
-			self.ddex_builder.add_release(track)
+		for track in self.track_builder_file_paths:
+			self.ddex_builder.add_release(track.builder.build())
 		return self.ddex_builder
 
 	@showerrorbox
 	def create_track(self):
 		track_window = TrackReleaseWindow(self)
 		track_window.wait_window()
-		track = track_window.create_release()
-		self.tracks.append(track)
-		self.track_list.insert(tk.tkinter.END, track.title)
+		track_builder_file_path = track_window.create_release()
+		self.track_builder_file_paths.append(track_builder_file_path)
+		self.track_list.insert(tk.tkinter.END, track_builder_file_path.builder.get_title())
 
 	def all_release_fields_valid(self):
 		all_valid = True
@@ -141,7 +141,7 @@ class TrackReleaseWindow(ReleaseWindow):
 			self.destroy()
 
 	def create_release(self):
-		return (self._release_builder.title(self.value_of("Title"))
+		builder = (self._release_builder.title(self.value_of("Title"))
 				.c_line(self.value_of("C Line"))
 				.p_line(self.value_of("P Line"))
 				.year(self.value_of("Year"))
@@ -150,11 +150,16 @@ class TrackReleaseWindow(ReleaseWindow):
 				.release_type(self.value_of("Type"))
 				.artist(self.value_of("Artist"))
 				.label(self.value_of("Label"))
-				.parental_warning(self.value_of("Explicit"))
-				.build())
+				.parental_warning(self.value_of("Explicit")))
+		return TrackBuilderFilePath(self._sound_file_paths, builder)
 
 	def all_release_fields_valid(self):
 		all_valid = True
 		for row in self.fields:
 			all_valid = all_valid and row.on_validate()
 		return all_valid
+
+class TrackBuilderFilePath:
+	def __init__(self, paths, builder):
+		self.paths = paths
+		self.builder = builder
