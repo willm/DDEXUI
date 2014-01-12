@@ -95,9 +95,11 @@ class ProductReleaseWindow(ReleaseWindow):
 		product_release = self._build_product_release(upc)
 		self.ddex_builder.update(self.is_update_check_box.value())
 		self.ddex_builder.add_release(product_release)
+		count = 1
 		for track in self.track_builder_file_paths:
 			self._add_audio_resources(upc, track.paths, track.builder)
-			self.ddex_builder.add_release(track.builder.build())
+			self.ddex_builder.add_release(track.builder.reference("R" + str(count)).build())
+			count += 1
 		return self.ddex_builder
 	
 	def _add_audio_resources(self, upc, file_paths, builder):
