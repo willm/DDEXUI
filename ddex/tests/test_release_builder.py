@@ -1,12 +1,11 @@
 import unittest
-from DDEXUI.ddex.release import ReleaseIdType, ReleaseType, Release
+from DDEXUI.ddex.release import ReleaseIdType, Release
 from DDEXUI.ddex.release_builder import ReleaseBuilder
+from DDEXUI.ddex.tests.data_helper import TestData
 
 class ReleaseBuilderTests(unittest.TestCase):
-	
-
 	def test_can_build_valid_release(self):
-		release = self.release_builder().build()
+		release = TestData.release_builder().build()
 
 		self.assertIsInstance(release, Release)
 
@@ -25,16 +24,13 @@ class ReleaseBuilderTests(unittest.TestCase):
 		
 		self.assertEqual(release_builder.get_title(), title)
 		
+	def test_releases_should_only_add_resource_references_once(self):
+		subject = ReleaseBuilder()
+		reference = "R0"
+		subject.add_resource(reference)
+		subject.add_resource(reference)
 
-	def release_builder(self):
-		return (ReleaseBuilder().title("Black Sands")
-			.c_line("copyright ninja tune")
-			.p_line("published by ninja")
-			.year(2010)
-			.reference("R0")
-			.release_id(ReleaseIdType.Upc, "5021392584126")
-			.release_type(ReleaseType.Single)
-			.artist("Bonobo")
-			.label("Ninja Tune")
-			.parental_warning(True))
-		
+		release = subject.build()
+
+		resource_references = list(map(lambda x: x[0], release.release_resource_references))
+		self.assertTrue(resource_references.count(reference) == 1, resource_references)

@@ -3,7 +3,17 @@ from DDEXUI.ddex.release import *
 class ReleaseBuilder:
 	def __init__(self):
 		self._deals = []
-		self._resources = []
+		self._resources = set()
+		self._title = None
+		self._cline = None
+		self._pline = None
+		self._year = None
+		self._reference = None
+		self._release_id = None
+		self._release_type = None
+		self._artist = None
+		self._label = None
+		self._warning = None
 
 	def title(self, title):
 		self._title = title
@@ -52,7 +62,7 @@ class ReleaseBuilder:
 		return self
 
 	def add_resource(self, resource_reference):
-		self._resources.append(resource_reference)
+		self._resources.add(resource_reference)
 		return self
 
 	def build(self):
