@@ -71,8 +71,8 @@ class ProductReleaseWindow(ReleaseWindow):
 		if(self.all_release_fields_valid()):
 			self.destroy()
 
-	def _build_product_release(self, upc):
-		product_release = (self._release_builder.title(self.value_of("Title"))
+	def _populate_product_release(self, upc):
+		(self._release_builder.title(self.value_of("Title"))
 				.c_line(self.value_of("C Line"))
 				.p_line(self.value_of("P Line"))
 				.year(self.value_of("Year"))
@@ -83,24 +83,21 @@ class ProductReleaseWindow(ReleaseWindow):
 				.label(self.value_of("Label"))
 				.parental_warning(self.value_of("Explicit")))
 		if(self.image_path != None):
-			image = self._resource_manager.add_image(self.value_of("UPC"), self.image_path, "A0")
-			product_release.add_resource(image.resource_reference())
+			image = self._resource_manager.add_image(upc, self.image_path, "A0")
+			self._release_builder.add_resource(image.resource_reference())
 			self.ddex_builder.add_resource(image)
-		return product_release.build()
-
-		
 
 	def create_ddex(self):
 		upc = self.value_of("UPC")
-		product_release = self._build_product_release(upc)
+		self._populate_product_release(upc)
 		self.ddex_builder.update(self.is_update_check_box.value())
-		self.ddex_builder.add_release(product_release)
 		count = 1
 		self.resource_count = 1
 		for track in self.track_builder_file_paths:
 			self._add_audio_resources(upc, track.paths, track.builder)
 			self.ddex_builder.add_release(track.builder.reference("R" + str(count)).build())
 			count += 1
+		self.ddex_builder.add_release(self._release_builder.build())
 		return self.ddex_builder
 	
 	def _add_audio_resources(self, upc, file_paths, builder):
@@ -108,6 +105,7 @@ class ProductReleaseWindow(ReleaseWindow):
 			resource = self._resource_manager.add_sound_recording(upc, path, builder.get_isrc(), builder.get_title(), "A"+str(self.resource_count))
 			self.resource_count += 1
 			builder.add_resource(resource.resource_reference())
+			self._release_builder.add_resource(resource.resource_reference())
 			self.ddex_builder.add_resource(resource)
 			
 
