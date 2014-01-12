@@ -14,6 +14,7 @@ from DDEXUI.resource_manager import ResourceManager
 class ReleaseWindow(tk.tkinter.Toplevel):
 	def __init__(self, frame):
 		tk.tkinter.Toplevel.__init__(self, frame)
+		self._release_builder = ReleaseBuilder()
 		self.fields = ([
 			EntryInput(self, "Title", Validate().not_empty), 
 			EntryInput(self, "Year", Validate().year), 
@@ -39,7 +40,6 @@ class ProductReleaseWindow(ReleaseWindow):
 	def __init__(self, frame, root_folder, batch_id):	
 		ReleaseWindow.__init__(self, frame)
 		self.ddex_builder = DDEXBuilder()
-		self._release_builder = ReleaseBuilder()
 		self.track_builder_file_paths = []
 		self.image_path = None
 		self._resource_manager = ResourceManager(FileParser(), batch_id, root_folder)
@@ -83,7 +83,7 @@ class ProductReleaseWindow(ReleaseWindow):
 				.label(self.value_of("Label"))
 				.parental_warning(self.value_of("Explicit")))
 		if(self.image_path != None):
-			image = self._resource_manager.add_image(self.value_of("UPC"), self.image_path)
+			image = self._resource_manager.add_image(self.value_of("UPC"), self.image_path, "A0")
 			product_release.add_resource(image.resource_reference())
 			self.ddex_builder.add_resource(image)
 		return product_release.build()
@@ -96,6 +96,7 @@ class ProductReleaseWindow(ReleaseWindow):
 		self.ddex_builder.update(self.is_update_check_box.value())
 		self.ddex_builder.add_release(product_release)
 		count = 1
+		self.resource_count = 1
 		for track in self.track_builder_file_paths:
 			self._add_audio_resources(upc, track.paths, track.builder)
 			self.ddex_builder.add_release(track.builder.reference("R" + str(count)).build())
@@ -104,7 +105,8 @@ class ProductReleaseWindow(ReleaseWindow):
 	
 	def _add_audio_resources(self, upc, file_paths, builder):
 		for path in file_paths:
-			resource = self._resource_manager.add_sound_recording(upc, path, builder.get_isrc(), builder.get_title())
+			resource = self._resource_manager.add_sound_recording(upc, path, builder.get_isrc(), builder.get_title(), "A"+str(self.resource_count))
+			self.resource_count += 1
 			builder.add_resource(resource.resource_reference())
 			self.ddex_builder.add_resource(resource)
 			
@@ -130,7 +132,6 @@ class TrackReleaseWindow(ReleaseWindow):
 	def __init__(self, frame):	
 		ReleaseWindow.__init__(self, frame)
 		self._sound_file_paths = []
-		self._release_builder = ReleaseBuilder()
 		self.fields.append(EntryInput(self, "ISRC", Validate().not_empty))
 		total_fields = len(self.fields)
 		self.draw_fields()
