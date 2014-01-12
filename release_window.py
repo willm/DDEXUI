@@ -42,7 +42,7 @@ class ProductReleaseWindow(ReleaseWindow):
 		self._release_builder = ReleaseBuilder()
 		self.track_builder_file_paths = []
 		self.image_path = None
-		self._resource_mangager = ResourceManager(FileParser(), batch_id, root_folder)
+		self._resource_manager = ResourceManager(FileParser(), batch_id, root_folder)
 		self.fields.append(EntryInput(self, "UPC", Validate().upc))
 		self.is_update_check_box = CheckboxInput(self, "Is Update")
 		self.fields.append(self.is_update_check_box)
@@ -83,7 +83,7 @@ class ProductReleaseWindow(ReleaseWindow):
 				.label(self.value_of("Label"))
 				.parental_warning(self.value_of("Explicit")))
 		if(self.image_path != None):
-			image = self._resource_mangager.add_image(self.value_of("UPC"), self.image_path)
+			image = self._resource_manager.add_image(self.value_of("UPC"), self.image_path)
 			product_release.add_resource(image.resource_reference())
 			self.ddex_builder.add_resource(image)
 		return product_release.build()
@@ -96,13 +96,16 @@ class ProductReleaseWindow(ReleaseWindow):
 		self.ddex_builder.update(self.is_update_check_box.value())
 		self.ddex_builder.add_release(product_release)
 		for track in self.track_builder_file_paths:
+			self._add_audio_resources(upc, track.paths, track.builder)
 			self.ddex_builder.add_release(track.builder.build())
-			self._add_audio_resources(upc, track.paths, track.builder.get_isrc(), track.builder.get_title())
 		return self.ddex_builder
 	
-	def _add_audio_resources(self, upc, file_paths, isrc, title):
+	def _add_audio_resources(self, upc, file_paths, builder):
 		for path in file_paths:
-			print("adding file: " + path)
+			resource = self._resource_manager.add_sound_recording(upc, path, builder.get_isrc(), builder.get_title())
+			builder.add_resource(resource.resource_reference())
+			self.ddex_builder.add_resource(resource)
+			
 
 	@showerrorbox
 	def create_track(self):
