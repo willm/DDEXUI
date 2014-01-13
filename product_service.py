@@ -13,13 +13,13 @@ class ProductService:
 
     def _add_image(self, upc):
         if(self.coverart_path != None):
-            image = self._resource_manager.add_image(upc, self.coverart_path, "A0")
+            image = self._resource_manager.add_image(upc, self.coverart_path, "A0", "T0")
             self._product_release_builder.add_resource(image.resource_reference())
             self.ddex_builder.add_resource(image)
 
     def _add_audio_resources(self, upc, file_paths, builder):
         for path in file_paths:
-            resource = self._resource_manager.add_sound_recording(upc, path, builder.get_isrc(), builder.get_title(), "A"+str(self.resource_count))
+            resource = self._resource_manager.add_sound_recording(upc, path, builder.get_isrc(), builder.get_title(), "A"+str(self.resource_count), "T"+str(self.resource_count))
             self.resource_count += 1
             builder.add_resource(resource.resource_reference())
             self._product_release_builder.add_resource(resource.resource_reference())

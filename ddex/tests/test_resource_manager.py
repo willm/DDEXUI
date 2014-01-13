@@ -18,12 +18,13 @@ class ResourceManagerSoundRecordingTests(unittest.TestCase):
         self.title = "the title"
         file_path = path.join('ddex', 'tests', 'resources', 'test.mp3')
         self.resource_reference = "A1"
+        self.technical_resource_details_reference = "T1"
 
-        self.expected = SoundRecording(self.resource_reference, self.isrc, self.title, FileParser().parse(file_path), '')
+        self.expected = SoundRecording(self.resource_reference, self.isrc, self.title, FileParser().parse(file_path), self.technical_resource_details_reference)
 
         self.subject = ResourceManager(FileParser(), self.batch_id, self.root_folder)
 
-        self.resource = self.subject.add_sound_recording(self.upc, file_path, self.isrc, self.title, self.resource_reference)
+        self.resource = self.subject.add_sound_recording(self.upc, file_path, self.isrc, self.title, self.resource_reference, self.technical_resource_details_reference)
 
     def test_should_copy_file_to_product_resources_folder(self):
         expected_path = path.join(self.root_folder, self.batch_id, self.upc, 'resources', self.isrc+'.mp3')
@@ -39,7 +40,7 @@ class ResourceManagerSoundRecordingTests(unittest.TestCase):
         self.assertEqual(self.resource.resource_reference(), self.resource_reference)
 
     def test_should_create_resource_with_technical_resource_details_reference(self):
-        self.assertEqual(self.resource.resource_reference(), self.resource_reference)
+        self.assertEqual(self.resource.technical_resource_details_reference, self.technical_resource_details_reference)
 
     def test_should_create_resource_with_file(self):
         self.assertEqual(self.resource.file_metadata.md5, self.expected.file_metadata.md5)
@@ -56,12 +57,13 @@ class ResourceManagerImageTests(unittest.TestCase):
         self.title = "the title"
         file_path = path.join('ddex', 'tests', 'resources', 'test.jpg')
         self.resource_reference = "A2"
+        self.technical_resource_details_reference = "T4"
 
         self.expected = Image(self.resource_reference, self.upc, FileParser().parse(file_path), '')
 
         self.subject = ResourceManager(FileParser(), self.batch_id, self.root_folder)
 
-        self.resource = self.subject.add_image(self.upc, file_path, self.resource_reference)
+        self.resource = self.subject.add_image(self.upc, file_path, self.resource_reference, self.technical_resource_details_reference)
 
     def test_should_copy_file_to_product_resources_folder(self):
         expected_path = path.join(self.root_folder, self.batch_id, self.upc, 'resources', self.upc+'.jpg')
@@ -75,3 +77,6 @@ class ResourceManagerImageTests(unittest.TestCase):
 
     def test_should_create_resource_with_resource_reference(self):
         self.assertEqual(self.resource.resource_reference(), self.resource_reference)
+
+    def test_should_create_resource_with_technical_resource_details_reference(self):
+        self.assertEqual(self.resource.technical_resource_details_reference, self.technical_resource_details_reference)
