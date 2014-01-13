@@ -10,7 +10,7 @@ class ResourceManager:
         self._file_parser = file_parser
     
     def add_sound_recording(self, upc, file_path, isrc, title, resource_reference, technical_resource_details_reference):
-        file_name = self.__file_name_from(isrc, file_path)
+        file_name = self.__file_name_from("{}_{}".format(isrc, technical_resource_details_reference), file_path)
         moved_file_path = self.__copy_file(upc, file_path, file_name)
         return SoundRecording(resource_reference, isrc, title, self._file_parser.parse(moved_file_path), technical_resource_details_reference)
     

@@ -27,8 +27,8 @@ class ResourceManagerSoundRecordingTests(unittest.TestCase):
         self.resource = self.subject.add_sound_recording(self.upc, file_path, self.isrc, self.title, self.resource_reference, self.technical_resource_details_reference)
 
     def test_should_copy_file_to_product_resources_folder(self):
-        expected_path = path.join(self.root_folder, self.batch_id, self.upc, 'resources', self.isrc+'.mp3')
-        self.assertTrue(path.isfile(expected_path))
+        expected_path = path.join(self.root_folder, self.batch_id, self.upc, 'resources', "{}_{}.mp3".format(self.isrc, self.technical_resource_details_reference))
+        self.assertTrue(path.isfile(expected_path), "expected {} to exist".format(expected_path))
 
     def test_should_create_resource_with_isrc(self):
         self.assertEqual(self.resource.isrc, self.expected.isrc)
