@@ -38,6 +38,9 @@ class ResourceManagerSoundRecordingTests(unittest.TestCase):
     def test_should_create_resource_with_resource_reference(self):
         self.assertEqual(self.resource.resource_reference(), self.resource_reference)
 
+    def test_should_create_resource_with_technical_resource_details_reference(self):
+        self.assertEqual(self.resource.resource_reference(), self.resource_reference)
+
     def test_should_create_resource_with_file(self):
         self.assertEqual(self.resource.file_metadata.md5, self.expected.file_metadata.md5)
 

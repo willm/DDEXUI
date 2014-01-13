@@ -12,8 +12,8 @@ class SoundRecordingTests(unittest.TestCase):
         self.title = "Some Title"
         self.file_metadata = AudioFileMetadata("PT0H2M28.000S", 320,"dff9465befeb68d97cd6fd103547c464","test.mp3", "MP3")
         self.technical_resource_details_reference = "T1"
-        res = SoundRecording(self.resource_reference, "abc", self.title, self.file_metadata, self.technical_resource_details_reference)
-        self.element = res.write()
+        self.res = SoundRecording(self.resource_reference, "abc", self.title, self.file_metadata, self.technical_resource_details_reference)
+        self.element = self.res.write()
 
     def test_resource_should_display_type(self):
         self.assertEqual(self.element.tag, "SoundRecording")
@@ -49,6 +49,8 @@ class SoundRecordingTests(unittest.TestCase):
     def test_should_have_technical_resource_details_reference(self):
         self.assertEqual(self.world_wide_territory().find("./TechnicalSoundRecordingDetails/TechnicalResourceDetailsReference").text, self.technical_resource_details_reference)
 
+    def test_should_store_technical_resource_details_reference(self):
+        self.assertEqual(self.res.technical_resource_details_reference, self.technical_resource_details_reference)
 
     def world_wide_territory(self):
         return (list(filter(lambda x: x.find("./TerritoryCode").text == "Worldwide", self.element
@@ -61,8 +63,8 @@ class ImageTests(unittest.TestCase):
         self.title = "Some Title"
         self.file_metadata = ImageFileMetadata("dff9465befeb68d97cd6fd103547c464","test.jpg", "JPG", 300, 400)
         self.technical_resource_details_reference = "T1"
-        res = Image(self.resource_reference, "abc", self.file_metadata, self.technical_resource_details_reference)
-        self.element = res.write()
+        self.res = Image(self.resource_reference, "abc", self.file_metadata, self.technical_resource_details_reference)
+        self.element = self.res.write()
 
     def test_resource_should_display_type(self):
         self.assertEqual(self.element.tag, "Image")
@@ -98,6 +100,8 @@ class ImageTests(unittest.TestCase):
     def test_should_have_technical_resource_details_reference(self):
         self.assertEqual(self.world_wide_territory().find("./TechnicalImageDetails/TechnicalResourceDetailsReference").text, self.technical_resource_details_reference)
 
+    def test_should_store_technical_resource_details_reference(self):
+        self.assertEqual(self.res.technical_resource_details_reference, self.technical_resource_details_reference)
 
     def world_wide_territory(self):
         return (list(filter(lambda x: x.find("./TerritoryCode").text == "Worldwide", self.element

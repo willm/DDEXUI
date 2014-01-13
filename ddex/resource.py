@@ -2,8 +2,9 @@ import xml.etree.cElementTree as ET
 from abc import ABCMeta, abstractmethod
 
 class Resource(metaclass=ABCMeta):
-    def __init__(self):
-        self._id_attrs = {}
+    def __init__(self, technical_resource_details_reference, id_attrs={}):
+        self._id_attrs = id_attrs
+        self._technical_resource_details_reference = technical_resource_details_reference
 
     @abstractmethod
     def write(self):
@@ -54,6 +55,10 @@ class Resource(metaclass=ABCMeta):
     def resource_reference(self):
         pass
 
+    @property
+    def technical_resource_details_reference(self):
+        return self._technical_resource_details_reference
+
     def _append_element_with_text(self, parent, name, text="", attrs={}):
         el = ET.SubElement(parent, name, attrs)
         el.text = text
@@ -62,10 +67,9 @@ class Resource(metaclass=ABCMeta):
 
 class Image(Resource):
     def __init__(self, resource_reference, id_value, file_metadata, technical_resource_details_reference):
-        self._id_attrs = {"Namespace": "DDEXUI"}
-        self.__id_value = id_value
+        Resource.__init__(self, technical_resource_details_reference, {"Namespace": "DDEXUI"})
         self.__resource_reference = resource_reference
-        self.__technical_resource_details_reference = technical_resource_details_reference
+        self.__id_value = id_value
         self.file_metadata = file_metadata
 
     def write(self):
@@ -74,7 +78,7 @@ class Image(Resource):
         return resource
 
     def _append_technical_details(self, resource):
-        technical_details = super()._append_technical_details(resource, self.__technical_resource_details_reference)
+        technical_details = super()._append_technical_details(resource, self._technical_resource_details_reference)
         self._append_element_with_text(technical_details, "ImageCodecType", self.file_metadata.codec)
         self._append_element_with_text(technical_details, "ImageHeight", str(self.file_metadata.height))
         self._append_element_with_text(technical_details, "ImageWidth", str(self.file_metadata.width))
@@ -97,9 +101,8 @@ class Image(Resource):
 
 class SoundRecording(Resource):
     def __init__(self, resource_reference, isrc, title, file_metadata, technical_resource_details_reference):
-        Resource.__init__(self)
+        Resource.__init__(self, technical_resource_details_reference)
         self.title = title
-        self.__technical_resource_details_reference = technical_resource_details_reference
         self.__resource_reference = resource_reference
         self.isrc = isrc
         self.file_metadata = file_metadata
@@ -115,7 +118,7 @@ class SoundRecording(Resource):
         return sound_recording
 
     def _append_technical_details(self, resource):
-        technical_details = super()._append_technical_details(resource, self.__technical_resource_details_reference)
+        technical_details = super()._append_technical_details(resource, self._technical_resource_details_reference)
         self._append_element_with_text(technical_details, "AudioCodecType", self.file_metadata.codec)
         self._append_file(technical_details, self.file_metadata)
     
