@@ -102,7 +102,7 @@ class ProductReleaseWindow(ReleaseWindow):
     def all_release_fields_valid(self):
         all_valid = True
         if(self.is_update_check_box.value() != True):
-            all_valid = self.image_path != None
+            all_valid = self.image_path is not None and self.image_path is not ""
 
         for row in self.fields:
             all_valid = all_valid and row.on_validate()
@@ -121,7 +121,8 @@ class TrackReleaseWindow(ReleaseWindow):
 
     def add_audio(self):
         file_path = askopenfilename(filetypes=(("Audio files", "*.mp3"), ("Audio files", "*.flac")))
-        self._sound_file_paths.append(file_path)
+        if(file_path is not ""):
+            self._sound_file_paths.append(file_path)
 
     def value_of(self, title):
         row = next(filter(lambda x: x.title == title, self.fields))
