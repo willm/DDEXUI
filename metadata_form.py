@@ -10,6 +10,8 @@ from DDEXUI.release_window import ProductReleaseWindow
 from DDEXUI.batch_generator import BatchGenerator
 from DDEXUI.ddex.ddex import generate_batch_id
 from DDEXUI.tkinterutil import showerrorbox
+import sys
+import os
 
 class PartyWindow(tk.tkinter.Toplevel):
     def __init__(self, frame, party_type):
@@ -31,6 +33,7 @@ class PartyWindow(tk.tkinter.Toplevel):
         tk.Button(self, text="OK", command=self.save_and_close).grid(row=4, column=0)
         frame.wait_window(self)
 
+
     def save_and_close(self):
         if(self.party_id.on_validate() and self.party_name.on_validate()):
             party = Party(self.party_id.value(), self.party_name.value(), self.party_type)
@@ -43,7 +46,7 @@ class Program:
         self._ddex_builders = []
         self.frame = tk.tkinter.Tk()
         self.frame.geometry("600x300")
-        icon = tk.tkinter.PhotoImage(file="res/favicon.gif")
+        icon = tk.tkinter.PhotoImage(file=self.get_icon())
         self.frame.tk.call("wm", "iconphoto", self.frame._w, icon)
         self.frame.title("Metadata Editor")
         self.product_list = tk.tkinter.Listbox(self.frame)
@@ -63,6 +66,13 @@ class Program:
             ddex = builder.sender(sender).recipient(recipient)
         self._batch_generator.generate(self._ddex_builders)
         mb.showinfo("DDEXUI", "your ddex files have been created")
+
+    def get_icon(self):
+        if getattr(sys, 'frozen', False):
+            resources = os.path.join(os.path.dirname(sys.executable), 'res')
+        else:
+            resources = os.path.join(os.path.dirname(__file__), 'res')
+        return os.path.join(resources, 'favicon.gif')
 
     @showerrorbox
     def create_ddex(self):

@@ -5,11 +5,12 @@ executables = [
     Executable('metadata_form.py')
 ]
 
-includes = [path.abspath('res/favicon.gif')]
+includes = [path.join('res', 'favicon.gif')]
+print(includes)
 
 setup(name='DDEXUI',
       version='0.1',
       description='A user interface for distributing ddex deliveries',
       executables=executables,
-      include=includes
+      options = {'build_exe': {'include_files': includes}}
       )
