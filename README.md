@@ -38,7 +38,7 @@ easy_install Pillow
 
 ### Packaging
 
-DDEXUI uses the awesome cx_freeze library to package itself into a windows executable that can be run without python being installed. To package the current version of the code to an exe, install cx_freeze and run:
+DDEXUI uses the awesome [cx_freeze](http://cx-freeze.sourceforge.net/) library to package itself into a windows executable that can be run without python being installed. To package the current version of the code to an exe, install cx_freeze and run:
 
 ```
 python unpackEgg.py Pillow
