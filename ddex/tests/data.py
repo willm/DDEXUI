@@ -28,3 +28,17 @@ def valid_product_release(upc):
                 .parental_warning(False)
                 .add_deal(Deal("PayAsYouGoModel", "PermanentDownload", "FR", datetime(2004, 9, 6)))
                 .build())
+
+def valid_track_release(isrc):
+    return (ReleaseBuilder().title("Racing Green")
+                .c_line("Copyright hospital records")
+                .p_line("Published by Westbury Music")
+                .year(2004)
+                .reference("A0")
+                .release_id(ReleaseIdType.Isrc, isrc)
+                .release_type("Track")
+                .artist("High Contrast")
+                .label("Hospital Records")
+                .parental_warning(False)
+                .add_deal(Deal("PayAsYouGoModel", "PermanentDownload", "FR", datetime(2004, 9, 6)))
+                .build())

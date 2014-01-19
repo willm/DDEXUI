@@ -6,6 +6,9 @@ class DDEXBuilder:
     def __init__(self):
         self._resources = []
         self._releases = []
+        self._sender = None
+        self._recipient = None
+        self._is_update = None
 
     def recipient(self, recipient):
         self._recipient = recipient
@@ -17,6 +20,10 @@ class DDEXBuilder:
 
     def add_release(self, release):
         self._releases.append(release)
+        return self
+
+    def add_product_release(self, release):
+        self._releases.insert(0, release)
         return self
 
     def add_resource(self, resource):

@@ -33,5 +33,5 @@ class ProductService:
             self._add_audio_resources(self.upc, track.paths, track.builder)
             self.ddex_builder.add_release(track.builder.reference("R" + str(count)).build())
             count += 1
-        self.ddex_builder.add_release(self._product_release_builder.build())
+        self.ddex_builder.add_product_release(self._product_release_builder.build())
         return self.ddex_builder
