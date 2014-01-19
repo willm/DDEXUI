@@ -47,6 +47,8 @@ python setup.py build
 
 this will create the executable version of the program in: 
 
-```build/exe.win-XX/metadata_form.exe```
+```
+build/exe.win-XX/metadata_form.exe
+```
 
 To run the exe, users will need to install the Microsoft Visual C++ Redistributable Package that matches the processor architecture [32bit](http://www.microsoft.com/en-gb/download/details.aspx?id=5555) [64bit](http://www.microsoft.com/en-us/download/details.aspx?id=14632)
