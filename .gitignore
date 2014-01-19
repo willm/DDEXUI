@@ -4,3 +4,7 @@ ddexui
 *.swn
 *.swo
 out
+PIL
+build
+EGG-INFO
+eggs.pth

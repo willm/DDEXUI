@@ -1,2 +1,2 @@
-python -m unittest discover
+nosetests -v
 pause
