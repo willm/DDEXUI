@@ -35,3 +35,14 @@ pip install -r requirements.txt
 
 easy_install Pillow
 ```
+
+### Packaging
+
+DDEXUI uses the awesome cx_freeze library to package itself into a windows executable that can be run without python being installed. To package the current version of the code to an exe, install cx_freeze and run:
+
+```
+python unpackEgg.py Pillow
+python setup.py build
+```
+
+this will create the executable version of the program in build/exe.win-XX/metadata_form.exe
