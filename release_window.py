@@ -21,7 +21,6 @@ class ReleaseWindow(tk.tkinter.Toplevel):
             EntryInput(self, "P Line", Validate().not_empty),
             EntryInput(self, "Artist", Validate().not_empty),
             EntryInput(self, "Label", Validate().not_empty),
-            OptionInput(self, "Type", 'Single', 'Album'),
             CheckboxInput(self, "Explicit")
         ])
 
@@ -42,6 +41,7 @@ class ProductReleaseWindow(ReleaseWindow):
         self.image_path = None
         self._resource_manager = ResourceManager(FileParser(), batch_id, root_folder)
         self.fields.append(EntryInput(self, "UPC", Validate().upc))
+        self.fields.append(OptionInput(self, "Type", 'Single', 'Album'))
         self.is_update_check_box = CheckboxInput(self, "Is Update")
         self.fields.append(self.is_update_check_box)
         total_fields = len(self.fields)
@@ -139,7 +139,7 @@ class TrackReleaseWindow(ReleaseWindow):
                 .year(self.value_of("Year"))
                 .reference("R0")
                 .release_id(ReleaseIdType.Isrc,self.value_of("ISRC"))
-                .release_type(self.value_of("Type"))
+                .release_type("TrackRelease")
                 .artist(self.value_of("Artist"))
                 .label(self.value_of("Label"))
                 .parental_warning(self.value_of("Explicit")))
