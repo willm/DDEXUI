@@ -55,6 +55,7 @@ class ProductReleaseWindow(ReleaseWindow):
         self.add_img_button = tk.Button(self, text="Album Artwork", command=self.add_image).grid(row=self.new_row(), column=0)
         self.button = tk.Button(self, text="OK", command=self.__destroy_if_valid).grid(row=self.new_row(), column=0)
         self.track_list = tk.tkinter.Listbox(self)
+        self.track_list.bind('<Delete>', lambda x: self.remove_track())
         self.track_list.grid(row=self.new_row(), column=0)
         self.draw_tracks()
 
@@ -110,11 +111,14 @@ class ProductReleaseWindow(ReleaseWindow):
 
     @showerrorbox
     def remove_track(self):
-         selected = self.track_list.curselection()[0]
-         self.track_list.delete(selected)
-         self.track_builder_file_paths.pop(int(selected))
-         if(self.track_list.size() == 0):
-             self.delete_track_button['state'] = 'disabled'
+        if(self.track_list.size() == 0):
+            return
+        selected = self.track_list.curselection()[0]
+        print(selected)
+        self.track_list.delete(selected)
+        self.track_builder_file_paths.pop(int(selected))
+        if(self.track_list.size() == 0):
+            self.delete_track_button['state'] = 'disabled'
 
     def all_release_fields_valid(self):
         all_valid = True
