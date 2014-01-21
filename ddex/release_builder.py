@@ -21,22 +21,22 @@ class ReleaseBuilder:
 
     def c_line(self, cline):
         self._cline = cline
-        return self 
+        return self
 
     def p_line(self, pline):
         self._pline = pline
-        return self 
+        return self
 
     def year(self, year):
         self._year = year
-        return self 
-    
+        return self
+
     def reference(self, reference):
         if(type(reference) != str):
             raise TypeError("resource reference must be a str")
         self._reference = reference
         return self
-    
+
     def release_id(self, id_type, id_value):
         self._release_id = ReleaseId(id_type, id_value)
         return self
@@ -66,14 +66,14 @@ class ReleaseBuilder:
         return self
 
     def build(self):
-        release = (Release(self._title, 
-            self._cline, 
-            self._pline, 
-            self._year, 
-            self._reference, 
-            self._release_id, 
+        release = (Release(self._title,
+            self._cline,
+            self._pline,
+            self._year,
+            self._reference,
+            self._release_id,
             self._release_type,
-            self._artist, 
+            self._artist,
             self._label,
             self._warning))
 

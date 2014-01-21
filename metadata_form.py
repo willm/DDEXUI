@@ -53,6 +53,7 @@ class Program:
         self._root_folder = "out"
         self.add_release_button = tk.Button(self.frame, text="Add Product", command=self.create_ddex)
         self.button = tk.Button(self.frame, text="OK", command=self.write_ddex)
+        self.remove_button = tk.Button(self.frame, text="Remove", command=self.remove_product, state="disabled")
         self._batch_id = generate_batch_id()
         self._batch_generator = BatchGenerator(self._root_folder, self._batch_id)
 
@@ -81,6 +82,15 @@ class Program:
         ddex_builder = release_window.create_ddex()
         self._ddex_builders.append(ddex_builder)
         self.product_list.insert(tk.tkinter.END, ddex_builder.get_upc())
+        self.remove_button['state'] = 'enabled'
+
+    @showerrorbox
+    def remove_product(self):
+         selected = self.product_list.curselection()[0]
+         self.product_list.delete(selected)
+         self._ddex_builders.pop(int(selected))
+         if(self.product_list.size() == 0):
+             self.remove_button['state'] = 'disabled'
 
     def __check_for_party(self, party_type):
         if(self.party_repository.get_party(party_type) is None):
@@ -89,7 +99,8 @@ class Program:
     def main(self):
         self.product_list.grid(row=0, column=0)
         self.add_release_button.grid(row=1, column=0)
-        self.button.grid(row=2, column=0)
+        self.remove_button.grid(row=2, column=0)
+        self.button.grid(row=3, column=0)
         self.__check_for_party(PartyType.MessageSender)
         self.frame.mainloop()
 
