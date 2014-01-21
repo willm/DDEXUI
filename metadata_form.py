@@ -50,6 +50,7 @@ class Program:
         self.frame.tk.call("wm", "iconphoto", self.frame._w, icon)
         self.frame.title("Metadata Editor")
         self.product_list = tk.tkinter.Listbox(self.frame)
+        self.product_list.bind('<Delete>', lambda x: self.remove_product())
         self._root_folder = "out"
         self.add_release_button = tk.Button(self.frame, text="Add Product", command=self.create_ddex)
         self.button = tk.Button(self.frame, text="OK", command=self.write_ddex)
@@ -86,11 +87,13 @@ class Program:
 
     @showerrorbox
     def remove_product(self):
-         selected = self.product_list.curselection()[0]
-         self.product_list.delete(selected)
-         self._ddex_builders.pop(int(selected))
-         if(self.product_list.size() == 0):
-             self.remove_button['state'] = 'disabled'
+        if(self.product_list.size() == 0):
+            return
+        selected = self.product_list.curselection()[0]
+        self.product_list.delete(selected)
+        self._ddex_builders.pop(int(selected))
+        if(self.product_list.size() == 0):
+            self.remove_button['state'] = 'disabled'
 
     def __check_for_party(self, party_type):
         if(self.party_repository.get_party(party_type) is None):
