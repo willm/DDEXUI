@@ -15,8 +15,8 @@ class ReleaseWindow(tk.tkinter.Toplevel):
         tk.tkinter.Toplevel.__init__(self, frame)
         self._release_builder = ReleaseBuilder()
         self.fields = ([
-            EntryInput(self, "Title", Validate().not_empty), 
-            EntryInput(self, "Year", Validate().year), 
+            EntryInput(self, "Title", Validate().not_empty),
+            EntryInput(self, "Year", Validate().year),
             EntryInput(self, "C Line", Validate().not_empty),
             EntryInput(self, "P Line", Validate().not_empty),
             EntryInput(self, "Artist", Validate().not_empty),
@@ -35,7 +35,7 @@ class ReleaseWindow(tk.tkinter.Toplevel):
         self._release_builder.add_deal(deal)
 
 class ProductReleaseWindow(ReleaseWindow):
-    def __init__(self, frame, root_folder, batch_id):   
+    def __init__(self, frame, root_folder, batch_id):
         ReleaseWindow.__init__(self, frame)
         self.track_builder_file_paths = []
         self.image_path = None
@@ -44,15 +44,22 @@ class ProductReleaseWindow(ReleaseWindow):
         self.fields.append(OptionInput(self, "Type", 'Single', 'Album'))
         self.is_update_check_box = CheckboxInput(self, "Is Update")
         self.fields.append(self.is_update_check_box)
-        total_fields = len(self.fields)
-        self.draw_fields() 
-        self.add_deal_button = tk.Button(self, text="Add deal", command=self.create_deal).grid(row=total_fields+1, column=0)
-        self.add_track_button = tk.Button(self, text="Add Track", command=self.create_track).grid(row=total_fields+2, column=0)
-        self.add_img_button = tk.Button(self, text="Album Artwork", command=self.add_image).grid(row=total_fields+3, column=0)
-        self.button = tk.Button(self, text="OK", command=self.__destroy_if_valid).grid(row=total_fields+4, column=0)
+        self.total_fields = len(self.fields)
+        self.draw_fields()
+        self.add_deal_button = tk.Button(self, text="Add deal", command=self.create_deal).grid(row=self.new_row(), column=0)
+        self.add_track_button = tk.Button(self, text="Add Track", command=self.create_track)
+        self.add_track_button.grid(row=self.new_row(), column=0)
+        self.delete_track_button = tk.Button(self, text="Remove Track", state="disabled",command=self.remove_track)
+        self.delete_track_button.grid(row=self.new_row(), column=0)
+        self.add_img_button = tk.Button(self, text="Album Artwork", command=self.add_image).grid(row=self.new_row(), column=0)
+        self.button = tk.Button(self, text="OK", command=self.__destroy_if_valid).grid(row=self.new_row(), column=0)
         self.track_list = tk.tkinter.Listbox(self)
-        self.track_list.grid(row=total_fields+5, column=0)
+        self.track_list.grid(row=self.new_row(), column=0)
         self.draw_tracks()
+
+    def new_row(self):
+        self.total_fields += 1
+        return self.total_fields
 
     def add_image(self):
         self.image_path = askopenfilename(filetypes=[("JPG files", "*.jpg")])
@@ -64,7 +71,7 @@ class ProductReleaseWindow(ReleaseWindow):
     def value_of(self, title):
         row = next(filter(lambda x: x.title == title, self.fields))
         return row.value()
-        
+
     def __destroy_if_valid(self):
         if(self.all_release_fields_valid()):
             self.destroy()
@@ -84,10 +91,10 @@ class ProductReleaseWindow(ReleaseWindow):
     def create_ddex(self):
         upc = self.value_of("UPC")
         self._populate_product_release(upc)
-        product_service = (ProductService(self._release_builder, 
-            upc, self.image_path, 
-            self.track_builder_file_paths, 
-            self.is_update_check_box.value(), 
+        product_service = (ProductService(self._release_builder,
+            upc, self.image_path,
+            self.track_builder_file_paths,
+            self.is_update_check_box.value(),
             self._resource_manager))
         return product_service.create_ddex()
 
@@ -98,6 +105,15 @@ class ProductReleaseWindow(ReleaseWindow):
         track_builder_file_path = track_window.create_release()
         self.track_builder_file_paths.append(track_builder_file_path)
         self.track_list.insert(tk.tkinter.END, track_builder_file_path.builder.get_title())
+        self.delete_track_button['state'] = 'enabled'
+
+    @showerrorbox
+    def remove_track(self):
+         selected = self.track_list.curselection()[0]
+         self.track_list.delete(selected)
+         self.track_builder_file_paths.pop(int(selected))
+         if(self.track_list.size() == 0):
+             self.delete_track_button['state'] = 'disabled'
 
     def all_release_fields_valid(self):
         all_valid = True
@@ -109,7 +125,7 @@ class ProductReleaseWindow(ReleaseWindow):
         return all_valid
 
 class TrackReleaseWindow(ReleaseWindow):
-    def __init__(self, frame):  
+    def __init__(self, frame):
         ReleaseWindow.__init__(self, frame)
         self._sound_file_paths = []
         self.fields.append(EntryInput(self, "ISRC", Validate().not_empty))
