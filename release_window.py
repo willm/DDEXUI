@@ -111,12 +111,12 @@ class ProductReleaseWindow(ReleaseWindow):
 
     @showerrorbox
     def remove_track(self):
-        if(self.track_list.size() == 0):
+        selected = self.track_list.curselection()
+        if(self.track_list.size() == 0 or len(selected) == 0):
             return
-        selected = self.track_list.curselection()[0]
         print(selected)
-        self.track_list.delete(selected)
-        self.track_builder_file_paths.pop(int(selected))
+        self.track_list.delete(selected[0])
+        self.track_builder_file_paths.pop(int(selected[0]))
         if(self.track_list.size() == 0):
             self.delete_track_button['state'] = 'disabled'
 
