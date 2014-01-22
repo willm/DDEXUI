@@ -87,11 +87,11 @@ class Program:
 
     @showerrorbox
     def remove_product(self):
-        if(self.product_list.size() == 0):
+        selected = self.product_list.curselection()
+        if(self.product_list.size() == 0 or len(selected) == 0):
             return
-        selected = self.product_list.curselection()[0]
-        self.product_list.delete(selected)
-        self._ddex_builders.pop(int(selected))
+        self.product_list.delete(selected[0])
+        self._ddex_builders.pop(int(selected[0]))
         if(self.product_list.size() == 0):
             self.remove_button['state'] = 'disabled'
 
