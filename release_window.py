@@ -1,4 +1,5 @@
 import tkinter.ttk as tk
+from PIL import Image, ImageTk
 from tkinter.filedialog import askopenfilename
 from DDEXUI.ddex.release_builder import ReleaseBuilder
 from DDEXUI.ddex.validate import Validate
@@ -56,7 +57,11 @@ class ProductReleaseWindow(ReleaseWindow):
         self.button = tk.Button(self, text="OK", command=self.__destroy_if_valid).grid(row=self.new_row(), column=0)
         self.track_list = tk.tkinter.Listbox(self)
         self.track_list.bind('<Delete>', lambda x: self.remove_track())
-        self.track_list.grid(row=self.new_row(), column=0)
+        track_list_row = self.new_row()
+        self.track_list.grid(row=track_list_row, column=0)
+
+        self.artwork = tk.tkinter.Label(self)
+        self.artwork.grid(row=track_list_row, column=1)
         self.draw_tracks()
 
     def new_row(self):
@@ -65,6 +70,11 @@ class ProductReleaseWindow(ReleaseWindow):
 
     def add_image(self):
         self.image_path = askopenfilename(filetypes=[("JPG files", "*.jpg")])
+        im = Image.open(self.image_path)
+        im.thumbnail((200, 200))
+        i = ImageTk.PhotoImage(im)
+        self.artwork.configure(image=i)
+        self.artwork.image = i
 
     def draw_tracks(self):
         for track in self.track_builder_file_paths:
