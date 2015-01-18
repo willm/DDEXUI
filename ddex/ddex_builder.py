@@ -39,7 +39,7 @@ class DDEXBuilder:
 
     def get_upc(self):
         try:
-             return list(filter(lambda release: release.release_id.type == ReleaseIdType.Upc, self._releases))[0].release_id.id
+            return list(filter(lambda release: release.release_id.type == ReleaseIdType.Upc, self._releases))[0].release_id.id
         except Exception as e:
             print("No product release!")
             raise e
