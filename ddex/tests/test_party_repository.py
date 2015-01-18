@@ -13,7 +13,7 @@ class PartyRepositoryTests(unittest.TestCase):
         self.party = Party('IDIDIDO', 'Some Label Name', PartyType.MessageSender)
 
     def __get_connection(self):
-        return sqlite3.connect("ddexui")
+        return sqlite3.connect("ddexui.db")
 
     def tearDown(self):
         c = self.__get_connection()
