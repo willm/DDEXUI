@@ -4,7 +4,7 @@ class FileMetadata:
         self.name = name
         self.extension = extension
         
-class ImageFileMetadata:
+class ImageFileMetadata(FileMetadata):
     def __init__(self, md5, name, extension, width, height):
         FileMetadata.__init__(self, md5, name, extension)
         self.width = width

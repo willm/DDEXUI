@@ -77,12 +77,12 @@ class Image(Resource):
         self.file_metadata = file_metadata
 
     def write(self):
-        resource = super().write()
+        resource = super(Image, self).write()
         self._append_technical_details(resource)
         return resource
 
     def _append_technical_details(self, resource):
-        technical_details = super()._append_technical_details(resource, self._technical_resource_details_reference)
+        technical_details = super(Image, self)._append_technical_details(resource, self._technical_resource_details_reference)
         self._append_element_with_text(technical_details, "ImageCodecType", self.file_metadata.codec)
         self._append_element_with_text(technical_details, "ImageHeight", str(self.file_metadata.height))
         self._append_element_with_text(technical_details, "ImageWidth", str(self.file_metadata.width))
@@ -112,7 +112,7 @@ class SoundRecording(Resource):
         self.file_metadata = file_metadata
 
     def write(self):
-        sound_recording = super().write()
+        sound_recording = super(SoundRecording, self).write()
         title = self._append_element_with_text(sound_recording, "ReferenceTitle")
         self._append_element_with_text(title, "TitleText", self.title)
 
@@ -122,7 +122,7 @@ class SoundRecording(Resource):
         return sound_recording
 
     def _append_technical_details(self, resource):
-        technical_details = super()._append_technical_details(resource, self._technical_resource_details_reference)
+        technical_details = super(SoundRecording, self)._append_technical_details(resource, self._technical_resource_details_reference)
         self._append_element_with_text(technical_details, "AudioCodecType", self.file_metadata.codec)
         self._append_file(technical_details, self.file_metadata)
     
