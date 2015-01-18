@@ -1,5 +1,6 @@
 from datetime import date
 import os
+import errno
 import unittest
 
 from ddex import DDEX
@@ -14,7 +15,14 @@ import lxml.etree as ET
 class DDEXSchemaValidation(unittest.TestCase):
     def test_created_ddex_files_validate_against_ddex_xsd(self):
         #helped by http://alex-sansom.info/content/validating-xml-against-xml-schema-python
-        output_file = "/tmp/file.xml"
+        output_file = os.path.join(os.path.dirname(__file__), "tmp", "file.xml")
+        try:
+            os.makedirs(os.path.dirname(output_file))
+        except OSError as exc: # Python >2.5
+            if exc.errno == errno.EEXIST and os.path.isdir(os.path.dirname(output_file)):
+                pass
+            else:
+                raise
 
         release = self.create_product_release()
 
@@ -30,7 +38,7 @@ class DDEXSchemaValidation(unittest.TestCase):
         
         tree = ET.parse(output_file)
         #original schema at http://ddex.net/xml/ern/341/release-notification.xsd    
-        schema = ET.XMLSchema(file="ddex/tests/resources/xsds/release-notification.xsd")
+        schema = ET.XMLSchema(file=os.path.join(os.path.dirname(__file__), "resources", "xsds", "release-notification.xsd"))
         schema.assertValid(tree)
 
     def create_product_release(self):
