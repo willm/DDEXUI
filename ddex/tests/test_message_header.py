@@ -1,6 +1,6 @@
 import unittest
-from DDEXUI.ddex.party import *
-from DDEXUI.ddex.message_header import MessageHeader
+from ddex.party import *
+from ddex.message_header import MessageHeader
 
 class MessageHeaderTests(unittest.TestCase):
     def setUp(self):

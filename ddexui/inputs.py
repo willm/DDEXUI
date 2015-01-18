@@ -1,4 +1,7 @@
-import tkinter.ttk as tk
+try:
+    import ttk as tk
+except ImportError:
+    import tkinter.ttk as tk
 
 class InputRow:
     def __init__(self, frame, title):

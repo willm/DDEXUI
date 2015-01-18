@@ -1,11 +1,14 @@
-import unittest
-from shutil import rmtree
 from os import path
+import os
+from shutil import rmtree
 from tempfile import gettempdir
+import unittest
 import uuid
-from DDEXUI.file_parser import FileParser
-from DDEXUI.ddex.resource import SoundRecording, Image
-from DDEXUI.resource_manager import ResourceManager
+
+from ddex.resource import SoundRecording, Image
+from ddexui.file_parser import FileParser
+from ddexui.resource_manager import ResourceManager
+
 
 class ResourceManagerSoundRecordingTests(unittest.TestCase):
     @classmethod
@@ -16,7 +19,8 @@ class ResourceManagerSoundRecordingTests(unittest.TestCase):
         self.root_folder = gettempdir()
         self.batch_id = str(uuid.uuid4())
         self.title = "the title"
-        file_path = path.join('ddex', 'tests', 'resources', 'test.mp3')
+        
+        file_path = path.join(os.path.dirname(__file__), 'resources', 'test.mp3')
         self.resource_reference = "A1"
         self.technical_resource_details_reference = "T1"
 
@@ -55,7 +59,7 @@ class ResourceManagerImageTests(unittest.TestCase):
         self.root_folder = gettempdir()
         self.batch_id = str(uuid.uuid4())
         self.title = "the title"
-        file_path = path.join('ddex', 'tests', 'resources', 'test.jpg')
+        file_path = os.path.join(os.path.dirname(__file__), "resources", "test.jpg")
         self.resource_reference = "A2"
         self.technical_resource_details_reference = "T4"
 

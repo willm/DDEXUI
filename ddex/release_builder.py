@@ -1,4 +1,4 @@
-from DDEXUI.ddex.release import *
+from ddex.release import *
 
 class ReleaseBuilder:
     def __init__(self):

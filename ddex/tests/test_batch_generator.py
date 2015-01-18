@@ -2,8 +2,8 @@ import unittest
 from os import path
 from tempfile import gettempdir
 from shutil import rmtree
-import DDEXUI.ddex.tests.data as data
-from DDEXUI.batch_generator import BatchGenerator
+import ddex.tests.data as data
+from ddexui.batch_generator import BatchGenerator
 
 class BatchGeneratorTests(unittest.TestCase):
     def test_should_generate_a_batch_containing_each_product(self):

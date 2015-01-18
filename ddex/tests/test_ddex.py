@@ -1,7 +1,7 @@
 import unittest
-from DDEXUI.ddex.ddex_builder import DDEXBuilder
-from DDEXUI.ddex.release_builder import ReleaseBuilder
-import DDEXUI.ddex.tests.data as data
+from ddex.ddex_builder import DDEXBuilder
+from ddex.release_builder import ReleaseBuilder
+import ddex.tests.data as data
 
 class DDEXBuilderTests(unittest.TestCase):
     def test_should_get_the_release_id(self):

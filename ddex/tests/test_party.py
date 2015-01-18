@@ -1,5 +1,5 @@
 import unittest
-from DDEXUI.ddex.party import *
+from ddex.party import *
 
 class PartyTests(unittest.TestCase):
     def setUp(self):

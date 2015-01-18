@@ -1,11 +1,17 @@
-import DDEXUI.ddex.deal as deal
-from DDEXUI.inputs import *
-from DDEXUI.ddex.validate import Validate
-from DDEXUI.tkinterutil import showerrorbox
+import ddex.deal as deal
+from ddexui.inputs import OptionInput, EntryInput
+from ddex.validate import Validate
+from tkinterutil import showerrorbox
 
-class DealWindow(tk.tkinter.Toplevel):
+try:
+    import ttk as tk
+    from Tkinter import Toplevel
+except ImportError:
+    import tkinter.ttk as tk 
+
+class DealWindow(Toplevel):
     def __init__(self, frame):
-        tk.tkinter.Toplevel.__init__(self, frame)
+        Toplevel.__init__(self, frame)
         self.title("Deal Editor")
         self.focus_set()
         self.fields = ([OptionInput(self, "Commercial Model", *deal.CommercialModals),

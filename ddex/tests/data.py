@@ -1,9 +1,9 @@
 import random
-from DDEXUI.ddex.ddex_builder import DDEXBuilder
-from DDEXUI.ddex.release_builder import ReleaseBuilder
-from DDEXUI.ddex.party import Party, PartyType
-from DDEXUI.ddex.release import *
-from DDEXUI.ddex.deal import *
+from ddex.ddex_builder import DDEXBuilder
+from ddex.release_builder import ReleaseBuilder
+from ddex.party import Party, PartyType
+from ddex.release import *
+from ddex.deal import *
 from datetime import datetime
 
 

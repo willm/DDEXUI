@@ -1,5 +1,5 @@
 import xml.etree.cElementTree as ET
-from DDEXUI.ddex.enum import enum
+from ddex.enum import enum
 
 PartyType = enum(MessageSender=1, MessageRecipient=2)
 

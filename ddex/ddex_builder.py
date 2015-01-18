@@ -1,6 +1,6 @@
-from DDEXUI.ddex.ddex import DDEX
-from DDEXUI.ddex.resource import Resource
-from DDEXUI.ddex.release import ReleaseIdType
+from ddex import DDEX
+from ddex.resource import Resource
+from ddex.release import ReleaseIdType
 
 class DDEXBuilder:
     def __init__(self):

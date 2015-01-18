@@ -1,7 +1,7 @@
 from shutil import copyfile
-from DDEXUI.file_parser import FileParser
+from file_parser import FileParser
 from os import path, makedirs
-from DDEXUI.ddex.resource import SoundRecording, Image
+from ddex.resource import SoundRecording, Image
 
 class ResourceManager:
     def __init__(self, file_parser, batch_id, root_folder='.'):

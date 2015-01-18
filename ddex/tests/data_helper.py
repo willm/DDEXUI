@@ -1,5 +1,5 @@
-from DDEXUI.ddex.release_builder import *
-from DDEXUI.ddex.release import *
+from ddex.release_builder import *
+from ddex.release import *
 
 class TestData:
     @staticmethod

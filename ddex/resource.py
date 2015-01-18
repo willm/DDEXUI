@@ -1,7 +1,11 @@
 import xml.etree.cElementTree as ET
 from abc import ABCMeta, abstractmethod
 
-class Resource(metaclass=ABCMeta):
+
+class Resource:
+
+    __metaclass__ = ABCMeta
+
     def __init__(self, technical_resource_details_reference, id_attrs={}):
         self._id_attrs = id_attrs
         self._technical_resource_details_reference = technical_resource_details_reference

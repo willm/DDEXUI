@@ -1,6 +1,6 @@
 import unittest
 import xml.etree.cElementTree as ET
-from DDEXUI.ddex.deal import Deal
+from ddex.deal import Deal
 from datetime import date
 
 class DealTests(unittest.TestCase):

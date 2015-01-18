@@ -1,8 +1,8 @@
 import unittest
 import functools
 import xml.etree.cElementTree as ET
-from DDEXUI.ddex.file_metadata import AudioFileMetadata, ImageFileMetadata
-from DDEXUI.ddex.resource import SoundRecording, Image
+from ddex.file_metadata import AudioFileMetadata, ImageFileMetadata
+from ddex.resource import SoundRecording, Image
 import os
 
 class SoundRecordingTests(unittest.TestCase):

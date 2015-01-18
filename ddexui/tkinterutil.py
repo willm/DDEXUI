@@ -1,5 +1,9 @@
-import tkinter.ttk as tk
-import tkinter.messagebox as mb
+try:
+    import ttk as tk
+    import tkMessageBox as mb
+except ImportError:
+    import tkinter.ttk as tk
+    import tkinter.messagebox as mb
 
 #thanks to http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/
 #and http://stackoverflow.com/questions/6666882/tkinter-python-catching-exceptions
