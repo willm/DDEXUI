@@ -10,5 +10,3 @@ class PartyTests(unittest.TestCase):
         party_element = self.party.write()
         self.assertEqual(party_element.find('./PartyId').text, 'gdfg42jkdz')
         self.assertEqual(party_element.find('./PartyName/FullName').text, 'Sony')
-        
-        
