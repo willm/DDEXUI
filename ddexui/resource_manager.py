@@ -1,5 +1,5 @@
 from shutil import copyfile
-from file_parser import FileParser
+from ddexui.file_parser import FileParser
 from os import path, makedirs
 from ddex.resource import SoundRecording, Image
 

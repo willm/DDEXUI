@@ -1,4 +1,3 @@
-import os
 import sqlite3
 
 from ddex.party import Party

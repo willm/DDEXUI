@@ -1,6 +1,6 @@
 import os
 from os import path
-from ddex import generate_batch_id
+
 
 class BatchGenerator:
     def __init__(self, root_folder, batch_id):

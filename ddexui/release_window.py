@@ -11,7 +11,7 @@ from ddex.release_builder import ReleaseBuilder
 from ddex.validate import Validate
 from ddexui.inputs import *
 from ddex.release import *
-from deal_window import DealWindow
+from ddexui.deal_window import DealWindow
 from ddexui.file_parser import FileParser
 from ddexui.tkinterutil import showerrorbox
 from ddexui.resource_manager import ResourceManager

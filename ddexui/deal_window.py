@@ -1,7 +1,7 @@
 import ddex.deal as deal
 from ddexui.inputs import OptionInput, EntryInput
 from ddex.validate import Validate
-from tkinterutil import showerrorbox
+from ddexui.tkinterutil import showerrorbox
 
 try:
     import ttk as tk
