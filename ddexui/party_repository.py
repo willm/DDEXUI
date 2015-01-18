@@ -1,12 +1,16 @@
-from ddex.party import Party
+import os
 import sqlite3
+
+from ddex.party import Party
+
 
 class PartyRepository:
     def __init__(self):
         self.__with_cursor(lambda cursor, connection: cursor.execute("CREATE TABLE IF NOT EXISTS party(name text, partyId text, partyType integer)"))
 
     def __get_connection(self):
-        return sqlite3.connect("ddexui")
+        print "opening" + os.path.join(os.path.dirname(os.path.dirname(__file__)), "ddexui.db")
+        return sqlite3.connect(os.path.join(os.path.dirname(os.path.dirname(__file__)), "ddexui.db"))
 
     def get_party(self, party_type):
         connection = self.__get_connection()

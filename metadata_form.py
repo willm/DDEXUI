@@ -1,5 +1,4 @@
 #!/usr/bin/python3.3
-from Tkinter import Toplevel
 import os
 import sys
 
@@ -15,11 +14,13 @@ from ddexui.tkinterutil import showerrorbox
 
 try:
     import Tkinter as tkinter
+    from Tkinter import Toplevel, Label
     import ttk as tk
     import tkMessageBox as mb
 except ImportError as e:
     print "IMPORT ERROR" + str(e)
     import tkinter
+    from tkinter import Toplevel, Label
     import tkinter.ttk as tk
     import tkinter.messagebox as mb
 
@@ -28,13 +29,13 @@ class PartyWindow(Toplevel):
         #http://tkinter.unpythonic.net/wiki/ModalWindow 
         self.party_repository = PartyRepository()
         self.party_type = party_type
-        tk.tkinter.Toplevel.__init__(self, frame)
+        Toplevel.__init__(self, frame)
 #       self.geometry("400x300")
         self.transient(frame)
         self.focus_set()
         #self.grab_set()
         message = "Please enter your " + PartyType.reverse_mapping[self.party_type] + " ddex party details. You can apply for a ddex Party id for free at: http://ddex.net/content/implementation-licence-application-form"
-        text = tk.tkinter.Label(self, height=5, text=message, wraplength=400)
+        text = Label(self, height=5, text=message, wraplength=400)
         text.grid(row=0, column=0,columnspan=3)
         self.party_id = EntryInput(self, "Party Id", Validate().not_empty)
         self.party_name = EntryInput(self, "Party Name", Validate().not_empty)

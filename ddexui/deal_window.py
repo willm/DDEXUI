@@ -39,7 +39,7 @@ class DealWindow(Toplevel):
 
 #todo: remove duplication of these 2 methods
     def value_of(self, title):
-        row = next(filter(lambda x: x.title == title,self.fields))
+        row = next(iter(filter(lambda x: x.title == title,self.fields)))
         return row.value()
 
     def all_release_fields_valid(self):

@@ -1,13 +1,15 @@
 try:
     import ttk as tk
+    from Tkinter import Label, StringVar, BooleanVar, W
 except ImportError:
     import tkinter.ttk as tk
+    from tkinter import Label, StringVar, BooleanVar, W
 
 class InputRow:
     def __init__(self, frame, title):
         self.frame = frame
-        self.error_label = tk.tkinter.Label(self.frame, fg="red", width=50)
-        self.v = tk.tkinter.StringVar()
+        self.error_label = Label(self.frame, fg="red", width=50)
+        self.v = StringVar()
         self.title = title
         self.input = None
 
@@ -35,7 +37,7 @@ class OptionInput(InputRow):
 class CheckboxInput(InputRow):
     def __init__(self, frame, title):
         InputRow.__init__(self, frame, title)
-        self.v = tk.tkinter.BooleanVar()
+        self.v = BooleanVar()
         self.v.set(False)
         self.input = tk.Checkbutton(self.frame, variable=self.v, text=title)
 
@@ -62,7 +64,7 @@ class EntryInput(InputRow):
 
     def draw(self,row):
         InputRow.draw(self, row)
-        self.label.grid(row=row, column=0,sticky=tk.tkinter.W) 
+        self.label.grid(row=row, column=0,sticky=W) 
 
     def on_invalidate(self, message):
         self.error_label["text"] = message

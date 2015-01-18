@@ -1,3 +1,6 @@
+import traceback
+
+
 try:
     import ttk as tk
     import tkMessageBox as mb
@@ -13,6 +16,7 @@ def showerrorbox(func):
             func(*args, **kwargs)
         except Exception as e:
             print(e)
+            traceback.print_exc()
             mb.showerror("Error", e)
             raise e
     return run
