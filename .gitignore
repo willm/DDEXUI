@@ -9,3 +9,4 @@ build
 EGG-INFO
 eggs.pth
 /wheelhouse/
+*.pyc

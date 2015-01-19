@@ -1,11 +1,11 @@
 try:
     import ttk as tk
-    from Tkinter import Toplevel, Listbox, Label
+    from Tkinter import Toplevel, Listbox, Label, END
     from tkFileDialog import askopenfilename
 except ImportError:
-    import tkinter.ttk as tk
-    from tk.tkinter import Toplevel, Listbox, Label
-    from tkinter.filedialog import askopenfilename
+    import ttk as tk
+    from tkinter import Toplevel, Listbox, Label, END
+    from filedialog import askopenfilename
 from PIL import Image, ImageTk
 from ddex.release_builder import ReleaseBuilder
 from ddex.validate import Validate
@@ -85,10 +85,10 @@ class ProductReleaseWindow(ReleaseWindow):
 
     def draw_tracks(self):
         for track in self.track_builder_file_paths:
-            self.track_list.insert(tk.tkinter.END, track.builder.get_title())
+            self.track_list.insert(END, track.builder.get_title())
 
     def value_of(self, title):
-        row = next(filter(lambda x: x.title == title, self.fields))
+        row = next(iter(filter(lambda x: x.title == title, self.fields)))
         return row.value()
 
     def __destroy_if_valid(self):
@@ -123,7 +123,7 @@ class ProductReleaseWindow(ReleaseWindow):
         track_window.wait_window()
         track_builder_file_path = track_window.create_release()
         self.track_builder_file_paths.append(track_builder_file_path)
-        self.track_list.insert(tk.tkinter.END, track_builder_file_path.builder.get_title())
+        self.track_list.insert(END, track_builder_file_path.builder.get_title())
         self.delete_track_button['state'] = 'enabled'
 
     @showerrorbox
@@ -163,7 +163,7 @@ class TrackReleaseWindow(ReleaseWindow):
             self._sound_file_paths.append(file_path)
 
     def value_of(self, title):
-        row = next(filter(lambda x: x.title == title, self.fields))
+        row = next(iter(filter(lambda x: x.title == title, self.fields)))
         return row.value()
 
     def __destroy_if_valid(self):

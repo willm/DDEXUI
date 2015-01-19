@@ -16,6 +16,6 @@ class BatchGenerator:
             try: 
                 os.makedirs(product_path)
             except OSError:
-                if not os.path.isdir(path):
+                if not os.path.isdir(product_path):
                     raise
             ddex.write(path.join(product_path, builder.get_upc() + ".xml"))
