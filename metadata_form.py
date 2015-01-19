@@ -1,30 +1,41 @@
 #!/usr/bin/python3.3
-import tkinter.ttk as tk
-import tkinter.messagebox as mb
-from DDEXUI.ddex.ddex_builder import DDEXBuilder
-from DDEXUI.ddex.party import *
-from DDEXUI.ddex.validate import Validate
-from DDEXUI.party_repository import PartyRepository
-from DDEXUI.inputs import *
-from DDEXUI.release_window import ProductReleaseWindow
-from DDEXUI.batch_generator import BatchGenerator
-from DDEXUI.ddex.ddex import generate_batch_id
-from DDEXUI.tkinterutil import showerrorbox
-import sys
 import os
+import sys
 
-class PartyWindow(tk.tkinter.Toplevel):
+from ddex import generate_batch_id
+from ddex.party import PartyType, Party
+from ddex.validate import Validate
+from ddexui.batch_generator import BatchGenerator
+from ddexui.inputs import EntryInput
+from ddexui.party_repository import PartyRepository
+from ddexui.release_window import ProductReleaseWindow
+from ddexui.tkinterutil import showerrorbox
+
+
+try:
+    import Tkinter as tkinter
+    from Tkinter import Toplevel, Label
+    import ttk as tk
+    import tkMessageBox as mb
+except ImportError as e:
+    print "IMPORT ERROR" + str(e)
+    import tkinter
+    from tkinter import Toplevel, Label
+    import tkinter.ttk as tk
+    import tkinter.messagebox as mb
+
+class PartyWindow(Toplevel):
     def __init__(self, frame, party_type):
         #http://tkinter.unpythonic.net/wiki/ModalWindow 
         self.party_repository = PartyRepository()
         self.party_type = party_type
-        tk.tkinter.Toplevel.__init__(self, frame)
+        Toplevel.__init__(self, frame)
 #       self.geometry("400x300")
         self.transient(frame)
         self.focus_set()
         #self.grab_set()
         message = "Please enter your " + PartyType.reverse_mapping[self.party_type] + " ddex party details. You can apply for a ddex Party id for free at: http://ddex.net/content/implementation-licence-application-form"
-        text = tk.tkinter.Label(self, height=5, text=message, wraplength=400)
+        text = Label(self, height=5, text=message, wraplength=400)
         text.grid(row=0, column=0,columnspan=3)
         self.party_id = EntryInput(self, "Party Id", Validate().not_empty)
         self.party_name = EntryInput(self, "Party Name", Validate().not_empty)
@@ -44,12 +55,12 @@ class Program:
     def __init__(self):
         self.party_repository = PartyRepository()
         self._ddex_builders = []
-        self.frame = tk.tkinter.Tk()
+        self.frame = tkinter.Tk()
         self.frame.geometry("600x300")
-        icon = tk.tkinter.PhotoImage(file=self.get_icon())
+        icon = tkinter.PhotoImage(file=self.get_icon())
         self.frame.tk.call("wm", "iconphoto", self.frame._w, icon)
         self.frame.title("Metadata Editor")
-        self.product_list = tk.tkinter.Listbox(self.frame)
+        self.product_list = tkinter.Listbox(self.frame)
         self.product_list.bind('<Delete>', lambda x: self.remove_product())
         self._root_folder = "out"
         self.add_release_button = tk.Button(self.frame, text="Add Product", command=self.create_ddex)
@@ -82,7 +93,7 @@ class Program:
         release_window.wait_window()
         ddex_builder = release_window.create_ddex()
         self._ddex_builders.append(ddex_builder)
-        self.product_list.insert(tk.tkinter.END, ddex_builder.get_upc())
+        self.product_list.insert(tkinter.END, ddex_builder.get_upc())
         self.remove_button['state'] = 'enabled'
 
     @showerrorbox

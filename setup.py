@@ -6,7 +6,6 @@ executables = [
 ]
 
 includes = [path.join('res', 'favicon.gif')]
-print(includes)
 
 setup(name='DDEXUI',
       version='0.1',

@@ -1,7 +1,6 @@
 import unittest
-import configparser
-from DDEXUI.ddex.party import *
-from DDEXUI.party_repository import *
+from ddex.party import *
+from ddexui.party_repository import *
 import sqlite3
 
 
@@ -14,7 +13,7 @@ class PartyRepositoryTests(unittest.TestCase):
         self.party = Party('IDIDIDO', 'Some Label Name', PartyType.MessageSender)
 
     def __get_connection(self):
-        return sqlite3.connect("ddexui")
+        return sqlite3.connect("ddexui.db")
 
     def tearDown(self):
         c = self.__get_connection()

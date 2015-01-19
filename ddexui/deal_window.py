@@ -1,11 +1,17 @@
-import DDEXUI.ddex.deal as deal
-from DDEXUI.inputs import *
-from DDEXUI.ddex.validate import Validate
-from DDEXUI.tkinterutil import showerrorbox
+import ddex.deal as deal
+from ddexui.inputs import OptionInput, EntryInput
+from ddex.validate import Validate
+from ddexui.tkinterutil import showerrorbox
 
-class DealWindow(tk.tkinter.Toplevel):
+try:
+    import ttk as tk
+    from Tkinter import Toplevel
+except ImportError:
+    import tkinter.ttk as tk 
+
+class DealWindow(Toplevel):
     def __init__(self, frame):
-        tk.tkinter.Toplevel.__init__(self, frame)
+        Toplevel.__init__(self, frame)
         self.title("Deal Editor")
         self.focus_set()
         self.fields = ([OptionInput(self, "Commercial Model", *deal.CommercialModals),
@@ -33,7 +39,7 @@ class DealWindow(tk.tkinter.Toplevel):
 
 #todo: remove duplication of these 2 methods
     def value_of(self, title):
-        row = next(filter(lambda x: x.title == title,self.fields))
+        row = next(iter(filter(lambda x: x.title == title,self.fields)))
         return row.value()
 
     def all_release_fields_valid(self):

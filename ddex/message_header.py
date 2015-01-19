@@ -6,7 +6,6 @@ class MessageHeader:
     def __init__(self, sender, recipient):
         self.sender = sender
         self.recipient = recipient
-        
 
     def write(self):
         message_header = ET.Element('MessageHeader')

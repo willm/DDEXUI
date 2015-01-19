@@ -1,4 +1,4 @@
-from DDEXUI.ddex.ddex_builder import DDEXBuilder
+from ddex.ddex_builder import DDEXBuilder
 
 class ProductService:
     def __init__(self, product_release_builder, upc, coverart_path, track_builder_file_paths, is_update, resource_manager):

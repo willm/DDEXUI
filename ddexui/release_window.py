@@ -1,19 +1,26 @@
-import tkinter.ttk as tk
+try:
+    import ttk as tk
+    from Tkinter import Toplevel, Listbox, Label
+    from tkFileDialog import askopenfilename
+except ImportError:
+    import tkinter.ttk as tk
+    from tk.tkinter import Toplevel, Listbox, Label
+    from tkinter.filedialog import askopenfilename
 from PIL import Image, ImageTk
-from tkinter.filedialog import askopenfilename
-from DDEXUI.ddex.release_builder import ReleaseBuilder
-from DDEXUI.ddex.validate import Validate
-from DDEXUI.inputs import *
-from DDEXUI.ddex.release import *
-from DDEXUI.deal_window import DealWindow
-from DDEXUI.file_parser import FileParser
-from DDEXUI.tkinterutil import showerrorbox
-from DDEXUI.resource_manager import ResourceManager
-from DDEXUI.product_service import ProductService
+from ddex.release_builder import ReleaseBuilder
+from ddex.validate import Validate
+from ddexui.inputs import *
+from ddex.release import *
+from ddexui.deal_window import DealWindow
+from ddexui.file_parser import FileParser
+from ddexui.tkinterutil import showerrorbox
+from ddexui.resource_manager import ResourceManager
+from ddexui.product_service import ProductService
 
-class ReleaseWindow(tk.tkinter.Toplevel):
+
+class ReleaseWindow(Toplevel):
     def __init__(self, frame):
-        tk.tkinter.Toplevel.__init__(self, frame)
+        Toplevel.__init__(self, frame)
         self._release_builder = ReleaseBuilder()
         self.fields = ([
             EntryInput(self, "Title", Validate().not_empty),
@@ -55,12 +62,12 @@ class ProductReleaseWindow(ReleaseWindow):
         self.delete_track_button.grid(row=self.new_row(), column=0)
         self.add_img_button = tk.Button(self, text="Album Artwork", command=self.add_image).grid(row=self.new_row(), column=0)
         self.button = tk.Button(self, text="OK", command=self.__destroy_if_valid).grid(row=self.new_row(), column=0)
-        self.track_list = tk.tkinter.Listbox(self)
+        self.track_list = Listbox(self)
         self.track_list.bind('<Delete>', lambda x: self.remove_track())
         track_list_row = self.new_row()
         self.track_list.grid(row=track_list_row, column=0)
 
-        self.artwork = tk.tkinter.Label(self)
+        self.artwork = Label(self)
         self.artwork.grid(row=track_list_row, column=1)
         self.draw_tracks()
 
