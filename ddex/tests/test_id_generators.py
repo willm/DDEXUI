@@ -1,6 +1,6 @@
 import unittest
 import datetime
-from DDEXUI.ddex.ddex import generate_batch_id
+from ddex.ddex import generate_batch_id
 
 class TestIdGenerators(unittest.TestCase):
     def test_batch_id_should_be_in_expected_format(self):

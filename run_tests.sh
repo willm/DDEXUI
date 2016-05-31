@@ -1,2 +1,2 @@
 #python3 -m unittest discover 
-nosetests -v
+PYTHONPATH=$(readlink -f ..):$PYTHONPATH nosetests -v

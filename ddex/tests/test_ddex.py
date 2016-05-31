@@ -1,7 +1,7 @@
 import unittest
-from DDEXUI.ddex.ddex_builder import DDEXBuilder
-from DDEXUI.ddex.release_builder import ReleaseBuilder
-import DDEXUI.ddex.tests.data as data
+from ddex.ddex_builder import DDEXBuilder
+from ddex.release_builder import ReleaseBuilder
+import ddex.tests.data as data
 
 class DDEXBuilderTests(unittest.TestCase):
     def test_should_get_the_release_id(self):
@@ -12,4 +12,4 @@ class DDEXBuilderTests(unittest.TestCase):
         self.assertEqual(ddex_builder.get_upc(), upc)
         
     def test_should_raise_exception_if_no_product_release_exists(self):
-        self.assertRaises(DDEXBuilder().get_upc)
+        self.assertRaises(IndexError, DDEXBuilder().get_upc)

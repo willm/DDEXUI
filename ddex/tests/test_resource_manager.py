@@ -3,9 +3,9 @@ from shutil import rmtree
 from os import path
 from tempfile import gettempdir
 import uuid
-from DDEXUI.file_parser import FileParser
-from DDEXUI.ddex.resource import SoundRecording, Image
-from DDEXUI.resource_manager import ResourceManager
+from file_parser import FileParser
+from ddex.resource import SoundRecording, Image
+from resource_manager import ResourceManager
 
 class ResourceManagerSoundRecordingTests(unittest.TestCase):
     @classmethod

@@ -1,7 +1,7 @@
 import unittest
 import configparser
-from DDEXUI.ddex.party import *
-from DDEXUI.party_repository import *
+from ddex.party import *
+from party_repository import *
 import sqlite3
 
 

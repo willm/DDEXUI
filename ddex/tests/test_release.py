@@ -1,6 +1,6 @@
 import unittest
 #todo figure out how to mock things
-from DDEXUI.ddex.release import *
+from ddex.release import *
 import xml.etree.cElementTree as ET
 
 class Test(unittest.TestCase):

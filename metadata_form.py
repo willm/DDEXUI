@@ -1,15 +1,15 @@
 #!/usr/bin/python3.3
 import tkinter.ttk as tk
 import tkinter.messagebox as mb
-from DDEXUI.ddex.ddex_builder import DDEXBuilder
-from DDEXUI.ddex.party import *
-from DDEXUI.ddex.validate import Validate
-from DDEXUI.party_repository import PartyRepository
-from DDEXUI.inputs import *
-from DDEXUI.release_window import ProductReleaseWindow
-from DDEXUI.batch_generator import BatchGenerator
-from DDEXUI.ddex.ddex import generate_batch_id
-from DDEXUI.tkinterutil import showerrorbox
+from ddex.ddex_builder import DDEXBuilder
+from ddex.party import *
+from ddex.validate import Validate
+from party_repository import PartyRepository
+from inputs import *
+from release_window import ProductReleaseWindow
+from batch_generator import BatchGenerator
+from ddex.ddex import generate_batch_id
+from tkinterutil import showerrorbox
 import sys
 import os
 

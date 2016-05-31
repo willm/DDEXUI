@@ -1,6 +1,6 @@
 import unittest
-from DDEXUI.ddex.ddex_builder import DDEXBuilder
-from DDEXUI.ddex.tests.data import valid_product_release, valid_track_release
+from ddex.ddex_builder import DDEXBuilder
+from ddex.tests.data import valid_product_release, valid_track_release
 
 class DDEXBuilderTests(unittest.TestCase):
 

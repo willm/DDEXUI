@@ -1,7 +1,7 @@
-import DDEXUI.ddex.deal as deal
-from DDEXUI.inputs import *
-from DDEXUI.ddex.validate import Validate
-from DDEXUI.tkinterutil import showerrorbox
+import ddex.deal as deal
+from inputs import *
+from ddex.validate import Validate
+from tkinterutil import showerrorbox
 
 class DealWindow(tk.tkinter.Toplevel):
     def __init__(self, frame):

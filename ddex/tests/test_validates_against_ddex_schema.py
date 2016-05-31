@@ -1,11 +1,11 @@
 import lxml.etree as ET
-from DDEXUI.ddex.ddex import DDEX
-from DDEXUI.ddex.release import Release, ReleaseId
-from DDEXUI.ddex.party import Party, PartyType
-from DDEXUI.ddex.deal import Deal
-from DDEXUI.ddex.resource import SoundRecording, Image
-from DDEXUI.ddex.message_header import MessageHeader
-from DDEXUI.file_parser import FileParser
+from ddex.ddex import DDEX
+from ddex.release import Release, ReleaseId
+from ddex.party import Party, PartyType
+from ddex.deal import Deal
+from ddex.resource import SoundRecording, Image
+from ddex.message_header import MessageHeader
+from file_parser import FileParser
 from datetime import date
 import unittest
 

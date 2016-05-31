@@ -1,6 +1,6 @@
 import unittest
 from nose.tools import *
-from DDEXUI.file_parser import FileParser
+from file_parser import FileParser
 
 def test_generator():
     cases = ([ ("ddex/tests/resources/test.mp3", "dff9465befeb68d97cd6fd103547c464", "test.mp3", "MP3"), 

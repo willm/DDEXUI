@@ -1,4 +1,4 @@
-from DDEXUI.ddex.party import Party
+from ddex.party import Party
 import sqlite3
 
 class PartyRepository:

@@ -1,6 +1,6 @@
 from os import makedirs
 from os import path
-from DDEXUI.ddex.ddex import generate_batch_id
+from ddex.ddex import generate_batch_id
 
 class BatchGenerator:
     def __init__(self, root_folder, batch_id):

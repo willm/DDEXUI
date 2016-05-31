@@ -1,4 +1,4 @@
-from DDEXUI.ddex.validate import Validate
+from ddex.validate import Validate
 from datetime import datetime
 import unittest
 

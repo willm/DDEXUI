@@ -1,5 +1,5 @@
 import xml.etree.cElementTree as ET
-from DDEXUI.ddex.enum import enum
+from ddex.enum import enum
 
 ReleaseIdType = enum(Upc=1, Isrc=2)
 ReleaseType = enum(Single=1)
