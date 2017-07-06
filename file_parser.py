@@ -1,4 +1,4 @@
-from DDEXUI.ddex.file_metadata import *
+from ddex.file_metadata import *
 from mutagenx.mp3 import MP3
 from PIL import Image
 import hashlib

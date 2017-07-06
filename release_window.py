@@ -1,15 +1,15 @@
 import tkinter.ttk as tk
 from PIL import Image, ImageTk
 from tkinter.filedialog import askopenfilename
-from DDEXUI.ddex.release_builder import ReleaseBuilder
-from DDEXUI.ddex.validate import Validate
-from DDEXUI.inputs import *
-from DDEXUI.ddex.release import *
-from DDEXUI.deal_window import DealWindow
-from DDEXUI.file_parser import FileParser
-from DDEXUI.tkinterutil import showerrorbox
-from DDEXUI.resource_manager import ResourceManager
-from DDEXUI.product_service import ProductService
+from ddex.release_builder import ReleaseBuilder
+from ddex.validate import Validate
+from inputs import *
+from ddex.release import *
+from deal_window import DealWindow
+from file_parser import FileParser
+from tkinterutil import showerrorbox
+from resource_manager import ResourceManager
+from product_service import ProductService
 
 class ReleaseWindow(tk.tkinter.Toplevel):
     def __init__(self, frame):

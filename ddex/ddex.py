@@ -1,7 +1,7 @@
 import xml.etree.cElementTree as ET
 import datetime
-from DDEXUI.ddex.message_header import MessageHeader
-from DDEXUI.ddex.release import ReleaseIdType
+from ddex.message_header import MessageHeader
+from ddex.release import ReleaseIdType
 
 def generate_batch_id(now=datetime.datetime.now):
     return now().strftime("%Y%m%d%H%M%S%f")[:-3]
