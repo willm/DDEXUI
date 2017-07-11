@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+        <title>DDEXUI</title>
+        <style type="text/css" media="all">
+            body {
+                background-color: blue;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <form id="main-form" action="#">
+            <label for="party-id">Party Id</label>
+            <input type="text" name="party-id" id="party-id" />
+            <label for="party-name">Party Name</label>
+            <input type="text" name="party-name" id="party-name" />
+            <button type="submit">OK</button>
+        </form>
+        <button id="add-product">Add Product</button>
+        <script type="text/javascript" charset="utf-8">
+            window.onload = function () {
+                var form = document.getElementById('main-form');
+                form.onsubmit = function(event) {
+                    var partyId = document.getElementById('party-id').value;
+                    var partyName = document.getElementById('party-name').value;
+                    window.submit_handler({
+                        partyId: partyId,
+                        partyName: partyName
+                    }, function(value) {
+                        document.body.append(value);
+                    });
+                    event.preventDefault();
+                    return false;
+                }
+            }
+        </script>
+    </body>
+</html>
